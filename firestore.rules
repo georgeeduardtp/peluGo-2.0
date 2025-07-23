@@ -1,0 +1,154 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // ADMIN COLLECTION - Admins can do everything with other admins
+    match /admins/{adminId} {
+      // Allow admin creation (for initial setup)
+      allow create: if request.auth != null && 
+                       request.auth.uid == request.resource.data.uid;
+      
+      // Admins can read/write all admin documents
+      allow read, write: if isAdmin();
+      
+      // Users can read their own admin document
+      allow read: if request.auth != null && request.auth.uid == adminId;
+    }
+    
+    // USERS COLLECTION - General users
+    match /users/{userId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Users can manage their own data
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow user creation
+      allow create: if request.auth != null && 
+                       request.auth.uid == request.resource.data.uid;
+    }
+    
+    // SALONS COLLECTION - Hair salons
+    match /salons/{salonId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Public can read approved salons
+      allow read: if resource.data.approved == true;
+      
+      // Salon owners can read/write their own data
+      allow read, write: if request.auth != null && 
+                            request.auth.uid == resource.data.uid;
+      
+      // Allow salon creation (will be pending approval)
+      allow create: if request.auth != null && 
+                       request.auth.uid == request.resource.data.uid;
+    }
+    
+    // CATEGORIES COLLECTION - Service categories
+    match /categories/{categoryId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Everyone can read categories
+      allow read: if true;
+    }
+    
+    // CITIES COLLECTION - Available cities
+    match /cities/{cityId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Everyone can read cities
+      allow read: if true;
+    }
+    
+    // SETTINGS COLLECTION - App configuration
+    match /settings/{settingId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Authenticated users can read settings
+      allow read: if isAuthenticated();
+    }
+    
+    // STATISTICS COLLECTION - App statistics
+    match /statistics/{statId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Authenticated users can read stats
+      allow read: if isAuthenticated();
+    }
+    
+    // REVIEWS COLLECTION - User reviews
+    match /reviews/{reviewId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Public can read approved reviews
+      allow read: if resource.data.approved == true;
+      
+      // Users can create their own reviews
+      allow create: if request.auth != null && 
+                       request.auth.uid == request.resource.data.userId;
+      
+      // Users can edit their own reviews
+      allow update: if request.auth != null && 
+                       request.auth.uid == resource.data.userId;
+    }
+    
+    // RESERVATIONS COLLECTION - Booking reservations
+    match /reservations/{reservationId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Users can manage their own reservations
+      allow read, write: if request.auth != null && 
+                            request.auth.uid == resource.data.userId;
+      
+      // Salon owners can read/write reservations for their salon
+      allow read, write: if request.auth != null && 
+                            request.auth.uid == resource.data.salonOwnerId;
+    }
+    
+    // NOTIFICATIONS COLLECTION - User notifications
+    match /notifications/{notificationId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Users can read their own notifications
+      allow read: if request.auth != null && 
+                     request.auth.uid == resource.data.userId;
+      
+      // System/Admin can create notifications
+      allow create: if isAdmin();
+    }
+    
+    // TEST COLLECTION - For testing purposes
+    match /test/{testId} {
+      // Everyone can read/write test documents (for development only)
+      allow read, write: if true;
+    }
+    
+    // FALLBACK - Block everything else
+    match /{document=**} {
+      // Admins can access any other collection
+      allow read, write: if isAdmin();
+      
+      // Block everything else by default
+      allow read, write: if false;
+    }
+  }
+} 

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Firebase Connection - PeluGo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-8">
+    
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">🔥 Test de Conexión Firebase</h1>
+            
+            <div class="space-y-6">
+                <!-- Firebase Connection Test -->
+                <div class="border rounded-lg p-4">
+                    <h2 class="text-xl font-semibold mb-4">1. Conexión a Firebase</h2>
+                    <div id="firebaseTest" class="flex items-center">
+                        <div class="loading mr-2"></div>
+                        <span>Conectando...</span>
+                    </div>
+                </div>
+
+                <!-- Authentication Test -->
+                <div class="border rounded-lg p-4">
+                    <h2 class="text-xl font-semibold mb-4">2. Firebase Authentication</h2>
+                    <div id="authTest" class="flex items-center">
+                        <div class="loading mr-2"></div>
+                        <span>Verificando...</span>
+                    </div>
+                </div>
+
+                <!-- Firestore Test -->
+                <div class="border rounded-lg p-4">
+                    <h2 class="text-xl font-semibold mb-4">3. Firestore Database</h2>
+                    <div id="firestoreTest" class="flex items-center">
+                        <div class="loading mr-2"></div>
+                        <span>Verificando...</span>
+                    </div>
+                </div>
+
+                <!-- Test Results -->
+                <div id="results" class="hidden border rounded-lg p-4 bg-gray-50">
+                    <h2 class="text-xl font-semibold mb-4">Resultados del Test</h2>
+                    <div id="resultDetails"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex space-x-4">
+                    <button 
+                        onclick="runTests()"
+                        class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium"
+                    >
+                        Ejecutar Tests
+                    </button>
+                    <a 
+                        href="create-admin-simple.html"
+                        class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium"
+                    >
+                        Crear Administrador
+                    </a>
+                    <a 
+                        href="index.html"
+                        class="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium"
+                    >
+                        Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Test Script -->
+    <script type="module">
+        // Import Firebase modules - Updated to v12.0.0
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+            authDomain: "pelugo-2025.firebaseapp.com",
+            projectId: "pelugo-2025",
+            storageBucket: "pelugo-2025.firebasestorage.app",
+            messagingSenderId: "588352402376",
+            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+            measurementId: "G-4J0EQTQTVS"
+        };
+
+        let app, db, auth;
+        let testResults = {
+            firebase: false,
+            auth: false,
+            firestore: false
+        };
+
+        // Initialize Firebase and run tests automatically
+        setTimeout(runTests, 1000);
+
+        async function runTests() {
+            console.log('🔥 Starting Firebase connection tests...');
+            
+            // Test 1: Firebase Connection
+            try {
+                app = initializeApp(firebaseConfig);
+                const analytics = getAnalytics(app);
+                testResults.firebase = true;
+                updateTestStatus('firebaseTest', true, 'Firebase v12.0.0 inicializado correctamente (con Analytics)');
+                console.log('✅ Firebase v12.0.0 initialized');
+                console.log('✅ Analytics enabled:', !!analytics);
+            } catch (error) {
+                testResults.firebase = false;
+                updateTestStatus('firebaseTest', false, `Error: ${error.message}`);
+                console.error('❌ Firebase initialization failed:', error);
+            }
+
+            // Test 2: Authentication
+            try {
+                auth = getAuth(app);
+                testResults.auth = true;
+                updateTestStatus('authTest', true, 'Firebase Auth disponible');
+                console.log('✅ Firebase Auth initialized');
+            } catch (error) {
+                testResults.auth = false;
+                updateTestStatus('authTest', false, `Error: ${error.message}`);
+                console.error('❌ Firebase Auth failed:', error);
+            }
+
+            // Test 3: Firestore
+            try {
+                db = getFirestore(app);
+                
+                // Try to read a document (this will fail gracefully if no data exists)
+                const testDoc = doc(db, 'test', 'connection');
+                await getDoc(testDoc);
+                
+                testResults.firestore = true;
+                updateTestStatus('firestoreTest', true, 'Firestore Database conectada');
+                console.log('✅ Firestore connected');
+            } catch (error) {
+                testResults.firestore = false;
+                updateTestStatus('firestoreTest', false, `Error: ${error.message}`);
+                console.error('❌ Firestore connection failed:', error);
+            }
+
+            // Show results
+            showResults();
+        }
+
+        function updateTestStatus(elementId, success, message) {
+            const element = document.getElementById(elementId);
+            const icon = success ? '✅' : '❌';
+            const className = success ? 'text-green-600' : 'text-red-600';
+            
+            element.innerHTML = `
+                <span class="${className}">${icon}</span>
+                <span class="ml-2">${message}</span>
+            `;
+        }
+
+        function showResults() {
+            const resultsDiv = document.getElementById('results');
+            const detailsDiv = document.getElementById('resultDetails');
+            
+            const allPassed = Object.values(testResults).every(result => result === true);
+            const passedCount = Object.values(testResults).filter(result => result === true).length;
+            
+            let resultHTML = `
+                <div class="mb-4 p-4 rounded-lg ${allPassed ? 'bg-green-50 border border-green-200' : 'bg-yellow-50 border border-yellow-200'}">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-3">${allPassed ? '🎉' : '⚠️'}</span>
+                        <div>
+                            <h3 class="font-bold ${allPassed ? 'text-green-800' : 'text-yellow-800'}">
+                                ${allPassed ? '¡Conexión exitosa!' : 'Conexión parcial'}
+                            </h3>
+                            <p class="${allPassed ? 'text-green-600' : 'text-yellow-600'}">
+                                ${passedCount}/3 servicios conectados correctamente
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <span class="${testResults.firebase ? 'text-green-600' : 'text-red-600'}">${testResults.firebase ? '✅' : '❌'}</span>
+                        <span class="ml-2">Firebase Core</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="${testResults.auth ? 'text-green-600' : 'text-red-600'}">${testResults.auth ? '✅' : '❌'}</span>
+                        <span class="ml-2">Authentication</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="${testResults.firestore ? 'text-green-600' : 'text-red-600'}">${testResults.firestore ? '✅' : '❌'}</span>
+                        <span class="ml-2">Firestore Database</span>
+                    </div>
+                </div>
+            `;
+
+            if (allPassed) {
+                resultHTML += `
+                    <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <h4 class="font-medium text-blue-800 mb-2">🚀 ¡Todo listo!</h4>
+                        <p class="text-blue-600 text-sm">
+                            Tu proyecto está correctamente conectado a Firebase. 
+                            Puedes proceder a crear tu usuario administrador.
+                        </p>
+                    </div>
+                `;
+            } else {
+                resultHTML += `
+                    <div class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <h4 class="font-medium text-red-800 mb-2">❌ Problemas detectados</h4>
+                        <p class="text-red-600 text-sm mb-2">Revisa lo siguiente:</p>
+                        <ul class="text-red-600 text-sm list-disc list-inside space-y-1">
+                            <li>Conexión a internet</li>
+                            <li>Configuración de Firebase en la consola</li>
+                            <li>Reglas de Firestore Database</li>
+                            <li>Servicios habilitados (Auth + Firestore)</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            detailsDiv.innerHTML = resultHTML;
+            resultsDiv.classList.remove('hidden');
+        }
+
+        // Make runTests available globally
+        window.runTests = runTests;
+    </script>
+</body>
+</html> 

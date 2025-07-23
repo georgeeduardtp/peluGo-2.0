@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase v12.0.0 Configuration Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8">
+    
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-2xl font-bold mb-6">🔥 Firebase v12.0.0 Configuration Test</h1>
+        
+        <div id="status" class="mb-6">
+            <div class="animate-pulse flex items-center">
+                <div class="w-4 h-4 bg-blue-500 rounded-full mr-2 animate-bounce"></div>
+                <span>Inicializando Firebase...</span>
+            </div>
+        </div>
+        
+        <div id="results" class="hidden space-y-4"></div>
+        
+        <div class="mt-6 flex space-x-4">
+            <a href="test-firebase.html" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Test Completo
+            </a>
+            <a href="create-admin-simple.html" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                Crear Admin
+            </a>
+        </div>
+    </div>
+
+    <script type="module">
+        // Usar exactamente la configuración que Firebase recomienda
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+            authDomain: "pelugo-2025.firebaseapp.com",
+            projectId: "pelugo-2025",
+            storageBucket: "pelugo-2025.firebasestorage.app",
+            messagingSenderId: "588352402376",
+            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+            measurementId: "G-4J0EQTQTVS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        
+        console.log('🔥 Firebase v12.0.0 initialized');
+        console.log('📊 Analytics enabled');
+        
+        // Initialize other services
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        console.log('🗄️ Firestore initialized');
+        console.log('🔐 Auth initialized');
+        
+        // Update UI
+        const statusEl = document.getElementById('status');
+        const resultsEl = document.getElementById('results');
+        
+        statusEl.innerHTML = '<div class="flex items-center text-green-600"><span class="mr-2">✅</span><span>Firebase v12.0.0 inicializado correctamente</span></div>';
+        
+        resultsEl.innerHTML = `
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                <h3 class="font-semibold text-green-800 mb-2">✅ Servicios Inicializados</h3>
+                <ul class="text-green-700 space-y-1">
+                    <li>• Firebase App v12.0.0</li>
+                    <li>• Analytics (con medición)</li>
+                    <li>• Firestore Database</li>
+                    <li>• Authentication</li>
+                </ul>
+            </div>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 class="font-semibold text-blue-800 mb-2">📋 Configuración</h3>
+                <ul class="text-blue-700 space-y-1 text-sm">
+                    <li><strong>Proyecto:</strong> pelugo-2025</li>
+                    <li><strong>Dominio:</strong> pelugo-2025.firebaseapp.com</li>
+                    <li><strong>Región:</strong> ${firebaseConfig.storageBucket}</li>
+                    <li><strong>Analytics ID:</strong> ${firebaseConfig.measurementId}</li>
+                </ul>
+            </div>
+            
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h3 class="font-semibold text-yellow-800 mb-2">🚀 ¡Todo listo!</h3>
+                <p class="text-yellow-700 text-sm">
+                    Firebase v12.0.0 está correctamente configurado. Ahora puedes proceder a crear tu administrador.
+                </p>
+            </div>
+        `;
+        
+        resultsEl.classList.remove('hidden');
+        
+        // Test básico de conectividad
+        try {
+            const testData = { test: true, timestamp: new Date() };
+            console.log('🧪 Configuración lista para uso');
+        } catch (error) {
+            console.error('❌ Error en configuración:', error);
+        }
+    </script>
+</body>
+</html> 

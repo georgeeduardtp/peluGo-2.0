@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PeluGo - Encuentra y reserva en las mejores peluquerías de España</title>
+    <meta name="description" content="La plataforma líder en España para encontrar y reservar servicios de peluquería y belleza. Descubre las mejores peluquerías cerca de ti.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#8B5CF6">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cut text-white text-sm"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            PeluGo
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#buscar" class="text-gray-700 hover:text-purple-600 transition-colors">
+                        Buscar peluquerías
+                    </a>
+                    <a href="#categorias" class="text-gray-700 hover:text-purple-600 transition-colors">
+                        Categorías
+                    </a>
+                    <a href="auth.html?tab=register&type=salon" class="text-purple-600 hover:text-purple-700 font-medium transition-colors">
+                        ¿Quieres registrar tu peluquería?
+                    </a>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Guest Menu (when not logged in) -->
+                    <div id="guestMenu">
+                        <a href="auth.html" class="md:flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-full font-medium transition-all transform hover:scale-105">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Iniciar Sesión</span>
+                        </a>
+                    </div>
+                    
+                    <!-- User Menu (when logged in) -->
+                    <div id="userMenu" class="hidden relative">
+                        <button id="userMenuButton" class="flex items-center space-x-3 bg-white border border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50 transition-colors">
+                            <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                                <i id="userIcon" class="fas fa-user text-white text-sm"></i>
+                            </div>
+                            <div class="text-left">
+                                <div id="userName" class="text-sm font-medium text-gray-900">Usuario</div>
+                                <div id="userRole" class="text-xs text-gray-500">Cargando...</div>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 hidden">
+                            <!-- User Options -->
+                            <div id="userOptions">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-user mr-2"></i>
+                                    Mi Perfil
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    Mis Reservas
+                                </a>
+                            </div>
+                            
+                            <!-- Salon Options -->
+                            <div id="salonOptions" class="hidden">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-store mr-2"></i>
+                                    Mi Peluquería
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-calendar-check mr-2"></i>
+                                    Reservas Recibidas
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-star mr-2"></i>
+                                    Reseñas
+                                </a>
+                            </div>
+                            
+                            <!-- Admin Options -->
+                            <div id="adminOptions" class="hidden">
+                                <a href="admin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-crown mr-2"></i>
+                                    Panel de Admin
+                                </a>
+                                <div class="border-t border-gray-200 mt-2 pt-2">
+                                    <button id="adminLogoutButton" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>
+                                        Cerrar Sesión
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Common Options -->
+                            <div id="commonOptions" class="border-t border-gray-200 mt-2 pt-2">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-cog mr-2"></i>
+                                    Configuración
+                                </a>
+                                <button id="logoutButton" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>
+                                    Cerrar Sesión
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile menu button -->
+                    <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-purple-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="md:hidden bg-white border-t border-gray-200 hidden">
+            <div class="px-4 py-3 space-y-3">
+                <a href="#buscar" class="block text-gray-700 hover:text-purple-600 transition-colors">
+                    Buscar peluquerías
+                </a>
+                <a href="#categorias" class="block text-gray-700 hover:text-purple-600 transition-colors">
+                    Categorías
+                </a>
+                <a href="auth.html?tab=register&type=salon" class="block text-purple-600 hover:text-purple-700 font-medium transition-colors">
+                    ¿Quieres registrar tu peluquería?
+                </a>
+                
+                <!-- Mobile Guest Menu -->
+                <div id="mobileGuestMenu" class="border-t border-gray-200 pt-3 mt-3">
+                    <a href="auth.html" class="block bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-full font-medium text-center transition-all">
+                        Iniciar Sesión
+                    </a>
+                </div>
+                
+                <!-- Mobile User Menu -->
+                <div id="mobileUserOptions" class="hidden border-t border-gray-200 pt-3 mt-3">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                            <i id="mobileUserIconMain" class="fas fa-user text-white"></i>
+                        </div>
+                        <div>
+                            <div id="mobileUserName" class="font-medium text-gray-900">Usuario</div>
+                            <div id="mobileUserRole" class="text-sm text-gray-500">Cargando...</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile User Options will be populated by JavaScript -->
+                    <div id="mobileUserOptionsList" class="space-y-2"></div>
+                    
+                    <button id="mobileLogoutButton" class="w-full text-left text-red-600 font-medium mt-3 pt-3 border-t border-gray-200">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    Encuentra y reserva en las 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
+                        mejores peluquerías
+                    </span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-purple-100 max-w-3xl mx-auto">
+                    La plataforma líder en España para descubrir, comparar y reservar servicios de peluquería y belleza
+                </p>
+
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-white rounded-full shadow-2xl p-2 flex flex-col sm:flex-row gap-2">
+                        <div class="flex-1 relative">
+                            <i class="fas fa-map-marker-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input 
+                                type="text" 
+                                placeholder="Ciudad o código postal" 
+                                class="w-full pl-12 pr-4 py-3 text-gray-800 bg-transparent border-none outline-none rounded-full"
+                                id="citySearch"
+                            >
+                        </div>
+                        <button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            <i class="fas fa-search mr-2"></i>
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-yellow-300" id="salonCount">0</div>
+                        <div class="text-purple-200">Peluquerías</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-yellow-300" id="userCount">0</div>
+                        <div class="text-purple-200">Usuarios registrados</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-yellow-300" id="averageRating">-</div>
+                        <div class="text-purple-200">Valoración media</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Peluquerías Destacadas -->
+    <section id="destacadas" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Peluquerías Destacadas
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Descubre las peluquerías mejor valoradas por nuestra comunidad
+                </p>
+                
+                <!-- Filter Buttons -->
+                <div class="mt-8 flex flex-wrap justify-center gap-2">
+                    <button class="filter-btn active px-6 py-2 rounded-full bg-purple-600 text-white font-medium transition-all duration-300">
+                        Todas
+                    </button>
+                    <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-purple-100 font-medium transition-all duration-300">
+                        Madrid
+                    </button>
+                    <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-purple-100 font-medium transition-all duration-300">
+                        Barcelona
+                    </button>
+                    <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-purple-100 font-medium transition-all duration-300">
+                        Valencia
+                    </button>
+                    <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-purple-100 font-medium transition-all duration-300">
+                        Sevilla
+                    </button>
+                </div>
+            </div>
+
+            <!-- Peluquerías Grid -->
+            <div id="peluqueriasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Las peluquerías se cargarán dinámicamente -->
+            </div>
+
+            <!-- Ver más button -->
+            <div class="text-center mt-12">
+                <button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Ver más peluquerías
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categorías Section -->
+    <section id="categorias" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Explora por Categorías
+                </h2>
+                <p class="text-xl text-gray-600">
+                    encuentra exactamente lo que necesitas
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Corte de Pelo -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-cut text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Corte de Pelo</h3>
+                    <p class="text-gray-600">Encuentra los mejores estilistas para tu corte de pelo</p>
+                </div>
+
+                <!-- Barbería -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-user-tie text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Barbería</h3>
+                    <p class="text-gray-600">Servicios especializados de barbería y afeitado</p>
+                </div>
+
+                <!-- Coloración -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-palette text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Coloración</h3>
+                    <p class="text-gray-600">Tintes y mechas por expertos coloristas</p>
+                </div>
+
+                <!-- Tratamientos -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-spa text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Tratamientos</h3>
+                    <p class="text-gray-600">Tratamientos capilares y de belleza especializados</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Download Section -->
+    <section class="py-16 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                    Descarga nuestra App
+                </h2>
+                <p class="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+                    Instala PeluGo en tu dispositivo para una experiencia más rápida y cómoda. 
+                    Accede con un solo clic y disfruta de todas las ventajas.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bolt text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Más rápida</h3>
+                        <p class="text-purple-200">Accede instantáneamente sin cargas adicionales</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-wifi text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Funciona offline</h3>
+                        <p class="text-purple-200">Usa la app incluso sin conexión a internet</p>
+                    </div>
+                    
+                    <div class="text-center">  
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bell text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Notificaciones</h3>
+                        <p class="text-purple-200">Recibe alertas de tus citas y promociones</p>
+                    </div>
+                </div>
+
+                <button id="installApp" class="bg-white text-purple-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
+                    <i class="fas fa-download mr-2"></i>
+                    Instalar aplicación
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="md:col-span-1">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cut text-white text-sm"></i>
+                        </div>
+                        <span class="text-2xl font-bold">PeluGo</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        La plataforma líder en España para encontrar y reservar servicios de peluquería y belleza.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Enlaces -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Enlaces</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sobre nosotros</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contacto</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Ayuda</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Términos y condiciones</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Política de privacidad</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cookies</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">RGPD</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Recibe las mejores ofertas y novedades</p>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input 
+                            type="email" 
+                            placeholder="Tu email" 
+                            class="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-purple-500 focus:outline-none"
+                        >
+                        <button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 py-2 rounded-lg font-semibold transition-colors">
+                            Suscribirse
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 PeluGo. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts Direct -->
+    <script type="module">
+        // Import Firebase modules directly - v12.0.0
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js';
+        import { 
+            getFirestore, 
+            collection,
+            query,
+            where,
+            getDocs,
+            doc,
+            getDoc,
+            onSnapshot
+        } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            signOut
+        } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+            authDomain: "pelugo-2025.firebaseapp.com",
+            projectId: "pelugo-2025",
+            storageBucket: "pelugo-2025.firebasestorage.app",
+            messagingSenderId: "588352402376",
+            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+            measurementId: "G-4J0EQTQTVS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        console.log('🔥 Firebase v12.0.0 initialized directly in index.html');
+
+        // Export Firebase instances to global scope
+        window.firebaseApp = app;
+        window.firebaseDb = db;
+        window.firebaseAuth = auth;
+        
+        // Firebase API for main page
+        window.FirebaseAuth = {
+            getCurrentUser: () => auth.currentUser,
+            signOut: () => signOut(auth),
+            onAuthStateChanged: (callback) => onAuthStateChanged(auth, callback)
+        };
+        
+        // Make auth available globally
+        window.currentFirebaseAuth = auth;
+
+        window.FirebaseData = {
+            getFeaturedSalons: async () => {
+                const q = query(
+                    collection(db, 'salons'),
+                    where('approved', '==', true),
+                    where('featured', '==', true)
+                );
+                const snapshot = await getDocs(q);
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            },
+            
+            getCategories: async () => {
+                const snapshot = await getDocs(collection(db, 'categories'));
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            },
+            
+            getCities: async () => {
+                const snapshot = await getDocs(collection(db, 'cities'));
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            },
+            
+            listenToSalonUpdates: (callback) => {
+                const q = query(
+                    collection(db, 'salons'),
+                    where('approved', '==', true),
+                    where('featured', '==', true)
+                );
+                return onSnapshot(q, (snapshot) => {
+                    const salons = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    callback(salons);
+                });
+            }
+        };
+
+        console.log('✅ Firebase API exposed to global scope for index');
+        
+        // Set flag that Firebase is ready
+        window.firebaseReady = true;
+        
+        // Load main.js after Firebase is ready
+        const script = document.createElement('script');
+        script.src = 'assets/js/main.js';
+        script.onload = () => {
+            console.log('✅ Main.js loaded successfully');
+        };
+        script.onerror = () => {
+            console.error('❌ Failed to load main.js');
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Administrador - PeluGo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        .loading-small {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-crown text-white text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900">Crear Administrador</h1>
+            <p class="text-gray-600 mt-2">Página temporal para crear el usuario administrador inicial</p>
+        </div>
+
+        <div id="createForm">
+            <!-- Firebase Status -->
+            <div id="firebaseStatus" class="text-sm text-gray-500 mb-4 flex items-center">
+                <div class="loading-small mr-2"></div>
+                Conectando con Firebase...
+            </div>
+
+            <form id="adminForm">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Email del administrador
+                        </label>
+                        <input 
+                            type="email" 
+                            id="adminEmail"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="admin@pelugo.es"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Contraseña
+                        </label>
+                        <input 
+                            type="password" 
+                            id="adminPassword"
+                            required
+                            minlength="6"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Mínimo 6 caracteres"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Nombre completo
+                        </label>
+                        <input 
+                            type="text" 
+                            id="adminName"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Tu nombre completo"
+                        >
+                    </div>
+
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div class="flex">
+                            <i class="fas fa-exclamation-triangle text-red-600 mt-1 mr-3"></i>
+                            <div class="text-sm text-red-800">
+                                <p class="font-medium mb-1">⚠️ Importante</p>
+                                <p>Esta página es solo para crear el administrador inicial. Elimina este archivo después de usarlo por seguridad.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button 
+                    type="submit"
+                    class="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-medium"
+                >
+                    <i class="fas fa-crown mr-2"></i>
+                    Crear Administrador
+                </button>
+            </form>
+        </div>
+
+        <div id="successMessage" class="hidden text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-green-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-bold text-gray-900 mb-2">¡Administrador Creado!</h2>
+            <p class="text-gray-600 mb-6">El usuario administrador ha sido creado correctamente.</p>
+            <div class="space-y-3">
+                <a 
+                    href="admin.html"
+                    class="block w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-medium"
+                >
+                    Ir al Panel de Admin
+                </a>
+                <a 
+                    href="index.html"
+                    class="block w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg font-medium"
+                >
+                    Volver al Inicio
+                </a>
+            </div>
+            
+            <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div class="flex">
+                    <i class="fas fa-trash text-yellow-600 mt-1 mr-3"></i>
+                    <div class="text-sm text-yellow-800">
+                        <p class="font-medium mb-1">Eliminar archivo</p>
+                        <p>Por seguridad, elimina el archivo <code>create-admin.html</code> ahora que ya tienes tu administrador.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingState" class="hidden text-center">
+            <div class="loading mx-auto mb-4"></div>
+            <p class="text-gray-600">Creando administrador...</p>
+        </div>
+
+        <!-- Error -->
+        <div id="errorState" class="hidden">
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                <div class="flex">
+                    <i class="fas fa-exclamation-circle text-red-600 mt-1 mr-3"></i>
+                    <div class="text-sm text-red-800">
+                        <p class="font-medium mb-1">Error</p>
+                        <p id="errorMessage">Ha ocurrido un error al crear el administrador.</p>
+                    </div>
+                </div>
+            </div>
+            <button 
+                onclick="resetForm()"
+                class="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-medium"
+            >
+                Intentar de nuevo
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="assets/js/firebase-integration.js"></script>
+    <script>
+        let isFirebaseReady = false;
+        let checkAttempts = 0;
+        const maxAttempts = 30; // 30 seconds max
+
+        // Debug Firebase loading
+        console.log('Starting Firebase detection...');
+        console.log('Current window.FirebaseAuth:', window.FirebaseAuth);
+
+        // Wait for Firebase to be ready
+        const checkFirebase = setInterval(() => {
+            checkAttempts++;
+            console.log(`Checking Firebase... Attempt ${checkAttempts}/${maxAttempts}`);
+            console.log('window.FirebaseAuth exists:', !!window.FirebaseAuth);
+            console.log('window.FirebaseData exists:', !!window.FirebaseData);
+            
+            if (window.FirebaseAuth && window.FirebaseData) {
+                isFirebaseReady = true;
+                clearInterval(checkFirebase);
+                console.log('Firebase ready for admin creation');
+                console.log('Available methods:', Object.keys(window.FirebaseAuth));
+                showFirebaseReady();
+            } else if (checkAttempts >= maxAttempts) {
+                clearInterval(checkFirebase);
+                console.error('Firebase failed to load after maximum attempts');
+                console.log('Final state - FirebaseAuth:', !!window.FirebaseAuth);
+                console.log('Final state - FirebaseData:', !!window.FirebaseData);
+                showFirebaseError();
+            }
+        }, 1000);
+
+        // Also check for script loading errors
+        window.addEventListener('error', function(e) {
+            if (e.filename && e.filename.includes('firebase-integration.js')) {
+                console.error('Error loading Firebase integration:', e);
+                clearInterval(checkFirebase);
+                showFirebaseError();
+            }
+        });
+
+        function showFirebaseReady() {
+            const statusEl = document.getElementById('firebaseStatus');
+            if (statusEl) {
+                statusEl.innerHTML = '<i class="fas fa-check text-green-600 mr-2"></i>Firebase conectado correctamente';
+                statusEl.className = 'text-sm text-green-600 mb-4';
+            }
+        }
+
+        function showFirebaseError() {
+            const statusEl = document.getElementById('firebaseStatus');
+            if (statusEl) {
+                statusEl.innerHTML = '<i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>Error: No se pudo conectar con Firebase';
+                statusEl.className = 'text-sm text-red-600 mb-4';
+            }
+            showError('No se pudo conectar con Firebase. Verifica tu configuración y conexión a internet.');
+        }
+
+        document.getElementById('adminForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await createAdmin();
+        });
+
+        async function createAdmin() {
+            if (!isFirebaseReady) {
+                showError('Firebase no está disponible. Por favor, verifica:\n\n1. Tu conexión a internet\n2. La configuración de Firebase\n3. Que todos los archivos estén correctamente cargados\n\nIntenta recargar la página.');
+                return;
+            }
+
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const name = document.getElementById('adminName').value.trim();
+
+            if (!email || !password || !name) {
+                showError('Todos los campos son obligatorios');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            try {
+                showLoading();
+
+                // Create admin user
+                const result = await window.FirebaseAuth.registerUser(
+                    email,
+                    password,
+                    { name: name },
+                    'admin'
+                );
+
+                console.log('Admin creation result:', result);
+
+                if (result.success) {
+                    showSuccess();
+                } else {
+                    showError(result.error || 'Error al crear el administrador');
+                }
+
+            } catch (error) {
+                console.error('Error creating admin:', error);
+                showError('Error inesperado: ' + error.message);
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('createForm').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('successMessage').classList.add('hidden');
+            document.getElementById('loadingState').classList.remove('hidden');
+        }
+
+        function showSuccess() {
+            document.getElementById('createForm').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('createForm').classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('successMessage').classList.add('hidden');
+            document.getElementById('errorState').classList.remove('hidden');
+        }
+
+        function resetForm() {
+            document.getElementById('createForm').classList.remove('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('successMessage').classList.add('hidden');
+        }
+    </script>
+</body>
+</html> 

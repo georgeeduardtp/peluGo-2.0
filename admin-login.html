@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrador - PeluGo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-crown text-white text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900">Login Administrador</h1>
+            <p class="text-gray-600 mt-2">Accede al panel de administración</p>
+        </div>
+
+        <div id="loginForm">
+            <form id="adminLoginForm">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Email
+                        </label>
+                        <input 
+                            type="email" 
+                            id="adminEmail"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="admin@pelugo.es"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Contraseña
+                        </label>
+                        <input 
+                            type="password" 
+                            id="adminPassword"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Tu contraseña"
+                        >
+                    </div>
+
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex">
+                            <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
+                            <div class="text-sm text-blue-800">
+                                <p class="font-medium mb-1">Solo Administradores</p>
+                                <p>Esta página es exclusiva para administradores de PeluGo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button 
+                    type="submit"
+                    class="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-medium"
+                >
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Iniciar Sesión
+                </button>
+            </form>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingState" class="hidden text-center">
+            <div class="loading mx-auto mb-4"></div>
+            <p class="text-gray-600">Verificando credenciales...</p>
+        </div>
+
+        <!-- Error -->
+        <div id="errorState" class="hidden">
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                <div class="flex">
+                    <i class="fas fa-exclamation-circle text-red-600 mt-1 mr-3"></i>
+                    <div class="text-sm text-red-800">
+                        <p class="font-medium mb-1">Error de Login</p>
+                        <p id="errorMessage">Error al iniciar sesión</p>
+                    </div>
+                </div>
+            </div>
+            <button 
+                onclick="resetForm()"
+                class="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-medium"
+            >
+                Intentar de nuevo
+            </button>
+        </div>
+
+        <!-- Back Link -->
+        <div class="mt-6 text-center">
+            <a href="index.html" class="text-sm text-gray-500 hover:text-gray-700">
+                ← Volver al inicio
+            </a>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        // Import Firebase modules - v12.0.0
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js';
+        import { 
+            getFirestore, 
+            doc,
+            getDoc
+        } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword,
+            signOut
+        } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+            authDomain: "pelugo-2025.firebaseapp.com",
+            projectId: "pelugo-2025",
+            storageBucket: "pelugo-2025.firebasestorage.app",
+            messagingSenderId: "588352402376",
+            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+            measurementId: "G-4J0EQTQTVS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        console.log('Firebase v12.0.0 initialized for admin login');
+
+        // Form handler
+        document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await loginAdmin();
+        });
+
+        async function loginAdmin() {
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+
+            if (!email || !password) {
+                showError('Email y contraseña son obligatorios');
+                return;
+            }
+
+            try {
+                showLoading();
+
+                console.log('🔐 Attempting admin login...');
+                console.log('Email:', email);
+
+                // Sign in with Firebase Auth
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                console.log('✅ User signed in:', user.uid);
+
+                // Verify user is admin
+                console.log('🔍 Checking if user is admin...');
+                const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+
+                if (adminDoc.exists() && adminDoc.data().role === 'admin') {
+                    console.log('✅ Admin verified, redirecting to panel...');
+                    
+                    // Redirect to admin panel
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1000);
+                    
+                } else {
+                    console.log('❌ User is not admin');
+                    await signOut(auth); // Sign out if not admin
+                    showError('Tu cuenta no tiene permisos de administrador');
+                }
+
+            } catch (error) {
+                console.error('❌ Error during login:', error);
+                
+                let errorMessage = 'Error desconocido';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'Usuario no encontrado';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'Contraseña incorrecta';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Email inválido';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Demasiados intentos. Intenta más tarde';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = 'Error de conexión. Verifica tu internet';
+                        break;
+                    default:
+                        errorMessage = error.message || 'Error al iniciar sesión';
+                }
+                
+                showError(errorMessage);
+            }
+        }
+
+        // UI Functions
+        function showLoading() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('loadingState').classList.remove('hidden');
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('errorState').classList.remove('hidden');
+        }
+
+        window.resetForm = function() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+            
+            // Clear form
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+    </script>
+</body>
+</html> 

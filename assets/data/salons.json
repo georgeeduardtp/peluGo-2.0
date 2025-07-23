@@ -1,0 +1,41 @@
+{
+  "featuredSalons": [],
+  "categories": [
+    {
+      "id": "corte",
+      "name": "Corte de Pelo",
+      "description": "Encuentra los mejores estilistas para tu corte de pelo",
+      "icon": "fas fa-cut",
+      "color": "blue"
+    },
+    {
+      "id": "barberia",
+      "name": "Barbería",
+      "description": "Servicios especializados de barbería y afeitado",
+      "icon": "fas fa-user-tie",
+      "color": "green"
+    },
+    {
+      "id": "color",
+      "name": "Coloración",
+      "description": "Tintes y mechas por expertos coloristas",
+      "icon": "fas fa-palette",
+      "color": "pink"
+    },
+    {
+      "id": "tratamientos",
+      "name": "Tratamientos",
+      "description": "Tratamientos capilares y de belleza especializados",
+      "icon": "fas fa-spa",
+      "color": "yellow"
+    }
+  ],
+  "cities": [
+    { "name": "Madrid", "count": 245 },
+    { "name": "Barcelona", "count": 189 },
+    { "name": "Valencia", "count": 98 },
+    { "name": "Sevilla", "count": 76 },
+    { "name": "Bilbao", "count": 54 },
+    { "name": "Málaga", "count": 67 }
+  ]
+} 

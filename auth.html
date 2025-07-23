@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - PeluGo</title>
+    <meta name="description" content="Inicia sesión o regístrate en PeluGo">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cut text-white text-sm"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            PeluGo
+                        </span>
+                    </a>
+                </div>
+                
+                <!-- Back to Home -->
+                <a href="index.html" class="text-gray-700 hover:text-purple-600 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Volver al inicio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-md mx-auto mt-8 p-6">
+        
+        <!-- Auth Toggle Buttons -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <div class="flex bg-gray-100 rounded-lg p-1 mb-6">
+                <button id="loginTab" class="auth-tab active flex-1 py-2 px-4 text-center rounded-md transition-colors">
+                    Iniciar Sesión
+                </button>
+                <button id="registerTab" class="auth-tab flex-1 py-2 px-4 text-center rounded-md transition-colors">
+                    Registrarse
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">¡Bienvenido de vuelta!</h2>
+                    <p class="text-gray-600">Inicia sesión en tu cuenta</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Email
+                        </label>
+                        <input 
+                            type="email" 
+                            id="loginEmail"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="tu@email.com"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Contraseña
+                        </label>
+                        <div class="relative">
+                            <input 
+                                type="password" 
+                                id="loginPassword"
+                                required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-12"
+                                placeholder="Tu contraseña"
+                            >
+                            <button 
+                                type="button"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                onclick="togglePassword('loginPassword')"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+                    >
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Iniciar Sesión
+                    </button>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <a href="#" class="text-purple-600 hover:text-purple-700 text-sm">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form hidden">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Crear cuenta</h2>
+                    <p class="text-gray-600">Elige tu tipo de cuenta</p>
+                </div>
+
+                <!-- Info Message -->
+                <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex">
+                        <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
+                        <div class="text-sm text-blue-800">
+                            <p class="font-medium mb-1">Registro de usuarios</p>
+                            <p>Esta página es para registro de usuarios que buscan servicios de peluquería. Si eres propietario de una peluquería, contacta con el administrador para dar de alta tu negocio.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden user type (always user) -->
+                <input type="hidden" name="userType" value="user">
+
+                <!-- Common Fields -->
+                <div id="commonFields" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Email
+                        </label>
+                        <input 
+                            type="email" 
+                            id="registerEmail"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="tu@email.com"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Contraseña
+                        </label>
+                        <div class="relative">
+                            <input 
+                                type="password" 
+                                id="registerPassword"
+                                required
+                                minlength="6"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-12"
+                                placeholder="Mínimo 6 caracteres"
+                            >
+                            <button 
+                                type="button"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                onclick="togglePassword('registerPassword')"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Fields (always shown) -->
+                <div id="userFields" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Nombre completo
+                        </label>
+                        <input 
+                            type="text" 
+                            id="userName"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Tu nombre completo"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Teléfono
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="userPhone"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="+34 123 456 789"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Ciudad (opcional)
+                        </label>
+                        <select 
+                            id="userCity"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        >
+                            <option value="">Selecciona tu ciudad</option>
+                            <option value="Madrid">Madrid</option>
+                            <option value="Barcelona">Barcelona</option>
+                            <option value="Valencia">Valencia</option>
+                            <option value="Sevilla">Sevilla</option>
+                            <option value="Bilbao">Bilbao</option>
+                            <option value="Málaga">Málaga</option>
+                            <option value="Zaragoza">Zaragoza</option>
+                            <option value="Murcia">Murcia</option>
+                            <option value="Las Palmas">Las Palmas</option>
+                            <option value="Palma">Palma</option>
+                            <option value="Otras">Otras</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Terms and Privacy -->
+                <div class="mt-6">
+                    <label class="flex items-start">
+                        <input 
+                            type="checkbox" 
+                            id="acceptTerms"
+                            required
+                            class="mt-1 mr-3 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                        >
+                        <span class="text-sm text-gray-600">
+                            Acepto los 
+                            <a href="#" class="text-purple-600 hover:text-purple-700">términos y condiciones</a> 
+                            y la 
+                            <a href="#" class="text-purple-600 hover:text-purple-700">política de privacidad</a>
+                        </span>
+                    </label>
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+                >
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Crear cuenta
+                </button>
+            </form>
+        </div>
+
+        <!-- Loading Modal -->
+        <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+                <div class="flex items-center">
+                    <div class="loading mr-4"></div>
+                    <div>
+                        <div class="font-medium text-gray-900" id="loadingText">Procesando...</div>
+                        <div class="text-sm text-gray-600" id="loadingSubtext">Por favor espera</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2" id="successTitle">¡Éxito!</h3>
+                    <p class="text-gray-600 mb-4" id="successMessage">Operación completada correctamente</p>
+                    <button 
+                        onclick="closeSuccessModal()"
+                        class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+                    >
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-exclamation-triangle text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Error</h3>
+                    <p class="text-gray-600 mb-4" id="errorMessage">Ha ocurrido un error</p>
+                    <button 
+                        onclick="closeErrorModal()"
+                        class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+                    >
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts Direct -->
+    <script type="module">
+        // Import Firebase modules directly - v12.0.0
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js';
+        import { 
+            getFirestore, 
+            doc,
+            setDoc,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            updateProfile,
+            onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+            authDomain: "pelugo-2025.firebaseapp.com",
+            projectId: "pelugo-2025",
+            storageBucket: "pelugo-2025.firebasestorage.app",
+            messagingSenderId: "588352402376",
+            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+            measurementId: "G-4J0EQTQTVS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        console.log('🔥 Firebase v12.0.0 initialized directly in auth.html');
+
+        // Export Firebase instances to global scope
+        window.firebaseApp = app;
+        window.firebaseDb = db;
+        window.firebaseAuth = auth;
+        
+        // Firebase API for auth page
+        window.FirebaseAuth = {
+            registerUser: async (email, password, userData, userType) => {
+                try {
+                    console.log('📝 Registering user:', { email, userType });
+                    
+                    // Create user in Firebase Auth
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    
+                    // Update display name
+                    await updateProfile(user, {
+                        displayName: userData.name
+                    });
+                    
+                    // Create user document in appropriate collection
+                    if (userType === 'admin') {
+                        await setDoc(doc(db, 'admins', user.uid), {
+                            uid: user.uid,
+                            ...userData,
+                            role: 'admin',
+                            createdAt: serverTimestamp(),
+                            permissions: ['manage_salons', 'manage_users', 'view_analytics']
+                        });
+                        
+                        await setDoc(doc(db, 'users', user.uid), {
+                            uid: user.uid,
+                            name: userData.name,
+                            email: email,
+                            role: 'admin',
+                            createdAt: serverTimestamp()
+                        });
+                    } else if (userType === 'salon') {
+                        await setDoc(doc(db, 'salons', user.uid), {
+                            uid: user.uid,
+                            email: email,
+                            ...userData,
+                            approved: false,
+                            featured: false,
+                            active: true,
+                            createdAt: serverTimestamp()
+                        });
+                        
+                        await setDoc(doc(db, 'users', user.uid), {
+                            uid: user.uid,
+                            name: userData.contactName || userData.name,
+                            email: email,
+                            role: 'salon',
+                            createdAt: serverTimestamp()
+                        });
+                    } else {
+                        // Regular user
+                        await setDoc(doc(db, 'users', user.uid), {
+                            uid: user.uid,
+                            ...userData,
+                            email: email,
+                            role: 'user',
+                            createdAt: serverTimestamp()
+                        });
+                    }
+                    
+                    console.log('✅ User registered successfully');
+                    return { success: true, user: user };
+                    
+                } catch (error) {
+                    console.error('❌ Registration error:', error);
+                    return { success: false, error: error.message };
+                }
+            },
+            
+            signInUser: async (email, password) => {
+                try {
+                    console.log('🔐 Signing in user:', email);
+                    
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    
+                    console.log('✅ User signed in successfully');
+                    return { success: true, user: user };
+                    
+                } catch (error) {
+                    console.error('❌ Sign in error:', error);
+                    return { success: false, error: error.message };
+                }
+            },
+            
+            getCurrentUser: () => auth.currentUser,
+            onAuthStateChanged: (callback) => onAuthStateChanged(auth, callback)
+        };
+
+        // Simplified Firebase Data API for auth
+        window.FirebaseData = {
+            getDocument: async (collection, docId) => {
+                try {
+                    const docRef = doc(db, collection, docId);
+                    const docSnap = await getDoc(docRef);
+                    return docSnap.exists() ? docSnap.data() : null;
+                } catch (error) {
+                    console.error('Error getting document:', error);
+                    return null;
+                }
+            }
+        };
+
+        console.log('✅ Firebase API exposed to global scope for auth');
+        
+        // Set flag that Firebase is ready
+        window.firebaseReady = true;
+        
+        // Load auth.js after Firebase is ready
+        const script = document.createElement('script');
+        script.src = 'assets/js/auth.js';
+        script.onload = () => {
+            console.log('✅ Auth.js loaded successfully');
+        };
+        script.onerror = () => {
+            console.error('❌ Failed to load auth.js');
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html> 
