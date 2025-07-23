@@ -1,5 +1,5 @@
 # peluGo-2.0
-
+https://georgeeduardtp.github.io/peluGo-2.0/
 🚀 **La nueva generación de la plataforma líder de peluquerías en España**
 
 Una aplicación web moderna que conecta usuarios con las mejores peluquerías de España, con un diseño renovado, mejores funcionalidades y experiencia de usuario optimizada.
