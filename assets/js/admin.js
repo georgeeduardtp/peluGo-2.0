@@ -285,7 +285,7 @@ async function loadSalons() {
         salonsList.innerHTML = `
             <div class="text-center py-8">
                 <div class="loading mx-auto mb-4"></div>
-                <p class="text-gray-600">Cargando peluquerías...</p>
+                <p class="text-gray-400">Cargando peluquerías...</p>
             </div>
         `;
 
@@ -314,7 +314,7 @@ async function loadSalons() {
     } catch (error) {
         console.error('Error loading salons:', error);
         document.getElementById('salonsList').innerHTML = `
-            <div class="text-center py-8 text-red-600">
+            <div class="text-center py-8 text-red-400">
                 <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
                 <p>Error al cargar las peluquerías</p>
             </div>
@@ -326,14 +326,14 @@ async function loadSalons() {
 function filterSalons(filter) {
     // Update filter buttons
     document.querySelectorAll('.salon-filter').forEach(btn => {
-        btn.classList.remove('bg-purple-600', 'text-white');
-        btn.classList.add('bg-gray-200', 'text-gray-700');
+        btn.classList.remove('bg-blue-700', 'text-white');
+        btn.classList.add('bg-gray-600', 'text-gray-300');
     });
 
     const activeFilter = document.querySelector(`[data-filter="${filter}"]`);
     if (activeFilter) {
-        activeFilter.classList.add('bg-purple-600', 'text-white');
-        activeFilter.classList.remove('bg-gray-200', 'text-gray-700');
+        activeFilter.classList.add('bg-blue-700', 'text-white');
+        activeFilter.classList.remove('bg-gray-600', 'text-gray-300');
     }
 
     // Filter and render salons
@@ -361,7 +361,7 @@ function renderSalons(salons, filter) {
             'No hay peluquerías registradas';
 
         salonsList.innerHTML = `
-            <div class="text-center py-8 text-gray-500">
+            <div class="text-center py-8 text-gray-400">
                 <i class="fas fa-store text-4xl mb-4"></i>
                 <p>${emptyMessage}</p>
             </div>
@@ -370,20 +370,20 @@ function renderSalons(salons, filter) {
     }
 
     const salonsHTML = salons.map(salon => `
-        <div class="border border-gray-200 rounded-lg p-6 mb-4">
+        <div class="border border-gray-600 rounded-lg p-6 mb-4 bg-gray-800">
             <div class="flex justify-between items-start mb-4">
                 <div class="flex-1">
-                    <h3 class="text-lg font-bold text-gray-900">${salon.businessName || salon.name}</h3>
-                    <p class="text-gray-600">${salon.contactName || salon.displayName}</p>
-                    <p class="text-sm text-gray-500">${salon.email}</p>
+                    <h3 class="text-lg font-bold text-gray-100">${salon.businessName || salon.name}</h3>
+                    <p class="text-gray-300">${salon.contactName || salon.displayName}</p>
+                    <p class="text-sm text-gray-400">${salon.email}</p>
                 </div>
                 <div class="flex items-center space-x-2">
                     ${salon.approved ? 
-                        '<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Aprobada</span>' :
-                        '<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Pendiente</span>'
+                        '<span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">Aprobada</span>' :
+                        '<span class="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm font-medium">Pendiente</span>'
                     }
                     ${salon.featured ? 
-                        '<span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Destacada</span>' :
+                        '<span class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">Destacada</span>' :
                         ''
                     }
                 </div>
@@ -391,21 +391,21 @@ function renderSalons(salons, filter) {
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <p class="text-sm text-gray-600"><strong>Dirección:</strong> ${salon.address || 'No especificada'}</p>
-                    <p class="text-sm text-gray-600"><strong>Ciudad:</strong> ${salon.city || 'No especificada'}</p>
-                    <p class="text-sm text-gray-600"><strong>Teléfono:</strong> ${salon.phone || 'No especificado'}</p>
+                    <p class="text-sm text-gray-300"><strong>Dirección:</strong> ${salon.address || 'No especificada'}</p>
+                    <p class="text-sm text-gray-300"><strong>Ciudad:</strong> ${salon.city || 'No especificada'}</p>
+                    <p class="text-sm text-gray-300"><strong>Teléfono:</strong> ${salon.phone || 'No especificado'}</p>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-600"><strong>Rating:</strong> ${salon.rating || 0}/5</p>
-                    <p class="text-sm text-gray-600"><strong>Reseñas:</strong> ${salon.reviewCount || 0}</p>
-                    <p class="text-sm text-gray-600"><strong>Creada:</strong> ${formatDate(salon.createdAt)}</p>
+                    <p class="text-sm text-gray-300"><strong>Rating:</strong> ${salon.rating || 0}/5</p>
+                    <p class="text-sm text-gray-300"><strong>Reseñas:</strong> ${salon.reviewCount || 0}</p>
+                    <p class="text-sm text-gray-300"><strong>Creada:</strong> ${formatDate(salon.createdAt)}</p>
                 </div>
             </div>
 
             ${salon.description ? `
                 <div class="mb-4">
-                    <p class="text-sm text-gray-600"><strong>Descripción:</strong></p>
-                    <p class="text-sm text-gray-700">${salon.description}</p>
+                    <p class="text-sm text-gray-300"><strong>Descripción:</strong></p>
+                    <p class="text-sm text-gray-400">${salon.description}</p>
                 </div>
             ` : ''}
 
@@ -441,6 +441,13 @@ function renderSalons(salons, filter) {
                     <i class="fas fa-edit mr-2"></i>
                     Editar
                 </button>
+                <button 
+                    onclick="deleteSalon('${salon.id}', '${salon.businessName || salon.name}')"
+                    class="px-4 py-2 bg-red-800 hover:bg-red-900 text-white rounded-lg text-sm font-medium"
+                >
+                    <i class="fas fa-trash mr-2"></i>
+                    Eliminar
+                </button>
             </div>
         </div>
     `).join('');
@@ -460,6 +467,7 @@ async function approveSalon(salonId) {
         await window.FirebaseData.updateDocument('salons', salonId, {
             approved: true,
             featured: true,
+            profileStatus: 'approved', // 🆕 CRÍTICO: Actualizar profileStatus
             approvedAt: new Date(),
             approvedBy: currentUser.uid
         });
@@ -606,8 +614,437 @@ async function loadSettings() {
         document.getElementById('settingsTotalUsers').textContent = stats.totalUsers || 0;
         document.getElementById('settingsTotalSalons').textContent = stats.totalSalons || 0;
         document.getElementById('settingsTotalReservations').textContent = stats.totalReservations || 0;
+        
+        // Wait for Chart.js to be available before loading charts
+        await waitForChartJS();
+        
+        // Load and create charts
+        await loadMonthlyCharts();
+        
     } catch (error) {
         console.error('Error loading settings:', error);
+    }
+}
+
+// Wait for Chart.js to be available
+function waitForChartJS() {
+    return new Promise((resolve, reject) => {
+        let attempts = 0;
+        const maxAttempts = 50; // 5 seconds max
+        
+        const checkChartJS = () => {
+            attempts++;
+            
+            if (typeof Chart !== 'undefined') {
+                console.log('✅ Chart.js is available');
+                resolve();
+                return;
+            }
+            
+            if (attempts >= maxAttempts) {
+                console.error('❌ Chart.js failed to load after 5 seconds');
+                reject(new Error('Chart.js not available'));
+                return;
+            }
+            
+            console.log(`⏳ Waiting for Chart.js... (attempt ${attempts}/${maxAttempts})`);
+            setTimeout(checkChartJS, 100);
+        };
+        
+        checkChartJS();
+    });
+}
+
+// Load monthly charts data and create charts
+async function loadMonthlyCharts() {
+    try {
+        console.log('📊 Loading monthly charts data...');
+        
+        // Check if Chart.js is available
+        if (typeof Chart === 'undefined') {
+            console.error('❌ Chart.js is not loaded');
+            showError('Chart.js no está cargado. Recarga la página.');
+            return;
+        }
+        
+        // Get users monthly data
+        let usersMonthlyData;
+        try {
+            usersMonthlyData = await getUsersMonthlyData();
+            console.log('✅ Users monthly data loaded:', usersMonthlyData);
+        } catch (error) {
+            console.error('❌ Error loading users data:', error);
+            usersMonthlyData = { labels: [], data: [], total: 0 };
+        }
+        
+        // Get salons monthly data
+        let salonsMonthlyData;
+        try {
+            salonsMonthlyData = await getSalonsMonthlyData();
+            console.log('✅ Salons monthly data loaded:', salonsMonthlyData);
+        } catch (error) {
+            console.error('❌ Error loading salons data:', error);
+            salonsMonthlyData = { labels: [], data: [], total: 0 };
+        }
+        
+        // Create charts even if data is empty
+        createUsersMonthlyChart(usersMonthlyData);
+        createSalonsMonthlyChart(salonsMonthlyData);
+        
+        console.log('✅ Monthly charts loaded successfully');
+        
+    } catch (error) {
+        console.error('❌ Error loading monthly charts:', error);
+        showError('Error al cargar las gráficas: ' + error.message);
+    }
+}
+
+// Get users monthly registration data
+async function getUsersMonthlyData() {
+    try {
+        console.log('🔍 Fetching users data from Firestore...');
+        const users = await window.FirebaseData.getCollection('users');
+        console.log(`📊 Found ${users.length} users in database`);
+        
+        // Group users by month starting from July 2025
+        const monthlyData = {};
+        const startDate = new Date(2025, 6, 1); // July 2025 (month is 0-indexed)
+        const currentDate = new Date();
+        const months = [];
+        
+        // Generate 12 months from July 2025 (including future months)
+        let currentMonth = new Date(startDate);
+        for (let i = 0; i < 12; i++) {
+            const monthKey = currentMonth.toISOString().slice(0, 7); // YYYY-MM format
+            const monthLabel = currentMonth.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+            
+            monthlyData[monthKey] = 0;
+            months.push({ key: monthKey, label: monthLabel });
+            
+            // Move to next month
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+        }
+        
+        // Count users by month
+        let validUsers = 0;
+        users.forEach(user => {
+            if (user.createdAt) {
+                let userDate;
+                try {
+                    if (user.createdAt.seconds) {
+                        // Firestore timestamp
+                        userDate = new Date(user.createdAt.seconds * 1000);
+                    } else {
+                        userDate = new Date(user.createdAt);
+                    }
+                    
+                    const monthKey = userDate.toISOString().slice(0, 7);
+                    if (monthlyData.hasOwnProperty(monthKey)) {
+                        monthlyData[monthKey]++;
+                        validUsers++;
+                    }
+                } catch (dateError) {
+                    console.warn('⚠️ Invalid date for user:', user.email, dateError);
+                }
+            }
+        });
+        
+        console.log(`✅ Processed ${validUsers} users with valid dates`);
+        
+        // Prepare data for chart
+        const labels = months.map(m => m.label);
+        const data = months.map(m => monthlyData[m.key]);
+        
+        // Calculate cumulative total (all users ever registered)
+        const total = users.length;
+        
+        document.getElementById('usersChartTotal').textContent = total;
+        
+        return { labels, data, total };
+        
+    } catch (error) {
+        console.error('❌ Error getting users monthly data:', error);
+        // Return empty data structure with 12 months from July 2025
+        const startDate = new Date(2025, 6, 1); // July 2025
+        const months = [];
+        
+        let currentMonth = new Date(startDate);
+        for (let i = 0; i < 12; i++) {
+            const monthLabel = currentMonth.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+            months.push(monthLabel);
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+        }
+        
+        return { labels: months, data: new Array(months.length).fill(0), total: 0 };
+    }
+}
+
+// Get salons monthly activation data
+async function getSalonsMonthlyData() {
+    try {
+        console.log('🔍 Fetching salons data from Firestore...');
+        const salons = await window.FirebaseData.getCollection('salons');
+        console.log(`📊 Found ${salons.length} salons in database`);
+        
+        // Group approved salons by month starting from July 2025
+        const monthlyData = {};
+        const startDate = new Date(2025, 6, 1); // July 2025 (month is 0-indexed)
+        const currentDate = new Date();
+        const months = [];
+        
+        // Generate 12 months from July 2025 (including future months)
+        let currentMonth = new Date(startDate);
+        for (let i = 0; i < 12; i++) {
+            const monthKey = currentMonth.toISOString().slice(0, 7); // YYYY-MM format
+            const monthLabel = currentMonth.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+            
+            monthlyData[monthKey] = 0;
+            months.push({ key: monthKey, label: monthLabel });
+            
+            // Move to next month
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+        }
+        
+        // Count approved salons by approval month
+        let validSalons = 0;
+        salons.forEach(salon => {
+            if (salon.approved && salon.approvedAt) {
+                let approvalDate;
+                try {
+                    if (salon.approvedAt.seconds) {
+                        // Firestore timestamp
+                        approvalDate = new Date(salon.approvedAt.seconds * 1000);
+                    } else {
+                        approvalDate = new Date(salon.approvedAt);
+                    }
+                    
+                    const monthKey = approvalDate.toISOString().slice(0, 7);
+                    if (monthlyData.hasOwnProperty(monthKey)) {
+                        monthlyData[monthKey]++;
+                        validSalons++;
+                    }
+                } catch (dateError) {
+                    console.warn('⚠️ Invalid approval date for salon:', salon.businessName || salon.email, dateError);
+                }
+            }
+        });
+        
+        console.log(`✅ Processed ${validSalons} approved salons with valid approval dates`);
+        
+        // Prepare data for chart
+        const labels = months.map(m => m.label);
+        const data = months.map(m => monthlyData[m.key]);
+        
+        // Calculate cumulative total (all approved salons ever)
+        const approvedSalons = salons.filter(salon => salon.approved);
+        const total = approvedSalons.length;
+        
+        document.getElementById('salonsChartTotal').textContent = total;
+        
+        return { labels, data, total };
+        
+    } catch (error) {
+        console.error('❌ Error getting salons monthly data:', error);
+        // Return empty data structure with 12 months from July 2025
+        const startDate = new Date(2025, 6, 1); // July 2025
+        const months = [];
+        
+        let currentMonth = new Date(startDate);
+        for (let i = 0; i < 12; i++) {
+            const monthLabel = currentMonth.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+            months.push(monthLabel);
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+        }
+        
+        return { labels: months, data: new Array(months.length).fill(0), total: 0 };
+    }
+}
+
+// Create users monthly chart
+function createUsersMonthlyChart(chartData) {
+    const ctx = document.getElementById('usersMonthlyChart');
+    if (!ctx) {
+        console.error('❌ Canvas element for users chart not found');
+        return;
+    }
+    
+    // Check if Chart.js is available
+    if (typeof Chart === 'undefined') {
+        console.error('❌ Chart.js is not loaded');
+        return;
+    }
+    
+    // Destroy existing chart if it exists and is a valid Chart instance
+    if (window.usersMonthlyChart && typeof window.usersMonthlyChart.destroy === 'function') {
+        window.usersMonthlyChart.destroy();
+    }
+    
+    try {
+        window.usersMonthlyChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Usuarios Registrados',
+                    data: chartData.data,
+                    borderColor: 'rgb(147, 51, 234)',
+                    backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: 'rgb(147, 51, 234)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'rgb(147, 51, 234)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.parsed.y} usuarios`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        },
+                        ticks: {
+                            color: '#9CA3AF',
+                            maxRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        },
+                        ticks: {
+                            color: '#9CA3AF',
+                            stepSize: 1
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+        
+        console.log('✅ Users monthly chart created successfully');
+        
+    } catch (error) {
+        console.error('❌ Error creating users monthly chart:', error);
+    }
+}
+
+// Create salons monthly chart
+function createSalonsMonthlyChart(chartData) {
+    const ctx = document.getElementById('salonsMonthlyChart');
+    if (!ctx) {
+        console.error('❌ Canvas element for salons chart not found');
+        return;
+    }
+    
+    // Check if Chart.js is available
+    if (typeof Chart === 'undefined') {
+        console.error('❌ Chart.js is not loaded');
+        return;
+    }
+    
+    // Destroy existing chart if it exists and is a valid Chart instance
+    if (window.salonsMonthlyChart && typeof window.salonsMonthlyChart.destroy === 'function') {
+        window.salonsMonthlyChart.destroy();
+    }
+    
+    try {
+        window.salonsMonthlyChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Peluquerías Activas',
+                    data: chartData.data,
+                    backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                    borderColor: 'rgb(34, 197, 94)',
+                    borderWidth: 2,
+                    borderRadius: 6,
+                    borderSkipped: false,
+                    hoverBackgroundColor: 'rgba(34, 197, 94, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'rgb(34, 197, 94)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.parsed.y} peluquerías`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        },
+                        ticks: {
+                            color: '#9CA3AF',
+                            maxRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        },
+                        ticks: {
+                            color: '#9CA3AF',
+                            stepSize: 1
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+        
+        console.log('✅ Salons monthly chart created successfully');
+        
+    } catch (error) {
+        console.error('❌ Error creating salons monthly chart:', error);
     }
 }
 
@@ -702,6 +1139,71 @@ function toggleFeatured(salonId, featured) {
 
 function editSalon(salonId) {
     showNotification('Funcionalidad en desarrollo', 'info');
+}
+
+// Delete salon completely (document + auth account)
+async function deleteSalon(salonId, salonName) {
+    if (!confirm(`¿Estás seguro de que quieres eliminar la peluquería "${salonName}"?\n\n⚠️ Esta acción eliminará:\n• Todos los datos de la peluquería\n• La cuenta de autenticación\n• Reservas y reseñas asociadas\n\nEsta acción NO se puede deshacer.`)) {
+        return;
+    }
+
+    try {
+        showLoading('Eliminando peluquería...');
+        
+        // First, get the salon data to get the email for auth deletion
+        const salonData = await window.FirebaseData.getDocument('salons', salonId);
+        
+        if (!salonData) {
+            throw new Error('No se encontraron datos de la peluquería');
+        }
+
+        console.log('🗑️ Deleting salon:', { id: salonId, name: salonName, email: salonData.email });
+
+        // Delete the Firestore document
+        await window.FirebaseData.deleteDocument('salons', salonId);
+        console.log('✅ Firestore document deleted');
+
+        // Delete the authentication account if email exists
+        if (salonData.email) {
+            try {
+                await window.FirebaseAuth.deleteUser(salonData.email);
+                console.log('✅ Authentication account deleted');
+            } catch (authError) {
+                console.warn('⚠️ Could not delete auth account:', authError);
+                // Continue even if auth deletion fails
+            }
+        }
+
+        // Update city count if city exists
+        if (salonData.city) {
+            try {
+                await window.FirebaseData.updateCityCount(salonData.city, -1);
+                console.log('✅ City count updated');
+            } catch (cityError) {
+                console.warn('⚠️ Could not update city count:', cityError);
+            }
+        }
+
+        // Update app stats
+        try {
+            await window.FirebaseData.updateAppStats('salon', -1);
+            console.log('✅ App stats updated');
+        } catch (statsError) {
+            console.warn('⚠️ Could not update app stats:', statsError);
+        }
+
+        showSuccess(`Peluquería "${salonName}" eliminada correctamente`);
+        
+        // Refresh data
+        await loadSalons();
+        await loadDashboardStats();
+        
+    } catch (error) {
+        console.error('❌ Error deleting salon:', error);
+        showError(`Error al eliminar la peluquería: ${error.message}`);
+    } finally {
+        hideLoading();
+    }
 }
 
 function refreshAllData() {

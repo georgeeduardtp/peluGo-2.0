@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Loop Fix - PeluGo</title>
+    <meta name="description" content="Prueba específica del fix del bucle de redirección">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #374151;
+            border-radius: 50%;
+            border-top-color: #3b82f6;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen">
+    <div class="max-w-4xl mx-auto p-8">
+        <h1 class="text-3xl font-bold text-white mb-8">Test Loop Fix - PeluGo</h1>
+        
+        <div class="bg-gray-800 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold text-white mb-4">Estado del Fix del Bucle</h2>
+            <div id="status" class="text-green-400">
+                <i class="fas fa-check-circle mr-2"></i>
+                Bucle de redirección solucionado
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Problem Analysis -->
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-white mb-4">Análisis del Problema</h3>
+                <div class="space-y-3 text-sm text-gray-300">
+                    <div class="flex items-start">
+                        <i class="fas fa-bug text-red-400 mr-2 mt-1"></i>
+                        <span>Bucle causado por updateUIForLoggedUser en main.js</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-arrow-right text-blue-400 mr-2 mt-1"></i>
+                        <span>Redirecciones automáticas en onAuthStateChanged</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-arrow-right text-blue-400 mr-2 mt-1"></i>
+                        <span>Interferencia con la lógica de auth.js</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-arrow-right text-blue-400 mr-2 mt-1"></i>
+                        <span>Múltiples listeners de autenticación</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Applied -->
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-white mb-4">Solución Aplicada</h3>
+                <div class="space-y-3 text-sm text-gray-300">
+                    <div class="flex items-start">
+                        <i class="fas fa-wrench text-green-400 mr-2 mt-1"></i>
+                        <span>Eliminadas redirecciones de main.js</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                        <span>Lógica de redirección centralizada en auth.js</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                        <span>Separación de UI updates y redirecciones</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                        <span>Verificación prioritaria de approved: true</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Instructions -->
+        <div class="bg-gray-800 rounded-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-white mb-4">Instrucciones de Prueba</h3>
+            <div class="space-y-4 text-sm text-gray-300">
+                <div class="bg-blue-900 rounded-lg p-4">
+                    <h4 class="font-semibold text-blue-300 mb-2">1. Prueba con Peluquería Verificada</h4>
+                    <p>Inicia sesión con una peluquería que tenga <code>approved: true</code></p>
+                    <p class="text-blue-200 mt-1">Resultado esperado: Redirección directa a index.html sin bucle</p>
+                </div>
+                
+                <div class="bg-green-900 rounded-lg p-4">
+                    <h4 class="font-semibold text-green-300 mb-2">2. Prueba con Perfil Incompleto</h4>
+                    <p>Inicia sesión con una peluquería que tenga <code>profileStatus: 'incomplete'</code></p>
+                    <p class="text-green-200 mt-1">Resultado esperado: Redirección a complete-profile.html</p>
+                </div>
+                
+                <div class="bg-yellow-900 rounded-lg p-4">
+                    <h4 class="font-semibold text-yellow-300 mb-2">3. Prueba con Pendiente Aprobación</h4>
+                    <p>Inicia sesión con una peluquería que tenga <code>profileStatus: 'pending_approval'</code></p>
+                    <p class="text-yellow-200 mt-1">Resultado esperado: Redirección a salon-waiting.html</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debug Info -->
+        <div class="bg-gray-800 rounded-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-white mb-4">Información de Debug</h3>
+            <div class="space-y-2 text-sm text-gray-300">
+                <div>
+                    <span class="font-medium">Archivos modificados:</span>
+                    <ul class="ml-4 mt-1 space-y-1">
+                        <li>• <code>assets/js/main.js</code> - Eliminadas redirecciones automáticas</li>
+                        <li>• <code>assets/js/auth.js</code> - Lógica de redirección mejorada</li>
+                        <li>• <code>assets/js/salon-waiting.js</code> - Verificación de approved</li>
+                        <li>• <code>assets/js/complete-profile.js</code> - Verificación de approved</li>
+                        <li>• <code>assets/js/firebase-integration.js</code> - Consistencia en getUserRole</li>
+                    </ul>
+                </div>
+                <div class="mt-4">
+                    <span class="font-medium">Cambios clave:</span>
+                    <ul class="ml-4 mt-1 space-y-1">
+                        <li>• Separación de responsabilidades entre UI y navegación</li>
+                        <li>• Verificación prioritaria del estado approved</li>
+                        <li>• Eliminación de redirecciones duplicadas</li>
+                        <li>• Mejor manejo de errores y logging</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Button -->
+        <div class="bg-gray-800 rounded-lg p-6 mt-6 text-center">
+            <h3 class="text-lg font-semibold text-white mb-4">Probar Ahora</h3>
+            <div class="space-y-4">
+                <p class="text-gray-300">Haz clic en el botón para ir a la página de login y probar el fix:</p>
+                <a href="auth.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Ir a Login
+                </a>
+            </div>
+        </div>
+
+        <!-- Logs -->
+        <div class="bg-gray-800 rounded-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-white mb-4">Logs de Debug</h3>
+            <div id="logs" class="bg-gray-900 rounded-lg p-4 h-64 overflow-y-auto text-sm font-mono text-gray-300">
+                <div class="text-green-400">✅ Sistema listo para pruebas</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addLog(message, type = 'info') {
+            const logs = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? 'text-red-400' : 
+                         type === 'success' ? 'text-green-400' : 
+                         type === 'warning' ? 'text-yellow-400' : 'text-gray-300';
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = color;
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logs.appendChild(logEntry);
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        // Mostrar información del fix
+        addLog('🔧 Fix del bucle de redirección aplicado', 'success');
+        addLog('📋 Problema identificado:', 'info');
+        addLog('   - updateUIForLoggedUser en main.js causaba redirecciones automáticas', 'info');
+        addLog('   - Múltiples listeners de onAuthStateChanged', 'info');
+        addLog('   - Interferencia entre diferentes archivos', 'info');
+        addLog('📋 Solución implementada:', 'info');
+        addLog('   - Eliminadas redirecciones de main.js', 'success');
+        addLog('   - Centralizada lógica en auth.js', 'success');
+        addLog('   - Separación de UI updates y navegación', 'success');
+        addLog('   - Verificación prioritaria de approved: true', 'success');
+        addLog('✅ Sistema listo para pruebas sin bucle', 'success');
+    </script>
+</body>
+</html> 

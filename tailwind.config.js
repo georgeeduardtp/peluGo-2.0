@@ -173,19 +173,19 @@ module.exports = {
             boxShadow: 'var(--shadow-md)'
           }
         },
-        '.input': {
-          fontFamily: 'var(--font-family-primary)',
-          fontSize: 'var(--font-size-base)',
-          border: '2px solid var(--border-primary)',
-          borderRadius: 'var(--radius-lg)',
-          padding: 'var(--spacing-sm) var(--spacing-md)',
-          transition: 'var(--transition-normal)',
-          '&:focus': {
-            borderColor: 'var(--border-focus)',
-            boxShadow: '0 0 0 3px rgba(139, 92, 246, 0.1)',
-            outline: 'none'
-          }
-        },
+                 '.input': {
+           fontFamily: 'var(--font-family-primary)',
+           fontSize: 'var(--font-size-base)',
+           border: '2px solid var(--border-primary)',
+           borderRadius: 'var(--radius-lg)',
+           padding: 'var(--spacing-sm) var(--spacing-md)',
+           transition: 'var(--transition-normal)',
+           '&:focus': {
+             borderColor: 'var(--border-focus)',
+             boxShadow: '0 0 0 3px rgba(30, 64, 175, 0.1)',
+             outline: 'none'
+           }
+         },
         '.card': {
           backgroundColor: 'var(--bg-primary)',
           borderRadius: 'var(--radius-xl)',

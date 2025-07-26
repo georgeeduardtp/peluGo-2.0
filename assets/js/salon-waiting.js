@@ -46,14 +46,17 @@ async function checkWaitingAccess() {
             return;
         }
 
+        // Check if salon is already approved first
+        if (salonData.approved === true) {
+            console.log('✅ Salon is already approved, redirecting to index.html');
+            window.location.href = 'index.html';
+            return;
+        }
+
         // Check if profile status is correct for waiting page
         if (salonData.profileStatus === 'incomplete') {
             console.log('❌ Profile is incomplete, redirecting...');
             window.location.href = 'complete-profile.html';
-            return;
-        } else if (salonData.approved) {
-            console.log('❌ Salon already approved, redirecting...');
-            window.location.href = 'salon-panel.html';
             return;
         } else if (salonData.profileStatus !== 'pending_approval') {
             console.log('❌ Invalid profile status for waiting page');
@@ -154,48 +157,48 @@ function loadProfileSummary() {
 
     const summaryHTML = `
         <div class="space-y-3">
-            <h4 class="font-medium text-gray-900 border-b pb-2">Información Básica</h4>
+            <h4 class="font-medium text-gray-100 border-b border-gray-600 pb-2">Información Básica</h4>
             <div class="space-y-2 text-sm">
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Nombre:</span>
-                    <span class="font-medium">${salonData.businessName || 'No especificado'}</span>
+                    <span class="text-gray-300">Nombre:</span>
+                    <span class="font-medium text-gray-100">${salonData.businessName || 'No especificado'}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Ciudad:</span>
-                    <span class="font-medium">${salonData.city || 'No especificada'}</span>
+                    <span class="text-gray-300">Ciudad:</span>
+                    <span class="font-medium text-gray-100">${salonData.city || 'No especificada'}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Teléfono:</span>
-                    <span class="font-medium">${salonData.phone || 'No especificado'}</span>
+                    <span class="text-gray-300">Teléfono:</span>
+                    <span class="font-medium text-gray-100">${salonData.phone || 'No especificado'}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Email:</span>
-                    <span class="font-medium">${salonData.email || currentUser.email}</span>
+                    <span class="text-gray-300">Email:</span>
+                    <span class="font-medium text-gray-100">${salonData.email || currentUser.email}</span>
                 </div>
             </div>
         </div>
         
         <div class="space-y-3">
-            <h4 class="font-medium text-gray-900 border-b pb-2">Detalles</h4>
+            <h4 class="font-medium text-gray-100 border-b border-gray-600 pb-2">Detalles</h4>
             <div class="space-y-2 text-sm">
                 <div>
-                    <span class="text-gray-600 block">Dirección:</span>
-                    <span class="font-medium">${salonData.address || 'No especificada'}</span>
+                    <span class="text-gray-300 block">Dirección:</span>
+                    <span class="font-medium text-gray-100">${salonData.address || 'No especificada'}</span>
                 </div>
                 <div>
-                    <span class="text-gray-600 block">Servicios:</span>
+                    <span class="text-gray-300 block">Servicios:</span>
                     <div class="flex flex-wrap gap-1 mt-1">
                         ${salonData.services && salonData.services.length > 0 
                             ? salonData.services.map(service => 
-                                `<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs">${service}</span>`
+                                `<span class="bg-blue-900 text-blue-200 px-2 py-1 rounded text-xs">${service}</span>`
                               ).join('')
                             : '<span class="text-gray-400 text-xs">No especificados</span>'
                         }
                     </div>
                 </div>
                 <div>
-                    <span class="text-gray-600 block">Descripción:</span>
-                    <span class="text-sm">${salonData.description || 'No especificada'}</span>
+                    <span class="text-gray-300 block">Descripción:</span>
+                    <span class="text-sm text-gray-100">${salonData.description || 'No especificada'}</span>
                 </div>
             </div>
         </div>
@@ -244,7 +247,7 @@ async function refreshStatus() {
             // Salon has been approved!
             showSuccess('¡Felicitaciones! Tu peluquería ha sido aprobada');
             setTimeout(() => {
-                window.location.href = 'salon-panel.html';
+                window.location.href = 'index.html';
             }, 2000);
         } else if (freshSalonData.profileStatus === 'incomplete') {
             // Something went wrong, profile is incomplete again
@@ -286,7 +289,7 @@ function setupAutoRefresh() {
                 // Salon has been approved!
                 showSuccess('¡Felicitaciones! Tu peluquería ha sido aprobada');
                 setTimeout(() => {
-                    window.location.href = 'salon-panel.html';
+                    window.location.href = 'index.html';
                 }, 2000);
             }
             

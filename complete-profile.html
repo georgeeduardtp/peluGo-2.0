@@ -15,110 +15,110 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-900 min-h-screen">
     
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="index.html" class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                            <i class="fas fa-cut text-white text-sm"></i>
+    <!-- Main Content -->
+    <div id="profileContent" class="hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            
+            <!-- Navigation -->
+            <nav class="bg-gray-800 shadow-lg sticky top-0 z-50 mb-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Logo -->
+                        <div class="flex items-center">
+                            <a href="index.html" class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-cut text-white text-sm"></i>
+                                </div>
+                                <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                                    PeluGo
+                                </span>
+                            </a>
+                            <span class="ml-3 bg-orange-900 text-orange-300 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                PERFIL INCOMPLETO
+                            </span>
                         </div>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                            PeluGo
-                        </span>
-                    </a>
-                    <span class="ml-3 bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                        PERFIL INCOMPLETO
-                    </span>
-                </div>
 
-                <!-- User Info -->
-                <div class="flex items-center space-x-4">
-                    <div id="salonInfo" class="text-sm text-gray-700">
-                        <span>Cargando...</span>
+                        <!-- User Info -->
+                        <div class="flex items-center space-x-4">
+                            <div id="salonInfo" class="text-sm text-gray-300">
+                                <span>Cargando...</span>
+                            </div>
+                            <button 
+                                id="logoutBtn"
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                            >
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                Cerrar sesión
+                            </button>
+                        </div>
                     </div>
-                    <button 
-                        id="logoutBtn"
-                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                    >
-                        <i class="fas fa-sign-out-alt mr-2"></i>
-                        Cerrar sesión
-                    </button>
+                </div>
+            </nav>
+
+            <!-- Loading Screen -->
+            <div id="loadingScreen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+                <div class="text-center">
+                    <div class="loading mb-4 mx-auto"></div>
+                    <p class="text-gray-400">Verificando perfil...</p>
                 </div>
             </div>
-        </div>
-    </nav>
-
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 bg-white flex items-center justify-center z-50">
-        <div class="text-center">
-            <div class="loading mb-4 mx-auto"></div>
-            <p class="text-gray-600">Verificando perfil...</p>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div id="profileContent" class="hidden bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 min-h-screen">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             
             <!-- Welcome Header -->
             <div class="text-center mb-12">
-                <div class="w-24 h-24 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                <div class="w-24 h-24 bg-gradient-to-r from-blue-700 to-blue-800 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
                     <i class="fas fa-store text-white text-3xl"></i>
                 </div>
-                <h1 class="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+                <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-4">
                     ¡Bienvenido a PeluGo!
                 </h1>
-                <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                     Completa la información de tu peluquería para empezar a recibir clientes y destacar en nuestra plataforma
                 </p>
                 
                 <!-- Progress Steps -->
-                <div class="flex justify-center items-center space-x-2 mb-8 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg max-w-4xl mx-auto">
+                <div class="flex justify-center items-center space-x-2 mb-8 bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg max-w-4xl mx-auto border border-gray-600">
                     <div class="flex items-center">
                         <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-medium shadow-lg">
                             <i class="fas fa-check"></i>
                         </div>
-                        <span class="ml-3 text-sm font-semibold text-green-600">Cuenta creada</span>
+                        <span class="ml-3 text-sm font-semibold text-green-400">Cuenta creada</span>
                     </div>
-                    <div class="w-12 h-0.5 bg-gradient-to-r from-green-500 to-purple-500"></div>
+                    <div class="w-12 h-0.5 bg-gradient-to-r from-green-500 to-blue-500"></div>
                     <div class="flex items-center">
-                        <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full flex items-center justify-center text-sm font-medium shadow-lg animate-pulse">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-full flex items-center justify-center text-sm font-medium shadow-lg animate-pulse">
                             2
                         </div>
-                        <span class="ml-3 text-sm font-semibold text-purple-600">Completar perfil</span>
+                        <span class="ml-3 text-sm font-semibold text-blue-400">Completar perfil</span>
                     </div>
-                    <div class="w-12 h-0.5 bg-gray-300"></div>
+                    <div class="w-12 h-0.5 bg-gray-600"></div>
                     <div class="flex items-center">
-                        <div class="w-10 h-10 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium">
+                        <div class="w-10 h-10 bg-gray-600 text-gray-400 rounded-full flex items-center justify-center text-sm font-medium">
                             3
                         </div>
-                        <span class="ml-3 text-sm font-medium text-gray-500">Aprobación admin</span>
+                        <span class="ml-3 text-sm font-medium text-gray-400">Aprobación admin</span>
                     </div>
-                    <div class="w-12 h-0.5 bg-gray-300"></div>
+                    <div class="w-12 h-0.5 bg-gray-600"></div>
                     <div class="flex items-center">
-                        <div class="w-10 h-10 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium">
+                        <div class="w-10 h-10 bg-gray-600 text-gray-400 rounded-full flex items-center justify-center text-sm font-medium">
                             4
                         </div>
-                        <span class="ml-3 text-sm font-medium text-gray-500">¡En línea!</span>
+                        <span class="ml-3 text-sm font-medium text-gray-400">¡En línea!</span>
                     </div>
                 </div>
             </div>
 
             <!-- Profile Form -->
-            <div class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 lg:p-12 border border-white/20">
+            <div class="bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-600">
                 <form id="completeProfileForm">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                         
                         <!-- Left Column: Business Info -->
                         <div class="space-y-8">
                             <div>
-                                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                                    <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-3">
+                                <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center mr-3">
                                         <i class="fas fa-store text-white text-sm"></i>
                                     </div>
                                     Información del Negocio
@@ -126,43 +126,43 @@
                             </div>
                             
                             <div class="group">
-                                <label class="block text-sm font-semibold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-200">
-                                    <i class="fas fa-store mr-2 text-purple-500"></i>
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-store mr-2 text-blue-400"></i>
                                     Nombre de la peluquería *
                                 </label>
                                 <input 
                                     type="text" 
                                     id="businessName"
                                     required
-                                    class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 placeholder-gray-400 hover:border-purple-300 shadow-sm"
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm"
                                     placeholder="Ej: Bella Vista Salon"
                                 >
                             </div>
 
                             <div class="group">
-                                <label class="block text-sm font-semibold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-200">
-                                    <i class="fas fa-map-marker-alt mr-2 text-purple-500"></i>
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>
                                     Dirección completa *
                                 </label>
                                 <input 
                                     type="text" 
                                     id="address"
                                     required
-                                    class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 placeholder-gray-400 hover:border-purple-300 shadow-sm"
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm"
                                     placeholder="Calle, número, código postal"
                                 >
                             </div>
 
                             <div class="group">
-                                <label class="block text-sm font-semibold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-200">
-                                    <i class="fas fa-city mr-2 text-purple-500"></i>
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-city mr-2 text-blue-400"></i>
                                     Ciudad *
                                 </label>
                                 <div class="relative">
                                     <select 
                                         id="city"
                                         required
-                                        class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 hover:border-purple-300 shadow-sm appearance-none bg-white cursor-pointer"
+                                        class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 hover:border-blue-400 shadow-sm appearance-none cursor-pointer"
                                     >
                                         <option value="">Selecciona ciudad</option>
                                         <option value="Madrid">Madrid</option>
@@ -183,15 +183,15 @@
                             </div>
 
                             <div class="group">
-                                <label class="block text-sm font-semibold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-200">
-                                    <i class="fas fa-phone mr-2 text-purple-500"></i>
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-phone mr-2 text-blue-400"></i>
                                     Teléfono *
                                 </label>
                                 <input 
                                     type="tel" 
                                     id="phone"
                                     required
-                                    class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 placeholder-gray-400 hover:border-purple-300 shadow-sm"
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm"
                                     placeholder="+34 123 456 789"
                                 >
                             </div>
@@ -200,8 +200,8 @@
                         <!-- Right Column: Additional Info -->
                         <div class="space-y-8">
                             <div>
-                                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                                    <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-3">
+                                <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center mr-3">
                                         <i class="fas fa-info-circle text-white text-sm"></i>
                                     </div>
                                     Información Adicional
@@ -209,131 +209,136 @@
                             </div>
 
                             <div class="group">
-                                <label class="block text-sm font-semibold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-200">
-                                    <i class="fas fa-edit mr-2 text-purple-500"></i>
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-edit mr-2 text-blue-400"></i>
                                     Descripción de la peluquería
                                 </label>
                                 <textarea 
                                     id="description"
                                     rows="5"
-                                    class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 placeholder-gray-400 hover:border-purple-300 shadow-sm resize-none"
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm resize-none"
                                     placeholder="Describe tu peluquería: servicios, especialidades, años de experiencia..."
                                 ></textarea>
-                                <p class="text-xs text-purple-600 mt-2 font-medium">Esta descripción aparecerá en tu perfil público</p>
+                                <p class="text-xs text-blue-400 mt-2 font-medium">Esta descripción aparecerá en tu perfil público</p>
                             </div>
 
                             <div class="group">
-                                <label class="block text-sm font-semibold text-gray-800 mb-4 group-hover:text-purple-600 transition-colors duration-200">
-                                    <i class="fas fa-cut mr-2 text-purple-500"></i>
+                                <label class="block text-sm font-semibold text-gray-300 mb-4 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-cut mr-2 text-blue-400"></i>
                                     Servicios que ofreces
                                 </label>
                                 <div class="grid grid-cols-2 gap-3">
                                     <label class="service-card group/service relative overflow-hidden cursor-pointer">
                                         <input type="checkbox" name="services" value="Corte" class="sr-only peer">
-                                        <div class="flex items-center p-4 border-2 border-gray-200 rounded-2xl transition-all duration-300 hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:shadow-md">
-                                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3 group-hover/service:bg-purple-200 transition-colors">
-                                                <i class="fas fa-cut text-purple-600 text-sm"></i>
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-cut text-blue-400 text-sm"></i>
                                             </div>
-                                            <span class="text-sm font-medium text-gray-700 group-hover/service:text-purple-600 transition-colors">Corte</span>
-                                            <i class="fas fa-check absolute top-2 right-2 text-purple-600 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Corte</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
                                         </div>
                                     </label>
                                     <label class="service-card group/service relative overflow-hidden cursor-pointer">
                                         <input type="checkbox" name="services" value="Peinado" class="sr-only peer">
-                                        <div class="flex items-center p-4 border-2 border-gray-200 rounded-2xl transition-all duration-300 hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:shadow-md">
-                                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3 group-hover/service:bg-purple-200 transition-colors">
-                                                <i class="fas fa-magic text-purple-600 text-sm"></i>
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-magic text-blue-400 text-sm"></i>
                                             </div>
-                                            <span class="text-sm font-medium text-gray-700 group-hover/service:text-purple-600 transition-colors">Peinado</span>
-                                            <i class="fas fa-check absolute top-2 right-2 text-purple-600 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Peinado</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
                                         </div>
                                     </label>
                                     <label class="service-card group/service relative overflow-hidden cursor-pointer">
                                         <input type="checkbox" name="services" value="Tinte" class="sr-only peer">
-                                        <div class="flex items-center p-4 border-2 border-gray-200 rounded-2xl transition-all duration-300 hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:shadow-md">
-                                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3 group-hover/service:bg-purple-200 transition-colors">
-                                                <i class="fas fa-palette text-purple-600 text-sm"></i>
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-palette text-blue-400 text-sm"></i>
                                             </div>
-                                            <span class="text-sm font-medium text-gray-700 group-hover/service:text-purple-600 transition-colors">Tinte</span>
-                                            <i class="fas fa-check absolute top-2 right-2 text-purple-600 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Tinte</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
                                         </div>
                                     </label>
                                     <label class="service-card group/service relative overflow-hidden cursor-pointer">
                                         <input type="checkbox" name="services" value="Mechas" class="sr-only peer">
-                                        <div class="flex items-center p-4 border-2 border-gray-200 rounded-2xl transition-all duration-300 hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:shadow-md">
-                                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3 group-hover/service:bg-purple-200 transition-colors">
-                                                <i class="fas fa-brush text-purple-600 text-sm"></i>
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-brush text-blue-400 text-sm"></i>
                                             </div>
-                                            <span class="text-sm font-medium text-gray-700 group-hover/service:text-purple-600 transition-colors">Mechas</span>
-                                            <i class="fas fa-check absolute top-2 right-2 text-purple-600 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Mechas</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
                                         </div>
                                     </label>
                                     <label class="service-card group/service relative overflow-hidden cursor-pointer">
                                         <input type="checkbox" name="services" value="Tratamientos" class="sr-only peer">
-                                        <div class="flex items-center p-4 border-2 border-gray-200 rounded-2xl transition-all duration-300 hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:shadow-md">
-                                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3 group-hover/service:bg-purple-200 transition-colors">
-                                                <i class="fas fa-spa text-purple-600 text-sm"></i>
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-spa text-blue-400 text-sm"></i>
                                             </div>
-                                            <span class="text-sm font-medium text-gray-700 group-hover/service:text-purple-600 transition-colors">Tratamientos</span>
-                                            <i class="fas fa-check absolute top-2 right-2 text-purple-600 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Tratamientos</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
                                         </div>
                                     </label>
                                     <label class="service-card group/service relative overflow-hidden cursor-pointer">
                                         <input type="checkbox" name="services" value="Barbería" class="sr-only peer">
-                                        <div class="flex items-center p-4 border-2 border-gray-200 rounded-2xl transition-all duration-300 hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:shadow-md">
-                                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3 group-hover/service:bg-purple-200 transition-colors">
-                                                <i class="fas fa-user-tie text-purple-600 text-sm"></i>
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-user-tie text-blue-400 text-sm"></i>
                                             </div>
-                                            <span class="text-sm font-medium text-gray-700 group-hover/service:text-purple-600 transition-colors">Barbería</span>
-                                            <i class="fas fa-check absolute top-2 right-2 text-purple-600 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Barbería</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
                                         </div>
                                     </label>
                                 </div>
                             </div>
 
-                            <!-- Schedule Section -->
-                            <div class="group">
-                                <label class="block text-sm font-semibold text-gray-800 mb-6 group-hover:text-purple-600 transition-colors duration-200">
-                                    <i class="fas fa-clock mr-2 text-purple-500"></i>
-                                    Horario de atención
-                                </label>
-                                <div class="space-y-3">
-                                    <!-- Monday -->
-                                    <div class="day-schedule-row bg-white border-2 border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="monday">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schedule Section - Full Width -->
+                    <div class="mt-12">
+                        <div class="group">
+                            <label class="block text-sm font-semibold text-gray-300 mb-6 group-hover:text-blue-400 transition-colors duration-200">
+                                <i class="fas fa-clock mr-2 text-blue-400"></i>
+                                Horario de atención
+                            </label>
+                                                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <!-- Monday -->
+                                <div class="day-schedule-row bg-gray-700 border-2 border-gray-600 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="monday">
                                         <div class="space-y-3">
                                             <div class="flex items-center">
-                                                <input type="checkbox" id="monday-enabled" class="day-checkbox mr-3 w-5 h-5 text-purple-600 border-2 border-gray-300 rounded focus:ring-purple-500 focus:ring-2" data-day="monday">
-                                                <label for="monday-enabled" class="text-sm font-semibold text-gray-800 cursor-pointer flex items-center">
-                                                    <i class="fas fa-calendar-day mr-2 text-purple-500"></i>
+                                                <input type="checkbox" id="monday-enabled" class="day-checkbox mr-3 w-5 h-5 text-blue-400 border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" data-day="monday">
+                                                <label for="monday-enabled" class="text-sm font-semibold text-gray-100 cursor-pointer flex items-center">
+                                                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                                                     Lunes
                                                 </label>
                                             </div>
                                             <div class="schedule-times hidden">
-                                                <div class="bg-purple-50 rounded-xl p-3 space-y-3">
+                                                <div class="bg-blue-900 rounded-xl p-3 space-y-3">
                                                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 items-center">
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">De</span>
-                                                            <input type="time" id="monday-start" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">De</span>
+                                                            <input type="time" id="monday-start" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">Hasta</span>
-                                                            <input type="time" id="monday-end" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">Hasta</span>
+                                                            <input type="time" id="monday-end" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
-                                                        <label class="flex items-center justify-center bg-white rounded px-2 py-1 cursor-pointer hover:bg-gray-50 transition-colors text-xs">
-                                                            <input type="checkbox" id="monday-break" class="mr-1 text-purple-600">
-                                                            <span class="font-medium text-gray-700 whitespace-nowrap">Con descanso</span>
+                                                        <label class="flex items-center justify-center bg-gray-600 rounded px-2 py-1 cursor-pointer hover:bg-gray-500 transition-colors text-xs">
+                                                            <input type="checkbox" id="monday-break" class="mr-1 text-blue-400">
+                                                            <span class="font-medium text-gray-300 whitespace-nowrap">Con descanso</span>
                                                         </label>
                                                     </div>
                                                     <div class="break-times hidden">
-                                                        <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                                        <div class="bg-gray-700 rounded-lg p-3 border border-blue-600">
                                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">Descanso de</span>
-                                                                    <input type="time" id="monday-break-start" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">Descanso de</span>
+                                                                    <input type="time" id="monday-break-start" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">hasta</span>
-                                                                    <input type="time" id="monday-break-end" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">hasta</span>
+                                                                    <input type="time" id="monday-break-end" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -344,41 +349,41 @@
                                     </div>
 
                                     <!-- Tuesday -->
-                                    <div class="day-schedule-row bg-white border-2 border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="tuesday">
+                                    <div class="day-schedule-row bg-gray-700 border-2 border-gray-600 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="tuesday">
                                         <div class="space-y-3">
                                             <div class="flex items-center">
-                                                <input type="checkbox" id="tuesday-enabled" class="day-checkbox mr-3 w-5 h-5 text-purple-600 border-2 border-gray-300 rounded focus:ring-purple-500 focus:ring-2" data-day="tuesday">
-                                                <label for="tuesday-enabled" class="text-sm font-semibold text-gray-800 cursor-pointer flex items-center">
-                                                    <i class="fas fa-calendar-day mr-2 text-purple-500"></i>
+                                                <input type="checkbox" id="tuesday-enabled" class="day-checkbox mr-3 w-5 h-5 text-blue-400 border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" data-day="tuesday">
+                                                <label for="tuesday-enabled" class="text-sm font-semibold text-gray-100 cursor-pointer flex items-center">
+                                                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                                                     Martes
                                                 </label>
                                             </div>
                                             <div class="schedule-times hidden">
-                                                <div class="bg-purple-50 rounded-xl p-3 space-y-3">
+                                                <div class="bg-blue-900 rounded-xl p-3 space-y-3">
                                                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 items-center">
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">De</span>
-                                                            <input type="time" id="tuesday-start" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">De</span>
+                                                            <input type="time" id="tuesday-start" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">Hasta</span>
-                                                            <input type="time" id="tuesday-end" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">Hasta</span>
+                                                            <input type="time" id="tuesday-end" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
-                                                        <label class="flex items-center justify-center bg-white rounded px-2 py-1 cursor-pointer hover:bg-gray-50 transition-colors text-xs">
-                                                            <input type="checkbox" id="tuesday-break" class="mr-1 text-purple-600">
-                                                            <span class="font-medium text-gray-700 whitespace-nowrap">Con descanso</span>
+                                                        <label class="flex items-center justify-center bg-gray-600 rounded px-2 py-1 cursor-pointer hover:bg-gray-500 transition-colors text-xs">
+                                                            <input type="checkbox" id="tuesday-break" class="mr-1 text-blue-400">
+                                                            <span class="font-medium text-gray-300 whitespace-nowrap">Con descanso</span>
                                                         </label>
                                                     </div>
                                                     <div class="break-times hidden">
-                                                        <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                                        <div class="bg-gray-700 rounded-lg p-3 border border-blue-600">
                                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">Descanso de</span>
-                                                                    <input type="time" id="tuesday-break-start" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">Descanso de</span>
+                                                                    <input type="time" id="tuesday-break-start" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">hasta</span>
-                                                                    <input type="time" id="tuesday-break-end" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">hasta</span>
+                                                                    <input type="time" id="tuesday-break-end" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -389,41 +394,41 @@
                                     </div>
 
                                     <!-- Wednesday -->
-                                    <div class="day-schedule-row bg-white border-2 border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="wednesday">
+                                    <div class="day-schedule-row bg-gray-700 border-2 border-gray-600 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="wednesday">
                                         <div class="space-y-3">
                                             <div class="flex items-center">
-                                                <input type="checkbox" id="wednesday-enabled" class="day-checkbox mr-3 w-5 h-5 text-purple-600 border-2 border-gray-300 rounded focus:ring-purple-500 focus:ring-2" data-day="wednesday">
-                                                <label for="wednesday-enabled" class="text-sm font-semibold text-gray-800 cursor-pointer flex items-center">
-                                                    <i class="fas fa-calendar-day mr-2 text-purple-500"></i>
+                                                <input type="checkbox" id="wednesday-enabled" class="day-checkbox mr-3 w-5 h-5 text-blue-400 border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" data-day="wednesday">
+                                                <label for="wednesday-enabled" class="text-sm font-semibold text-gray-100 cursor-pointer flex items-center">
+                                                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                                                     Miércoles
                                                 </label>
                                             </div>
                                             <div class="schedule-times hidden">
-                                                <div class="bg-purple-50 rounded-xl p-3 space-y-3">
+                                                <div class="bg-blue-900 rounded-xl p-3 space-y-3">
                                                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 items-center">
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">De</span>
-                                                            <input type="time" id="wednesday-start" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">De</span>
+                                                            <input type="time" id="wednesday-start" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">Hasta</span>
-                                                            <input type="time" id="wednesday-end" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">Hasta</span>
+                                                            <input type="time" id="wednesday-end" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
-                                                        <label class="flex items-center justify-center bg-white rounded px-2 py-1 cursor-pointer hover:bg-gray-50 transition-colors text-xs">
-                                                            <input type="checkbox" id="wednesday-break" class="mr-1 text-purple-600">
-                                                            <span class="font-medium text-gray-700 whitespace-nowrap">Con descanso</span>
+                                                        <label class="flex items-center justify-center bg-gray-600 rounded px-2 py-1 cursor-pointer hover:bg-gray-500 transition-colors text-xs">
+                                                            <input type="checkbox" id="wednesday-break" class="mr-1 text-blue-400">
+                                                            <span class="font-medium text-gray-300 whitespace-nowrap">Con descanso</span>
                                                         </label>
                                                     </div>
                                                     <div class="break-times hidden">
-                                                        <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                                        <div class="bg-gray-700 rounded-lg p-3 border border-blue-600">
                                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">Descanso de</span>
-                                                                    <input type="time" id="wednesday-break-start" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">Descanso de</span>
+                                                                    <input type="time" id="wednesday-break-start" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">hasta</span>
-                                                                    <input type="time" id="wednesday-break-end" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">hasta</span>
+                                                                    <input type="time" id="wednesday-break-end" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -434,41 +439,41 @@
                                     </div>
 
                                     <!-- Thursday -->
-                                    <div class="day-schedule-row bg-white border-2 border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="thursday">
+                                    <div class="day-schedule-row bg-gray-700 border-2 border-gray-600 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="thursday">
                                         <div class="space-y-3">
                                             <div class="flex items-center">
-                                                <input type="checkbox" id="thursday-enabled" class="day-checkbox mr-3 w-5 h-5 text-purple-600 border-2 border-gray-300 rounded focus:ring-purple-500 focus:ring-2" data-day="thursday">
-                                                <label for="thursday-enabled" class="text-sm font-semibold text-gray-800 cursor-pointer flex items-center">
-                                                    <i class="fas fa-calendar-day mr-2 text-purple-500"></i>
+                                                <input type="checkbox" id="thursday-enabled" class="day-checkbox mr-3 w-5 h-5 text-blue-400 border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" data-day="thursday">
+                                                <label for="thursday-enabled" class="text-sm font-semibold text-gray-100 cursor-pointer flex items-center">
+                                                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                                                     Jueves
                                                 </label>
                                             </div>
                                             <div class="schedule-times hidden">
-                                                <div class="bg-purple-50 rounded-xl p-3 space-y-3">
+                                                <div class="bg-blue-900 rounded-xl p-3 space-y-3">
                                                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 items-center">
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">De</span>
-                                                            <input type="time" id="thursday-start" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">De</span>
+                                                            <input type="time" id="thursday-start" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">Hasta</span>
-                                                            <input type="time" id="thursday-end" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">Hasta</span>
+                                                            <input type="time" id="thursday-end" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
-                                                        <label class="flex items-center justify-center bg-white rounded px-2 py-1 cursor-pointer hover:bg-gray-50 transition-colors text-xs">
-                                                            <input type="checkbox" id="thursday-break" class="mr-1 text-purple-600">
-                                                            <span class="font-medium text-gray-700 whitespace-nowrap">Con descanso</span>
+                                                        <label class="flex items-center justify-center bg-gray-600 rounded px-2 py-1 cursor-pointer hover:bg-gray-500 transition-colors text-xs">
+                                                            <input type="checkbox" id="thursday-break" class="mr-1 text-blue-400">
+                                                            <span class="font-medium text-gray-300 whitespace-nowrap">Con descanso</span>
                                                         </label>
                                                     </div>
                                                     <div class="break-times hidden">
-                                                        <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                                        <div class="bg-gray-700 rounded-lg p-3 border border-blue-600">
                                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">Descanso de</span>
-                                                                    <input type="time" id="thursday-break-start" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">Descanso de</span>
+                                                                    <input type="time" id="thursday-break-start" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">hasta</span>
-                                                                    <input type="time" id="thursday-break-end" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">hasta</span>
+                                                                    <input type="time" id="thursday-break-end" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -479,41 +484,41 @@
                                     </div>
 
                                     <!-- Friday -->
-                                    <div class="day-schedule-row bg-white border-2 border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="friday">
+                                    <div class="day-schedule-row bg-gray-700 border-2 border-gray-600 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="friday">
                                         <div class="space-y-3">
                                             <div class="flex items-center">
-                                                <input type="checkbox" id="friday-enabled" class="day-checkbox mr-3 w-5 h-5 text-purple-600 border-2 border-gray-300 rounded focus:ring-purple-500 focus:ring-2" data-day="friday">
-                                                <label for="friday-enabled" class="text-sm font-semibold text-gray-800 cursor-pointer flex items-center">
-                                                    <i class="fas fa-calendar-day mr-2 text-purple-500"></i>
+                                                <input type="checkbox" id="friday-enabled" class="day-checkbox mr-3 w-5 h-5 text-blue-400 border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" data-day="friday">
+                                                <label for="friday-enabled" class="text-sm font-semibold text-gray-100 cursor-pointer flex items-center">
+                                                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                                                     Viernes
                                                 </label>
                                             </div>
                                             <div class="schedule-times hidden">
-                                                <div class="bg-purple-50 rounded-xl p-3 space-y-3">
+                                                <div class="bg-blue-900 rounded-xl p-3 space-y-3">
                                                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 items-center">
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">De</span>
-                                                            <input type="time" id="friday-start" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">De</span>
+                                                            <input type="time" id="friday-start" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">Hasta</span>
-                                                            <input type="time" id="friday-end" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">Hasta</span>
+                                                            <input type="time" id="friday-end" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
-                                                        <label class="flex items-center justify-center bg-white rounded px-2 py-1 cursor-pointer hover:bg-gray-50 transition-colors text-xs">
-                                                            <input type="checkbox" id="friday-break" class="mr-1 text-purple-600">
-                                                            <span class="font-medium text-gray-700 whitespace-nowrap">Con descanso</span>
+                                                        <label class="flex items-center justify-center bg-gray-600 rounded px-2 py-1 cursor-pointer hover:bg-gray-500 transition-colors text-xs">
+                                                            <input type="checkbox" id="friday-break" class="mr-1 text-blue-400">
+                                                            <span class="font-medium text-gray-300 whitespace-nowrap">Con descanso</span>
                                                         </label>
                                                     </div>
                                                     <div class="break-times hidden">
-                                                        <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                                        <div class="bg-gray-700 rounded-lg p-3 border border-blue-600">
                                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">Descanso de</span>
-                                                                    <input type="time" id="friday-break-start" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">Descanso de</span>
+                                                                    <input type="time" id="friday-break-start" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">hasta</span>
-                                                                    <input type="time" id="friday-break-end" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">hasta</span>
+                                                                    <input type="time" id="friday-break-end" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -524,41 +529,41 @@
                                     </div>
 
                                     <!-- Saturday -->
-                                    <div class="day-schedule-row bg-white border-2 border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="saturday">
+                                    <div class="day-schedule-row bg-gray-700 border-2 border-gray-600 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="saturday">
                                         <div class="space-y-3">
                                             <div class="flex items-center">
-                                                <input type="checkbox" id="saturday-enabled" class="day-checkbox mr-3 w-5 h-5 text-purple-600 border-2 border-gray-300 rounded focus:ring-purple-500 focus:ring-2" data-day="saturday">
-                                                <label for="saturday-enabled" class="text-sm font-semibold text-gray-800 cursor-pointer flex items-center">
-                                                    <i class="fas fa-calendar-day mr-2 text-purple-500"></i>
+                                                <input type="checkbox" id="saturday-enabled" class="day-checkbox mr-3 w-5 h-5 text-blue-400 border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" data-day="saturday">
+                                                <label for="saturday-enabled" class="text-sm font-semibold text-gray-100 cursor-pointer flex items-center">
+                                                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                                                     Sábado
                                                 </label>
                                             </div>
                                             <div class="schedule-times hidden">
-                                                <div class="bg-purple-50 rounded-xl p-3 space-y-3">
+                                                <div class="bg-blue-900 rounded-xl p-3 space-y-3">
                                                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 items-center">
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">De</span>
-                                                            <input type="time" id="saturday-start" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">De</span>
+                                                            <input type="time" id="saturday-start" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">Hasta</span>
-                                                            <input type="time" id="saturday-end" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">Hasta</span>
+                                                            <input type="time" id="saturday-end" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
-                                                        <label class="flex items-center justify-center bg-white rounded px-2 py-1 cursor-pointer hover:bg-gray-50 transition-colors text-xs">
-                                                            <input type="checkbox" id="saturday-break" class="mr-1 text-purple-600">
-                                                            <span class="font-medium text-gray-700 whitespace-nowrap">Con descanso</span>
+                                                        <label class="flex items-center justify-center bg-gray-600 rounded px-2 py-1 cursor-pointer hover:bg-gray-500 transition-colors text-xs">
+                                                            <input type="checkbox" id="saturday-break" class="mr-1 text-blue-400">
+                                                            <span class="font-medium text-gray-300 whitespace-nowrap">Con descanso</span>
                                                         </label>
                                                     </div>
                                                     <div class="break-times hidden">
-                                                        <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                                        <div class="bg-gray-700 rounded-lg p-3 border border-blue-600">
                                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">Descanso de</span>
-                                                                    <input type="time" id="saturday-break-start" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">Descanso de</span>
+                                                                    <input type="time" id="saturday-break-start" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">hasta</span>
-                                                                    <input type="time" id="saturday-break-end" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">hasta</span>
+                                                                    <input type="time" id="saturday-break-end" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -569,41 +574,41 @@
                                     </div>
 
                                     <!-- Sunday -->
-                                    <div class="day-schedule-row bg-white border-2 border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="sunday">
+                                    <div class="day-schedule-row bg-gray-700 border-2 border-gray-600 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300" data-day="sunday">
                                         <div class="space-y-3">
                                             <div class="flex items-center">
-                                                <input type="checkbox" id="sunday-enabled" class="day-checkbox mr-3 w-5 h-5 text-purple-600 border-2 border-gray-300 rounded focus:ring-purple-500 focus:ring-2" data-day="sunday">
-                                                <label for="sunday-enabled" class="text-sm font-semibold text-gray-800 cursor-pointer flex items-center">
-                                                    <i class="fas fa-calendar-day mr-2 text-purple-500"></i>
+                                                <input type="checkbox" id="sunday-enabled" class="day-checkbox mr-3 w-5 h-5 text-blue-400 border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" data-day="sunday">
+                                                <label for="sunday-enabled" class="text-sm font-semibold text-gray-100 cursor-pointer flex items-center">
+                                                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                                                     Domingo
                                                 </label>
                                             </div>
                                             <div class="schedule-times hidden">
-                                                <div class="bg-purple-50 rounded-xl p-3 space-y-3">
+                                                <div class="bg-blue-900 rounded-xl p-3 space-y-3">
                                                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 items-center">
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">De</span>
-                                                            <input type="time" id="sunday-start" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">De</span>
+                                                            <input type="time" id="sunday-start" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
                                                         <div class="flex items-center space-x-2">
-                                                            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">Hasta</span>
-                                                            <input type="time" id="sunday-end" class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 transition-all">
+                                                            <span class="text-xs font-medium text-gray-300 whitespace-nowrap">Hasta</span>
+                                                            <input type="time" id="sunday-end" class="w-full px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all">
                                                         </div>
-                                                        <label class="flex items-center justify-center bg-white rounded px-2 py-1 cursor-pointer hover:bg-gray-50 transition-colors text-xs">
-                                                            <input type="checkbox" id="sunday-break" class="mr-1 text-purple-600">
-                                                            <span class="font-medium text-gray-700 whitespace-nowrap">Con descanso</span>
+                                                        <label class="flex items-center justify-center bg-gray-600 rounded px-2 py-1 cursor-pointer hover:bg-gray-500 transition-colors text-xs">
+                                                            <input type="checkbox" id="sunday-break" class="mr-1 text-blue-400">
+                                                            <span class="font-medium text-gray-300 whitespace-nowrap">Con descanso</span>
                                                         </label>
                                                     </div>
                                                     <div class="break-times hidden">
-                                                        <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                                        <div class="bg-gray-700 rounded-lg p-3 border border-blue-600">
                                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">Descanso de</span>
-                                                                    <input type="time" id="sunday-break-start" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">Descanso de</span>
+                                                                    <input type="time" id="sunday-break-start" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                                 <div class="flex items-center space-x-2">
-                                                                    <span class="text-xs text-purple-700 whitespace-nowrap">hasta</span>
-                                                                    <input type="time" id="sunday-break-end" class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:border-purple-500">
+                                                                    <span class="text-xs text-blue-300 whitespace-nowrap">hasta</span>
+                                                                    <input type="time" id="sunday-break-end" class="flex-1 px-2 py-1 border border-gray-600 bg-gray-700 text-gray-100 rounded text-xs focus:border-blue-500">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -615,10 +620,10 @@
                                 </div>
                                 
                                 <!-- Quick Actions -->
-                                <div class="mt-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-4">
-                                    <p class="text-sm font-medium text-gray-700 mb-3">⚡ Acciones rápidas:</p>
+                                <div class="mt-6 bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl p-4">
+                                    <p class="text-sm font-medium text-gray-300 mb-3">⚡ Acciones rápidas:</p>
                                     <div class="flex flex-wrap gap-2">
-                                        <button type="button" id="selectWorkWeek" class="px-4 py-2 text-sm bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl hover:from-purple-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-md font-medium">
+                                        <button type="button" id="selectWorkWeek" class="px-4 py-2 text-sm bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-200 shadow-md font-medium">
                                             <i class="fas fa-briefcase mr-2"></i>
                                             Lun-Vie 9:00-18:00
                                         </button>
@@ -633,16 +638,19 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
+                        <!-- Website Section -->
+                        <div class="mt-8">
                             <div class="group">
-                                <label class="block text-sm font-semibold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-200">
-                                    <i class="fas fa-globe mr-2 text-purple-500"></i>
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-globe mr-2 text-blue-400"></i>
                                     Sitio web (opcional)
                                 </label>
                                 <input 
                                     type="url" 
                                     id="website"
-                                    class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 placeholder-gray-400 hover:border-purple-300 shadow-sm"
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm"
                                     placeholder="https://www.tupeluqueria.com"
                                 >
                             </div>
@@ -650,44 +658,48 @@
                     </div>
 
                     <!-- Terms and Privacy -->
-                    <div class="mt-12 p-6 bg-gradient-to-r from-purple-50 via-blue-50 to-pink-50 rounded-3xl border-2 border-white shadow-lg">
-                        <div class="flex items-start">
-                            <input 
-                                type="checkbox" 
-                                id="acceptTerms"
-                                required
-                                class="mt-1 h-6 w-6 text-purple-600 focus:ring-purple-500 focus:ring-4 border-2 border-gray-300 rounded-lg transition-all"
-                            >
-                            <div class="ml-4">
-                                <label for="acceptTerms" class="text-sm font-medium text-gray-800 cursor-pointer">
-                                    <i class="fas fa-shield-alt mr-2 text-purple-500"></i>
-                                    Acepto los <a href="#" class="text-purple-600 hover:text-purple-700 font-bold underline decoration-2 decoration-purple-300 hover:decoration-purple-500 transition-all">términos y condiciones</a> 
-                                    y la <a href="#" class="text-purple-600 hover:text-purple-700 font-bold underline decoration-2 decoration-purple-300 hover:decoration-purple-500 transition-all">política de privacidad</a> de PeluGo *
-                                </label>
+                    <div class="max-w-md mx-auto">
+                        <div class="p-6 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 rounded-3xl border-2 border-gray-600 shadow-lg">
+                            <div class="flex items-start">
+                                <input 
+                                    type="checkbox" 
+                                    id="acceptTerms"
+                                    required
+                                    class="mt-1 h-6 w-6 text-blue-400 focus:ring-blue-500 focus:ring-4 border-2 border-gray-600 rounded-lg transition-all"
+                                >
+                                <div class="ml-4">
+                                    <label for="acceptTerms" class="text-sm font-medium text-gray-300 cursor-pointer">
+                                        <i class="fas fa-shield-alt mr-2 text-blue-400"></i>
+                                        Acepto los <a href="#" class="text-blue-400 hover:text-blue-300 font-bold underline decoration-2 decoration-blue-300 hover:decoration-blue-500 transition-all">términos y condiciones</a> 
+                                        y la <a href="#" class="text-blue-400 hover:text-blue-300 font-bold underline decoration-2 decoration-blue-300 hover:decoration-blue-500 transition-all">política de privacidad</a> de PeluGo *
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="mt-10 space-y-6">
-                        <div class="text-center p-4 bg-blue-50 rounded-2xl border-2 border-blue-200">
-                            <div class="flex items-center justify-center mb-2">
-                                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
-                                    <i class="fas fa-info-circle text-white"></i>
+                    <div class="mt-10 space-y-6 mb-12 pb-8">
+                        <div class="max-w-md mx-auto">
+                            <div class="text-center p-4 bg-blue-900 rounded-2xl border-2 border-blue-700">
+                                <div class="flex items-center justify-center mb-2">
+                                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-info-circle text-white"></i>
+                                    </div>
+                                    <span class="text-sm font-semibold text-blue-300">Proceso de revisión</span>
                                 </div>
-                                <span class="text-sm font-semibold text-blue-800">Proceso de revisión</span>
+                                <p class="text-sm text-blue-200">
+                                    Una vez completado, tu perfil será revisado por nuestro equipo en menos de 24 horas
+                                </p>
                             </div>
-                            <p class="text-sm text-blue-700">
-                                Una vez completado, tu perfil será revisado por nuestro equipo en menos de 24 horas
-                            </p>
                         </div>
                         
-                        <div class="text-center">
+                        <div class="text-center mb-12">
                             <button 
                                 type="submit"
-                                class="group relative inline-flex items-center justify-center px-12 py-5 text-xl font-bold text-white bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 rounded-2xl hover:from-purple-700 hover:via-purple-800 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-300 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-purple-500/25"
+                                class="group relative inline-flex items-center justify-center px-12 py-5 text-xl font-bold text-white bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 rounded-2xl hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 overflow-hidden"
                             >
-                                <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
+                                <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none"></div>
                                 <i class="fas fa-rocket mr-3 text-xl"></i>
                                 <span>¡Lanzar mi Peluquería!</span>
                                 <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
@@ -696,30 +708,29 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-
-    <!-- Access Denied -->
-    <div id="accessDenied" class="hidden fixed inset-0 bg-white flex items-center justify-center z-50">
-        <div class="text-center max-w-md mx-4">
-            <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-ban text-4xl text-red-600"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Acceso Denegado</h2>
-            <p class="text-gray-600 mb-6">No tienes permisos para acceder a esta página o tu perfil ya está completo.</p>
-            <div class="space-y-3">
-                <a 
-                    href="auth.html"
-                    class="block bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-lg font-medium"
-                >
-                    Iniciar Sesión
-                </a>
-                <a 
-                    href="index.html"
-                    class="block bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium"
-                >
-                    Volver al Inicio
-                </a>
+            <!-- Access Denied -->
+            <div id="accessDenied" class="hidden fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+                <div class="text-center max-w-md mx-4">
+                    <div class="w-24 h-24 bg-red-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-ban text-4xl text-red-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Acceso Denegado</h2>
+                    <p class="text-gray-300 mb-6">No tienes permisos para acceder a esta página o tu perfil ya está completo.</p>
+                    <div class="space-y-3">
+                        <a 
+                            href="auth.html"
+                            class="block bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-6 py-3 rounded-lg font-medium"
+                        >
+                            Iniciar Sesión
+                        </a>
+                        <a 
+                            href="index.html"
+                            class="block bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium"
+                        >
+                            Volver al Inicio
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

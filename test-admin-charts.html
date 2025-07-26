@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Admin Charts - PeluGo</title>
+    <meta name="description" content="Prueba de gráficas del panel admin">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #374151;
+            border-radius: 50%;
+            border-top-color: #3b82f6;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold mb-2">📊 Test Admin Charts</h1>
+                <p class="text-gray-400">Prueba de gráficas del panel admin</p>
+            </div>
+
+            <!-- Test Controls -->
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-semibold mb-4">🎛️ Controles de Prueba</h2>
+                
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="testLoadCharts()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">
+                        <i class="fas fa-chart-line mr-2"></i>Cargar Gráficas
+                    </button>
+                    <button onclick="testCreateSampleData()" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg">
+                        <i class="fas fa-plus mr-2"></i>Crear Datos de Prueba
+                    </button>
+                    <button onclick="testRefreshCharts()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg">
+                        <i class="fas fa-sync-alt mr-2"></i>Actualizar Gráficas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <!-- Users Chart -->
+                <div class="bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-100 mb-4">Usuarios Registrados Mensuales</h3>
+                    <div class="relative h-64">
+                        <canvas id="usersMonthlyChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <div class="text-sm text-gray-400">
+                            <span id="usersChartTotal">0</span> usuarios registrados en total
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Salons Chart -->
+                <div class="bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-100 mb-4">Peluquerías Activas Mensuales</h3>
+                    <div class="relative h-64">
+                        <canvas id="salonsMonthlyChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <div class="text-sm text-gray-400">
+                            <span id="salonsChartTotal">0</span> peluquerías activas en total
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Display -->
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">📋 Datos de Prueba</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-medium mb-2">Usuarios de Prueba:</h3>
+                        <div id="testUsersData" class="bg-gray-900 p-4 rounded-lg text-sm max-h-48 overflow-y-auto">
+                            <div class="text-gray-500">No hay datos de usuarios</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium mb-2">Peluquerías de Prueba:</h3>
+                        <div id="testSalonsData" class="bg-gray-900 p-4 rounded-lg text-sm max-h-48 overflow-y-auto">
+                            <div class="text-gray-500">No hay datos de peluquerías</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logs -->
+            <div class="bg-gray-800 rounded-lg p-6 mt-6">
+                <h2 class="text-xl font-semibold mb-4">📝 Logs</h2>
+                <div id="logs" class="bg-gray-900 p-4 rounded-lg text-sm max-h-64 overflow-y-auto font-mono">
+                    <div class="text-gray-500">Esperando acciones...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
+        import { getFirestore, doc, getDoc, addDoc, collection, updateDoc, getDocs } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
+        import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+            authDomain: "pelugo-2025.firebaseapp.com",
+            projectId: "pelugo-2025",
+            storageBucket: "pelugo-2025.firebasestorage.app",
+            messagingSenderId: "588352402376",
+            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+            measurementId: "G-4J0EQTQTVS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        console.log('🔥 Firebase initialized for charts test');
+
+        // Global functions for testing
+        window.testLoadCharts = async () => {
+            log('📊 Cargando gráficas...');
+            
+            try {
+                // Get users monthly data
+                const usersMonthlyData = await getUsersMonthlyData();
+                createUsersMonthlyChart(usersMonthlyData);
+                log(`✅ Gráfica de usuarios creada: ${usersMonthlyData.total} usuarios total`);
+                
+                // Get salons monthly data
+                const salonsMonthlyData = await getSalonsMonthlyData();
+                createSalonsMonthlyChart(salonsMonthlyData);
+                log(`✅ Gráfica de peluquerías creada: ${salonsMonthlyData.total} peluquerías total`);
+                
+            } catch (error) {
+                log(`❌ Error cargando gráficas: ${error.message}`);
+            }
+        };
+
+        window.testCreateSampleData = async () => {
+            log('🔧 Creando datos de prueba...');
+            
+            try {
+                // Create sample users
+                const usersCreated = await createSampleUsers();
+                log(`✅ ${usersCreated} usuarios de prueba creados`);
+                
+                // Create sample salons
+                const salonsCreated = await createSampleSalons();
+                log(`✅ ${salonsCreated} peluquerías de prueba creadas`);
+                
+                // Update data display
+                await updateDataDisplay();
+                
+            } catch (error) {
+                log(`❌ Error creando datos de prueba: ${error.message}`);
+            }
+        };
+
+        window.testRefreshCharts = async () => {
+            log('🔄 Actualizando gráficas...');
+            await testLoadCharts();
+        };
+
+        // Get users monthly registration data
+        async function getUsersMonthlyData() {
+            try {
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // Group users by month
+                const monthlyData = {};
+                const currentDate = new Date();
+                const months = [];
+                
+                // Generate last 12 months
+                for (let i = 11; i >= 0; i--) {
+                    const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+                    const monthKey = date.toISOString().slice(0, 7); // YYYY-MM format
+                    const monthLabel = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+                    
+                    monthlyData[monthKey] = 0;
+                    months.push({ key: monthKey, label: monthLabel });
+                }
+                
+                // Count users by month
+                users.forEach(user => {
+                    if (user.createdAt) {
+                        let userDate;
+                        if (user.createdAt.seconds) {
+                            // Firestore timestamp
+                            userDate = new Date(user.createdAt.seconds * 1000);
+                        } else {
+                            userDate = new Date(user.createdAt);
+                        }
+                        
+                        const monthKey = userDate.toISOString().slice(0, 7);
+                        if (monthlyData.hasOwnProperty(monthKey)) {
+                            monthlyData[monthKey]++;
+                        }
+                    }
+                });
+                
+                // Prepare data for chart
+                const labels = months.map(m => m.label);
+                const data = months.map(m => monthlyData[m.key]);
+                const total = data.reduce((sum, count) => sum + count, 0);
+                
+                document.getElementById('usersChartTotal').textContent = total;
+                
+                return { labels, data, total };
+                
+            } catch (error) {
+                console.error('Error getting users monthly data:', error);
+                return { labels: [], data: [], total: 0 };
+            }
+        }
+
+        // Get salons monthly activation data
+        async function getSalonsMonthlyData() {
+            try {
+                const salonsSnapshot = await getDocs(collection(db, 'salons'));
+                const salons = salonsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // Group approved salons by month
+                const monthlyData = {};
+                const currentDate = new Date();
+                const months = [];
+                
+                // Generate last 12 months
+                for (let i = 11; i >= 0; i--) {
+                    const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+                    const monthKey = date.toISOString().slice(0, 7); // YYYY-MM format
+                    const monthLabel = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+                    
+                    monthlyData[monthKey] = 0;
+                    months.push({ key: monthKey, label: monthLabel });
+                }
+                
+                // Count approved salons by approval month
+                salons.forEach(salon => {
+                    if (salon.approved && salon.approvedAt) {
+                        let approvalDate;
+                        if (salon.approvedAt.seconds) {
+                            // Firestore timestamp
+                            approvalDate = new Date(salon.approvedAt.seconds * 1000);
+                        } else {
+                            approvalDate = new Date(salon.approvedAt);
+                        }
+                        
+                        const monthKey = approvalDate.toISOString().slice(0, 7);
+                        if (monthlyData.hasOwnProperty(monthKey)) {
+                            monthlyData[monthKey]++;
+                        }
+                    }
+                });
+                
+                // Prepare data for chart
+                const labels = months.map(m => m.label);
+                const data = months.map(m => monthlyData[m.key]);
+                const total = data.reduce((sum, count) => sum + count, 0);
+                
+                document.getElementById('salonsChartTotal').textContent = total;
+                
+                return { labels, data, total };
+                
+            } catch (error) {
+                console.error('Error getting salons monthly data:', error);
+                return { labels: [], data: [], total: 0 };
+            }
+        }
+
+        // Create sample users
+        async function createSampleUsers() {
+            const sampleUsers = [
+                { email: 'user1@test.com', name: 'Usuario Test 1' },
+                { email: 'user2@test.com', name: 'Usuario Test 2' },
+                { email: 'user3@test.com', name: 'Usuario Test 3' }
+            ];
+            
+            let created = 0;
+            
+            for (const userData of sampleUsers) {
+                try {
+                    // Create auth account
+                    const userCredential = await createUserWithEmailAndPassword(auth, userData.email, 'test123456');
+                    
+                    // Create Firestore document
+                    const userDoc = {
+                        uid: userCredential.user.uid,
+                        email: userData.email,
+                        displayName: userData.name,
+                        createdAt: new Date(),
+                        userType: 'user'
+                    };
+                    
+                    await addDoc(collection(db, 'users'), userDoc);
+                    created++;
+                    
+                } catch (error) {
+                    if (error.code === 'auth/email-already-in-use') {
+                        log(`⚠️ Usuario ${userData.email} ya existe`);
+                    } else {
+                        log(`❌ Error creando usuario ${userData.email}: ${error.message}`);
+                    }
+                }
+            }
+            
+            return created;
+        }
+
+        // Create sample salons
+        async function createSampleSalons() {
+            const sampleSalons = [
+                { email: 'salon1@test.com', name: 'Peluquería Test 1' },
+                { email: 'salon2@test.com', name: 'Peluquería Test 2' },
+                { email: 'salon3@test.com', name: 'Peluquería Test 3' }
+            ];
+            
+            let created = 0;
+            
+            for (const salonData of sampleSalons) {
+                try {
+                    // Create auth account
+                    const userCredential = await createUserWithEmailAndPassword(auth, salonData.email, 'test123456');
+                    
+                    // Create Firestore document
+                    const salonDoc = {
+                        uid: userCredential.user.uid,
+                        email: salonData.email,
+                        businessName: salonData.name,
+                        contactName: salonData.name,
+                        createdAt: new Date(),
+                        approved: true,
+                        approvedAt: new Date(),
+                        featured: false,
+                        rating: 0,
+                        reviewCount: 0,
+                        services: [],
+                        images: [],
+                        city: 'Madrid',
+                        address: 'Calle Test 123',
+                        phone: '123456789',
+                        description: 'Peluquería de prueba',
+                        profileStatus: 'approved'
+                    };
+                    
+                    await addDoc(collection(db, 'salons'), salonDoc);
+                    created++;
+                    
+                } catch (error) {
+                    if (error.code === 'auth/email-already-in-use') {
+                        log(`⚠️ Peluquería ${salonData.email} ya existe`);
+                    } else {
+                        log(`❌ Error creando peluquería ${salonData.email}: ${error.message}`);
+                    }
+                }
+            }
+            
+            return created;
+        }
+
+        // Update data display
+        async function updateDataDisplay() {
+            try {
+                // Get users
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                const usersHtml = users.map(user => 
+                    `<div class="text-gray-300">${user.displayName || user.email} - ${formatDate(user.createdAt)}</div>`
+                ).join('');
+                
+                document.getElementById('testUsersData').innerHTML = usersHtml || '<div class="text-gray-500">No hay usuarios</div>';
+                
+                // Get salons
+                const salonsSnapshot = await getDocs(collection(db, 'salons'));
+                const salons = salonsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                const salonsHtml = salons.map(salon => 
+                    `<div class="text-gray-300">${salon.businessName || salon.email} - ${salon.approved ? 'Aprobada' : 'Pendiente'} - ${formatDate(salon.createdAt)}</div>`
+                ).join('');
+                
+                document.getElementById('testSalonsData').innerHTML = salonsHtml || '<div class="text-gray-500">No hay peluquerías</div>';
+                
+            } catch (error) {
+                log(`❌ Error actualizando datos: ${error.message}`);
+            }
+        }
+
+        // Create users monthly chart
+        function createUsersMonthlyChart(chartData) {
+            const ctx = document.getElementById('usersMonthlyChart');
+            if (!ctx) return;
+            
+            // Destroy existing chart if it exists
+            if (window.usersMonthlyChart) {
+                window.usersMonthlyChart.destroy();
+            }
+            
+            window.usersMonthlyChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Usuarios Registrados',
+                        data: chartData.data,
+                        borderColor: 'rgb(147, 51, 234)',
+                        backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(147, 51, 234)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgb(147, 51, 234)',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.y} usuarios`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(156, 163, 175, 0.2)'
+                            },
+                            ticks: {
+                                color: '#9CA3AF',
+                                maxRotation: 45
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(156, 163, 175, 0.2)'
+                            },
+                            ticks: {
+                                color: '#9CA3AF',
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        // Create salons monthly chart
+        function createSalonsMonthlyChart(chartData) {
+            const ctx = document.getElementById('salonsMonthlyChart');
+            if (!ctx) return;
+            
+            // Destroy existing chart if it exists
+            if (window.salonsMonthlyChart) {
+                window.salonsMonthlyChart.destroy();
+            }
+            
+            window.salonsMonthlyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Peluquerías Activas',
+                        data: chartData.data,
+                        backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                        borderColor: 'rgb(34, 197, 94)',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                        hoverBackgroundColor: 'rgba(34, 197, 94, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgb(34, 197, 94)',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.y} peluquerías`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(156, 163, 175, 0.2)'
+                            },
+                            ticks: {
+                                color: '#9CA3AF',
+                                maxRotation: 45
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(156, 163, 175, 0.2)'
+                            },
+                            ticks: {
+                                color: '#9CA3AF',
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        // Helper functions
+        function log(message) {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `<span class="text-gray-500">[${timestamp}]</span> ${message}`;
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function formatDate(timestamp) {
+            if (!timestamp) return 'No disponible';
+            
+            try {
+                let date;
+                if (timestamp.seconds) {
+                    // Firestore timestamp
+                    date = new Date(timestamp.seconds * 1000);
+                } else {
+                    date = new Date(timestamp);
+                }
+                
+                return date.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch (error) {
+                return 'Fecha inválida';
+            }
+        }
+
+        log('✅ Test Admin Charts inicializado');
+        log('📝 Instrucciones:');
+        log('   1. Usa "Crear Datos de Prueba" para generar usuarios y peluquerías');
+        log('   2. Usa "Cargar Gráficas" para ver las gráficas con datos reales');
+        log('   3. Usa "Actualizar Gráficas" para refrescar los datos');
+    </script>
+</body>
+</html> 

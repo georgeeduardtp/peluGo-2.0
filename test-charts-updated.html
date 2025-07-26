@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Gráficas Actualizadas (Totales Acumulados)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .content {
+            padding: 30px;
+        }
+        .chart-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            background: #f9fafb;
+        }
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+        .total-display {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #059669;
+            margin: 15px 0;
+            padding: 10px;
+            background: #d1fae5;
+            border-radius: 8px;
+        }
+        .info-box {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .info-box h3 {
+            color: #1e40af;
+            margin-top: 0;
+        }
+        .info-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .info-box li {
+            margin: 5px 0;
+            color: #1e3a8a;
+        }
+        .test-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #2563eb;
+        }
+        .btn-success {
+            background: #059669;
+        }
+        .btn-success:hover {
+            background: #047857;
+        }
+        .loading {
+            text-align: center;
+            color: #6b7280;
+            font-style: italic;
+        }
+        .error {
+            color: #dc2626;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .success {
+            color: #059669;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Test - Gráficas Actualizadas</h1>
+            <p>Verificación de totales acumulados y período desde Julio 2025</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h3>📊 Cambios Implementados</h3>
+                <ul>
+                    <li><strong>Período:</strong> Desde Julio 2025 hasta el mes actual</li>
+                    <li><strong>Total Usuarios:</strong> Muestra el total acumulado de todos los usuarios registrados</li>
+                    <li><strong>Total Peluquerías:</strong> Muestra el total acumulado de todas las peluquerías aprobadas</li>
+                    <li><strong>Consistencia:</strong> Los totales ahora coinciden con las estadísticas generales</li>
+                </ul>
+            </div>
+
+            <div class="test-buttons">
+                <button class="btn" onclick="testUsersChart()">📈 Probar Gráfica Usuarios</button>
+                <button class="btn" onclick="testSalonsChart()">🏪 Probar Gráfica Peluquerías</button>
+                <button class="btn btn-success" onclick="testBothCharts()">🔄 Probar Ambas Gráficas</button>
+            </div>
+
+            <div id="results"></div>
+
+            <!-- Users Chart Section -->
+            <div class="chart-section">
+                <div class="chart-title">📈 Usuarios Registrados Mensuales</div>
+                <div class="total-display">
+                    Total Acumulado: <span id="usersChartTotal">0</span> usuarios
+                </div>
+                <div class="chart-container">
+                    <canvas id="usersMonthlyChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Salons Chart Section -->
+            <div class="chart-section">
+                <div class="chart-title">🏪 Peluquerías Activas Mensuales</div>
+                <div class="total-display">
+                    Total Acumulado: <span id="salonsChartTotal">0</span> peluquerías
+                </div>
+                <div class="chart-container">
+                    <canvas id="salonsMonthlyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration (simulated for testing)
+        const firebaseConfig = {
+            apiKey: "test-api-key",
+            authDomain: "test-project.firebaseapp.com",
+            projectId: "test-project",
+            storageBucket: "test-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "test-app-id"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Mock Firebase data for testing
+        const mockUsers = [
+            { createdAt: { seconds: 1735689600 } }, // Jan 2025
+            { createdAt: { seconds: 1738368000 } }, // Feb 2025
+            { createdAt: { seconds: 1740787200 } }, // Mar 2025
+            { createdAt: { seconds: 1743465600 } }, // Apr 2025
+            { createdAt: { seconds: 1746057600 } }, // May 2025
+            { createdAt: { seconds: 1748736000 } }, // Jun 2025
+            { createdAt: { seconds: 1751328000 } }, // Jul 2025
+            { createdAt: { seconds: 1754006400 } }, // Aug 2025
+            { createdAt: { seconds: 1756684800 } }, // Sep 2025
+            { createdAt: { seconds: 1759276800 } }, // Oct 2025
+            { createdAt: { seconds: 1761955200 } }, // Nov 2025
+            { createdAt: { seconds: 1764547200 } }, // Dec 2025
+        ];
+
+        const mockSalons = [
+            { approved: true, approvedAt: { seconds: 1751328000 } }, // Jul 2025
+            { approved: true, approvedAt: { seconds: 1754006400 } }, // Aug 2025
+            { approved: true, approvedAt: { seconds: 1756684800 } }, // Sep 2025
+            { approved: false }, // Not approved
+            { approved: true, approvedAt: { seconds: 1759276800 } }, // Oct 2025
+        ];
+
+        // Simulate Firebase API
+        window.FirebaseData = {
+            getCollection: async (collectionName) => {
+                if (collectionName === 'users') {
+                    return mockUsers;
+                } else if (collectionName === 'salons') {
+                    return mockSalons;
+                }
+                return [];
+            }
+        };
+
+        // Test functions
+        async function testUsersChart() {
+            showResult('🔄 Probando gráfica de usuarios...', 'info');
+            try {
+                const data = await getUsersMonthlyData();
+                createUsersMonthlyChart(data);
+                showResult(`✅ Gráfica de usuarios creada exitosamente. Total: ${data.total} usuarios`, 'success');
+            } catch (error) {
+                showResult(`❌ Error en gráfica de usuarios: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSalonsChart() {
+            showResult('🔄 Probando gráfica de peluquerías...', 'info');
+            try {
+                const data = await getSalonsMonthlyData();
+                createSalonsMonthlyChart(data);
+                showResult(`✅ Gráfica de peluquerías creada exitosamente. Total: ${data.total} peluquerías`, 'success');
+            } catch (error) {
+                showResult(`❌ Error en gráfica de peluquerías: ${error.message}`, 'error');
+            }
+        }
+
+        async function testBothCharts() {
+            showResult('🔄 Probando ambas gráficas...', 'info');
+            try {
+                const usersData = await getUsersMonthlyData();
+                const salonsData = await getSalonsMonthlyData();
+                
+                createUsersMonthlyChart(usersData);
+                createSalonsMonthlyChart(salonsData);
+                
+                showResult(`✅ Ambas gráficas creadas exitosamente. Usuarios: ${usersData.total}, Peluquerías: ${salonsData.total}`, 'success');
+            } catch (error) {
+                showResult(`❌ Error en las gráficas: ${error.message}`, 'error');
+            }
+        }
+
+        function showResult(message, type) {
+            const resultsDiv = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = message;
+            resultsDiv.appendChild(div);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                div.remove();
+            }, 5000);
+        }
+
+        // Copy the updated functions from admin.js
+        async function getUsersMonthlyData() {
+            try {
+                console.log('🔍 Fetching users data from Firestore...');
+                const users = await window.FirebaseData.getCollection('users');
+                console.log(`📊 Found ${users.length} users in database`);
+                
+                // Group users by month starting from July 2025
+                const monthlyData = {};
+                const startDate = new Date(2025, 6, 1); // July 2025 (month is 0-indexed)
+                const currentDate = new Date();
+                const months = [];
+                
+                // Generate 12 months from July 2025 (including future months)
+                let currentMonth = new Date(startDate);
+                for (let i = 0; i < 12; i++) {
+                    const monthKey = currentMonth.toISOString().slice(0, 7); // YYYY-MM format
+                    const monthLabel = currentMonth.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+                    
+                    monthlyData[monthKey] = 0;
+                    months.push({ key: monthKey, label: monthLabel });
+                    
+                    // Move to next month
+                    currentMonth.setMonth(currentMonth.getMonth() + 1);
+                }
+                
+                // Count users by month
+                let validUsers = 0;
+                users.forEach(user => {
+                    if (user.createdAt) {
+                        let userDate;
+                        try {
+                            if (user.createdAt.seconds) {
+                                // Firestore timestamp
+                                userDate = new Date(user.createdAt.seconds * 1000);
+                            } else {
+                                userDate = new Date(user.createdAt);
+                            }
+                            
+                            const monthKey = userDate.toISOString().slice(0, 7);
+                            if (monthlyData.hasOwnProperty(monthKey)) {
+                                monthlyData[monthKey]++;
+                                validUsers++;
+                            }
+                        } catch (dateError) {
+                            console.warn('⚠️ Invalid date for user:', user.email, dateError);
+                        }
+                    }
+                });
+                
+                console.log(`✅ Processed ${validUsers} users with valid dates`);
+                
+                // Prepare data for chart
+                const labels = months.map(m => m.label);
+                const data = months.map(m => monthlyData[m.key]);
+                
+                // Calculate cumulative total (all users ever registered)
+                const total = users.length;
+                
+                document.getElementById('usersChartTotal').textContent = total;
+                
+                return { labels, data, total };
+                
+            } catch (error) {
+                console.error('❌ Error getting users monthly data:', error);
+                // Return empty data structure with 12 months from July 2025
+                const startDate = new Date(2025, 6, 1); // July 2025
+                const months = [];
+                
+                let currentMonth = new Date(startDate);
+                for (let i = 0; i < 12; i++) {
+                    const monthLabel = currentMonth.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+                    months.push(monthLabel);
+                    currentMonth.setMonth(currentMonth.getMonth() + 1);
+                }
+                
+                return { labels: months, data: new Array(months.length).fill(0), total: 0 };
+            }
+        }
+
+        async function getSalonsMonthlyData() {
+            try {
+                console.log('🔍 Fetching salons data from Firestore...');
+                const salons = await window.FirebaseData.getCollection('salons');
+                console.log(`📊 Found ${salons.length} salons in database`);
+                
+                // Group approved salons by month starting from July 2025
+                const monthlyData = {};
+                const startDate = new Date(2025, 6, 1); // July 2025 (month is 0-indexed)
+                const currentDate = new Date();
+                const months = [];
+                
+                // Generate 12 months from July 2025 (including future months)
+                let currentMonth = new Date(startDate);
+                for (let i = 0; i < 12; i++) {
+                    const monthKey = currentMonth.toISOString().slice(0, 7); // YYYY-MM format
+                    const monthLabel = currentMonth.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+                    
+                    monthlyData[monthKey] = 0;
+                    months.push({ key: monthKey, label: monthLabel });
+                    
+                    // Move to next month
+                    currentMonth.setMonth(currentMonth.getMonth() + 1);
+                }
+                
+                // Count approved salons by approval month
+                let validSalons = 0;
+                salons.forEach(salon => {
+                    if (salon.approved && salon.approvedAt) {
+                        let approvalDate;
+                        try {
+                            if (salon.approvedAt.seconds) {
+                                // Firestore timestamp
+                                approvalDate = new Date(salon.approvedAt.seconds * 1000);
+                            } else {
+                                approvalDate = new Date(salon.approvedAt);
+                            }
+                            
+                            const monthKey = approvalDate.toISOString().slice(0, 7);
+                            if (monthlyData.hasOwnProperty(monthKey)) {
+                                monthlyData[monthKey]++;
+                                validSalons++;
+                            }
+                        } catch (dateError) {
+                            console.warn('⚠️ Invalid approval date for salon:', salon.businessName || salon.email, dateError);
+                        }
+                    }
+                });
+                
+                console.log(`✅ Processed ${validSalons} approved salons with valid approval dates`);
+                
+                // Prepare data for chart
+                const labels = months.map(m => m.label);
+                const data = months.map(m => monthlyData[m.key]);
+                
+                // Calculate cumulative total (all approved salons ever)
+                const approvedSalons = salons.filter(salon => salon.approved);
+                const total = approvedSalons.length;
+                
+                document.getElementById('salonsChartTotal').textContent = total;
+                
+                return { labels, data, total };
+                
+            } catch (error) {
+                console.error('❌ Error getting salons monthly data:', error);
+                // Return empty data structure with 12 months from July 2025
+                const startDate = new Date(2025, 6, 1); // July 2025
+                const months = [];
+                
+                let currentMonth = new Date(startDate);
+                for (let i = 0; i < 12; i++) {
+                    const monthLabel = currentMonth.toLocaleDateString('es-ES', { year: 'numeric', month: 'short' });
+                    months.push(monthLabel);
+                    currentMonth.setMonth(currentMonth.getMonth() + 1);
+                }
+                
+                return { labels: months, data: new Array(months.length).fill(0), total: 0 };
+            }
+        }
+
+        function createUsersMonthlyChart(chartData) {
+            const ctx = document.getElementById('usersMonthlyChart');
+            if (!ctx) {
+                console.error('❌ Canvas element for users chart not found');
+                return;
+            }
+            
+            // Check if Chart.js is available
+            if (typeof Chart === 'undefined') {
+                console.error('❌ Chart.js is not loaded');
+                return;
+            }
+            
+            // Destroy existing chart if it exists and is a valid Chart instance
+            if (window.usersMonthlyChart && typeof window.usersMonthlyChart.destroy === 'function') {
+                window.usersMonthlyChart.destroy();
+            }
+            
+            try {
+                window.usersMonthlyChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Usuarios Registrados',
+                            data: chartData.data,
+                            borderColor: 'rgb(147, 51, 234)',
+                            backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: 'rgb(147, 51, 234)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 7
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                borderColor: 'rgb(147, 51, 234)',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                displayColors: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.parsed.y} usuarios`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.2)'
+                                },
+                                ticks: {
+                                    color: '#9CA3AF',
+                                    maxRotation: 45
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.2)'
+                                },
+                                ticks: {
+                                    color: '#9CA3AF',
+                                    stepSize: 1
+                                }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        }
+                    }
+                });
+                
+                console.log('✅ Users monthly chart created successfully');
+                
+            } catch (error) {
+                console.error('❌ Error creating users monthly chart:', error);
+            }
+        }
+
+        function createSalonsMonthlyChart(chartData) {
+            const ctx = document.getElementById('salonsMonthlyChart');
+            if (!ctx) {
+                console.error('❌ Canvas element for salons chart not found');
+                return;
+            }
+            
+            // Check if Chart.js is available
+            if (typeof Chart === 'undefined') {
+                console.error('❌ Chart.js is not loaded');
+                return;
+            }
+            
+            // Destroy existing chart if it exists and is a valid Chart instance
+            if (window.salonsMonthlyChart && typeof window.salonsMonthlyChart.destroy === 'function') {
+                window.salonsMonthlyChart.destroy();
+            }
+            
+            try {
+                window.salonsMonthlyChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Peluquerías Aprobadas',
+                            data: chartData.data,
+                            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                            borderColor: 'rgb(59, 130, 246)',
+                            borderWidth: 2,
+                            borderRadius: 6,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                borderColor: 'rgb(59, 130, 246)',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                displayColors: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.parsed.y} peluquerías`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.2)'
+                                },
+                                ticks: {
+                                    color: '#9CA3AF',
+                                    maxRotation: 45
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.2)'
+                                },
+                                ticks: {
+                                    color: '#9CA3AF',
+                                    stepSize: 1
+                                }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        }
+                    }
+                });
+                
+                console.log('✅ Salons monthly chart created successfully');
+                
+            } catch (error) {
+                console.error('❌ Error creating salons monthly chart:', error);
+            }
+        }
+
+        // Auto-test on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testBothCharts();
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

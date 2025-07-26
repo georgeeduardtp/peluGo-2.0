@@ -1,5 +1,6 @@
 // PeluGo 2.0 - Main JavaScript
 
+
 // Wait for Firebase to be ready before starting
 if (window.firebaseReady) {
     initializeMain();
@@ -135,21 +136,9 @@ async function updateUIForLoggedUser(user) {
         const userInfo = await getUserRole(user.uid);
         console.log('👤 User info:', userInfo);
         
-        // Check if salon needs to complete profile
-        if (userInfo.role === 'salon' && userInfo.data) {
-            const profileStatus = userInfo.data.profileStatus || 'incomplete';
-            console.log('🏪 Salon profile status:', profileStatus);
-            
-            if (profileStatus === 'incomplete') {
-                console.log('🔄 Salon needs to complete profile, redirecting...');
-                window.location.href = 'complete-profile.html';
-                return;
-            } else if (profileStatus === 'pending_approval') {
-                console.log('⏳ Salon pending approval, redirecting to waiting page...');
-                window.location.href = 'salon-waiting.html';
-                return;
-            }
-        }
+        // FIXED: Remove automatic redirects that cause infinite loops
+        // The redirect logic is now handled properly in auth.js
+        // Only update UI here, don't redirect
         
         updateUserMenuInfo(user, userInfo);
         
@@ -306,29 +295,29 @@ function updateSalonMenuOptions(userData) {
     
     if (profileStatus === 'incomplete') {
         salonOptionsHTML = `
-            <a href="complete-profile.html" class="block px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 font-medium">
+            <a href="complete-profile.html" class="block px-4 py-2 text-sm text-purple-400 hover:bg-purple-900 font-medium">
                 <i class="fas fa-edit mr-2"></i>
                 Completar Perfil
             </a>
         `;
     } else if (profileStatus === 'pending_approval') {
         salonOptionsHTML = `
-            <a href="salon-waiting.html" class="block px-4 py-2 text-sm text-orange-600 hover:bg-orange-50 font-medium">
+            <a href="salon-waiting.html" class="block px-4 py-2 text-sm text-orange-400 hover:bg-orange-900 font-medium">
                 <i class="fas fa-clock mr-2"></i>
                 Estado de Aprobación
             </a>
         `;
     } else if (profileStatus === 'approved') {
         salonOptionsHTML = `
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
                 <i class="fas fa-store mr-2"></i>
                 Mi Peluquería
             </a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
                 <i class="fas fa-calendar-check mr-2"></i>
                 Reservas Recibidas
             </a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
                 <i class="fas fa-star mr-2"></i>
                 Reseñas
             </a>
@@ -347,7 +336,7 @@ function updateMobileUserOptions(role, userData = null) {
     
     if (role === 'admin') {
         optionsHTML = `
-            <a href="admin.html" class="block text-gray-700 font-medium py-2">
+            <a href="admin.html" class="block text-gray-300 font-medium py-2">
                 <i class="fas fa-crown mr-2"></i>Panel de Admin
             </a>
         `;
@@ -356,35 +345,35 @@ function updateMobileUserOptions(role, userData = null) {
         
         if (profileStatus === 'incomplete') {
             optionsHTML = `
-                <a href="complete-profile.html" class="block text-purple-600 font-medium py-2">
+                <a href="complete-profile.html" class="block text-purple-400 font-medium py-2">
                     <i class="fas fa-edit mr-2"></i>Completar Perfil
                 </a>
             `;
         } else if (profileStatus === 'pending_approval') {
             optionsHTML = `
-                <a href="salon-waiting.html" class="block text-orange-600 font-medium py-2">
+                <a href="salon-waiting.html" class="block text-orange-400 font-medium py-2">
                     <i class="fas fa-clock mr-2"></i>Estado de Aprobación
                 </a>
             `;
         } else if (profileStatus === 'approved') {
             optionsHTML = `
-                <a href="#" class="block text-gray-700 font-medium py-2">
+                <a href="#" class="block text-gray-300 font-medium py-2">
                     <i class="fas fa-store mr-2"></i>Mi Peluquería
                 </a>
-                <a href="#" class="block text-gray-700 py-2">
+                <a href="#" class="block text-gray-300 py-2">
                     <i class="fas fa-calendar-check mr-2"></i>Reservas Recibidas
                 </a>
-                <a href="#" class="block text-gray-700 py-2">
+                <a href="#" class="block text-gray-300 py-2">
                     <i class="fas fa-star mr-2"></i>Reseñas
                 </a>
             `;
         }
     } else {
         optionsHTML = `
-            <a href="#" class="block text-gray-700 py-2">
+            <a href="#" class="block text-gray-300 py-2">
                 <i class="fas fa-user mr-2"></i>Mi Perfil
             </a>
-            <a href="#" class="block text-gray-700 py-2">
+            <a href="#" class="block text-gray-300 py-2">
                 <i class="fas fa-calendar-alt mr-2"></i>Mis Reservas
             </a>
         `;
@@ -393,7 +382,7 @@ function updateMobileUserOptions(role, userData = null) {
     // Add common options only for non-admin users
     if (role !== 'admin') {
         optionsHTML += `
-            <a href="#" class="block text-gray-700 py-2">
+            <a href="#" class="block text-gray-300 py-2">
                 <i class="fas fa-cog mr-2"></i>Configuración
             </a>
         `;
@@ -500,25 +489,25 @@ function renderSalons(salons) {
     }
     
     const salonCards = salons.map(salon => `
-        <div class="salon-card bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer" data-city="${salon.city}">
+        <div class="salon-card bg-gray-800 rounded-2xl shadow-lg border border-gray-700 overflow-hidden cursor-pointer" data-city="${salon.city}">
             <div class="relative">
                 <img src="${salon.image}" alt="${salon.name}" class="w-full h-48 object-cover">
-                <div class="absolute top-4 right-4 bg-white bg-opacity-90 px-2 py-1 rounded-full">
+                <div class="absolute top-4 right-4 bg-gray-800 bg-opacity-90 px-2 py-1 rounded-full border border-gray-600">
                     <div class="star-rating">
                         ${generateStars(salon.rating)}
-                        <span class="ml-1 text-sm font-medium text-gray-700">${salon.rating}</span>
+                        <span class="ml-1 text-sm font-medium text-gray-300">${salon.rating}</span>
                     </div>
                 </div>
-                ${salon.featured ? '<div class="absolute top-4 left-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full text-xs font-bold">Destacada</div>' : ''}
+                ${salon.featured ? '<div class="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white px-3 py-1 rounded-full text-xs font-bold">Destacada</div>' : ''}
             </div>
             
             <div class="p-6">
                 <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-xl font-bold text-gray-900">${salon.name}</h3>
-                    <span class="text-purple-600 font-bold">${salon.price}</span>
+                    <h3 class="text-xl font-bold text-gray-100">${salon.name}</h3>
+                    <span class="text-blue-400 font-bold">${salon.price}</span>
                 </div>
                 
-                <div class="flex items-center text-gray-600 mb-3">
+                <div class="flex items-center text-gray-400 mb-3">
                     <i class="fas fa-map-marker-alt mr-1"></i>
                     <span>${salon.city}</span>
                     <span class="mx-2">•</span>
@@ -527,13 +516,13 @@ function renderSalons(salons) {
                 
                 <div class="flex flex-wrap gap-2 mb-4">
                     ${salon.services.map(service => `
-                        <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">
+                        <span class="bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-sm font-medium">
                             ${service}
                         </span>
                     `).join('')}
                 </div>
                 
-                <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                <button class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
                     Reservar ahora
                 </button>
             </div>
@@ -711,23 +700,23 @@ function showEmptyState() {
     grid.innerHTML = `
         <div class="col-span-full text-center py-16">
             <div class="max-w-md mx-auto">
-                <div class="w-24 h-24 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-store text-4xl text-purple-400"></i>
+                <div class="w-24 h-24 bg-gradient-to-r from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-store text-4xl text-blue-400"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                <h3 class="text-2xl font-bold text-gray-100 mb-4">
                     ¡Pronto tendremos peluquerías!
                 </h3>
-                <p class="text-gray-600 mb-6 leading-relaxed">
+                <p class="text-gray-400 mb-6 leading-relaxed">
                     Estamos trabajando para traerte las mejores peluquerías de España. 
                     Las peluquerías destacadas aparecerán aquí cuando nuestro equipo las apruebe.
                 </p>
                 <div class="space-y-3 text-sm text-gray-500">
                     <div class="flex items-center justify-center">
-                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                        <span>¿Tienes una peluquería? <a href="auth.html?tab=register&type=salon" class="text-purple-600 hover:text-purple-700 font-medium">Regístrala aquí</a></span>
+                        <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                        <span>¿Tienes una peluquería? <a href="auth.html?tab=register&type=salon" class="text-blue-400 hover:text-blue-300 font-medium">Regístrala aquí</a></span>
                     </div>
                     <div class="flex items-center justify-center">
-                        <i class="fas fa-bell text-blue-500 mr-2"></i>
+                        <i class="fas fa-bell text-blue-400 mr-2"></i>
                         <span>Te notificaremos cuando haya nuevas peluquerías</span>
                     </div>
                 </div>

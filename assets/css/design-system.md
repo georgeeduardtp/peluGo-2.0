@@ -8,32 +8,32 @@ Este documento explica cómo usar el sistema de variables CSS implementado en Pe
 
 ### 🌈 Colores
 
-#### Paleta Principal (Púrpura)
+#### Paleta Principal (Azul Oscuro)
 ```css
---color-primary-50   /* #f3e8ff - Más claro */
---color-primary-100  /* #e9d5ff */
---color-primary-200  /* #d8b4fe */
---color-primary-300  /* #c084fc */
---color-primary-400  /* #a855f7 */
---color-primary-500  /* #8b5cf6 - Base */
---color-primary-600  /* #7c3aed */
---color-primary-700  /* #6d28d9 */
---color-primary-800  /* #5b21b6 */
---color-primary-900  /* #4c1d95 - Más oscuro */
+--color-primary-50   /* #eff6ff - Más claro */
+--color-primary-100  /* #dbeafe */
+--color-primary-200  /* #bfdbfe */
+--color-primary-300  /* #93c5fd */
+--color-primary-400  /* #60a5fa */
+--color-primary-500  /* #1e40af - Base */
+--color-primary-600  /* #1d4ed8 */
+--color-primary-700  /* #1e3a8a */
+--color-primary-800  /* #1e293b */
+--color-primary-900  /* #0f172a - Más oscuro */
 ```
 
-#### Paleta Secundaria (Rosa)
+#### Paleta Secundaria (Azul Medio)
 ```css
---color-secondary-50   /* #fdf2f8 - Más claro */
---color-secondary-100  /* #fce7f3 */
---color-secondary-200  /* #fbcfe8 */
---color-secondary-300  /* #f9a8d4 */
---color-secondary-400  /* #f472b6 */
---color-secondary-500  /* #ec4899 - Base */
---color-secondary-600  /* #db2777 */
---color-secondary-700  /* #be185d */
---color-secondary-800  /* #9d174d */
---color-secondary-900  /* #831843 - Más oscuro */
+--color-secondary-50   /* #f0f9ff - Más claro */
+--color-secondary-100  /* #e0f2fe */
+--color-secondary-200  /* #bae6fd */
+--color-secondary-300  /* #7dd3fc */
+--color-secondary-400  /* #38bdf8 */
+--color-secondary-500  /* #0ea5e9 - Base */
+--color-secondary-600  /* #0284c7 */
+--color-secondary-700  /* #0369a1 */
+--color-secondary-800  /* #075985 */
+--color-secondary-900  /* #0c4a6e - Más oscuro */
 ```
 
 #### Colores de Estado
@@ -54,7 +54,7 @@ Este documento explica cómo usar el sistema de variables CSS implementado en Pe
 ### 🎨 Gradientes Predefinidos
 
 ```css
---gradient-primary        /* Gradiente principal púrpura → rosa */
+--gradient-primary        /* Gradiente principal azul oscuro → azul medio */
 --gradient-primary-hover  /* Gradiente para hover más oscuro */
 --gradient-primary-light  /* Gradiente suave para fondos */
 --gradient-hero          /* Gradiente para secciones hero */
@@ -154,8 +154,8 @@ Este documento explica cómo usar el sistema de variables CSS implementado en Pe
 
 ### Colores de Texto
 ```css
-.text-primary    /* Color púrpura principal */
-.text-secondary  /* Color rosa secundario */
+.text-primary    /* Color azul oscuro principal */
+.text-secondary  /* Color azul medio secundario */
 .text-success    /* Color verde de éxito */
 .text-error      /* Color rojo de error */
 .text-warning    /* Color amarillo de advertencia */
@@ -164,12 +164,12 @@ Este documento explica cómo usar el sistema de variables CSS implementado en Pe
 
 ### Fondos
 ```css
-.bg-primary      /* Fondo púrpura */
-.bg-secondary    /* Fondo rosa */
+.bg-primary      /* Fondo azul oscuro */
+.bg-secondary    /* Fondo azul medio */
 .bg-success      /* Fondo verde */
 .bg-error        /* Fondo rojo */
 .bg-warning      /* Fondo amarillo */
-.bg-info         /* Fondo azul */
+.bg-info         /* Fondo azul claro */
 ```
 
 ### Gradientes
@@ -318,9 +318,9 @@ Para cambiar la paleta de colores completa, solo modifica las variables en `:roo
 
 ```css
 :root {
-    /* Cambiar de púrpura a azul */
-    --color-primary-500: #3b82f6;
-    --color-primary-600: #2563eb;
+    /* Cambiar de azul a verde */
+    --color-primary-500: #059669;
+    --color-primary-600: #047857;
     /* etc... */
 }
 ```

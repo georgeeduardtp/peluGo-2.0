@@ -4,29 +4,29 @@
 
 /* ===== COLOR VARIABLES ===== */
 :root {
-  /* Brand Colors - Primary Palette */
-  --color-primary-50: #f3e8ff;
-  --color-primary-100: #e9d5ff;
-  --color-primary-200: #d8b4fe;
-  --color-primary-300: #c084fc;
-  --color-primary-400: #a855f7;
-  --color-primary-500: #8b5cf6;
-  --color-primary-600: #7c3aed;
-  --color-primary-700: #6d28d9;
-  --color-primary-800: #5b21b6;
-  --color-primary-900: #4c1d95;
+  /* Brand Colors - Primary Palette (Azul Oscuro) */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #1e40af;
+  --color-primary-600: #1d4ed8;
+  --color-primary-700: #1e3a8a;
+  --color-primary-800: #1e293b;
+  --color-primary-900: #0f172a;
 
-  /* Brand Colors - Secondary Palette (Pink) */
-  --color-secondary-50: #fdf2f8;
-  --color-secondary-100: #fce7f3;
-  --color-secondary-200: #fbcfe8;
-  --color-secondary-300: #f9a8d4;
-  --color-secondary-400: #f472b6;
-  --color-secondary-500: #ec4899;
-  --color-secondary-600: #db2777;
-  --color-secondary-700: #be185d;
-  --color-secondary-800: #9d174d;
-  --color-secondary-900: #831843;
+  /* Brand Colors - Secondary Palette (Azul Medio) */
+  --color-secondary-50: #f0f9ff;
+  --color-secondary-100: #e0f2fe;
+  --color-secondary-200: #bae6fd;
+  --color-secondary-300: #7dd3fc;
+  --color-secondary-400: #38bdf8;
+  --color-secondary-500: #0ea5e9;
+  --color-secondary-600: #0284c7;
+  --color-secondary-700: #0369a1;
+  --color-secondary-800: #075985;
+  --color-secondary-900: #0c4a6e;
 
   /* Neutral Colors */
   --color-gray-50: #f9fafb;
@@ -141,8 +141,8 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-primary: 0 10px 25px rgba(139, 92, 246, 0.3);
-  --shadow-secondary: 0 10px 25px rgba(236, 72, 153, 0.3);
+  --shadow-primary: 0 10px 25px rgba(30, 64, 175, 0.3);
+  --shadow-secondary: 0 10px 25px rgba(14, 165, 233, 0.3);
 
   /* ===== TRANSITION VARIABLES ===== */
   --transition-fast: all 0.15s ease;
@@ -185,8 +185,8 @@
 /* High Contrast Mode Variables */
 @media (prefers-contrast: high) {
   :root {
-    --color-primary-500: #4c1d95;
-    --color-secondary-500: #831843;
+    --color-primary-500: #0f172a;
+    --color-secondary-500: #0c4a6e;
     --border-primary: var(--color-gray-900);
     --border-secondary: var(--color-gray-800);
   }
@@ -267,7 +267,8 @@
 
 .salon-card:hover {
     transform: translateY(-8px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+    border-color: #3b82f6;
 }
 
 /* Loading animation */
@@ -388,7 +389,7 @@ a:focus {
 
 .input:focus {
     border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
 }
 
 .card {

@@ -14,26 +14,58 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Configuration (must be loaded before other scripts) -->
+    <script src="assets/js/config.js"></script>
+    
+    <style>
+        /* Auth tab styles for dark theme */
+        .auth-tab {
+            @apply text-gray-400 font-medium;
+        }
+        
+        .auth-tab.active {
+            @apply bg-blue-600 text-white;
+        }
+        
+        .auth-tab:not(.active):hover {
+            @apply text-gray-300;
+        }
+        
+        /* Loading animation for dark theme */
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #374151;
+            border-radius: 50%;
+            border-top-color: #3b82f6;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-900 min-h-screen">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
+    <nav class="bg-gray-800 shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="index.html" class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center">
                             <i class="fas fa-cut text-white text-sm"></i>
                         </div>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
                             PeluGo
                         </span>
                     </a>
                 </div>
                 
                 <!-- Back to Home -->
-                <a href="index.html" class="text-gray-700 hover:text-purple-600 transition-colors">
+                <a href="index.html" class="text-gray-300 hover:text-blue-400 transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Volver al inicio
                 </a>
@@ -45,8 +77,8 @@
     <div class="max-w-md mx-auto mt-8 p-6">
         
         <!-- Auth Toggle Buttons -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-            <div class="flex bg-gray-100 rounded-lg p-1 mb-6">
+        <div class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700 p-6 mb-6">
+            <div class="flex bg-gray-700 rounded-lg p-1 mb-6">
                 <button id="loginTab" class="auth-tab active flex-1 py-2 px-4 text-center rounded-md transition-colors">
                     Iniciar Sesión
                 </button>
@@ -58,26 +90,26 @@
             <!-- Login Form -->
             <form id="loginForm" class="auth-form">
                 <div class="text-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">¡Bienvenido de vuelta!</h2>
-                    <p class="text-gray-600">Inicia sesión en tu cuenta</p>
+                    <h2 class="text-2xl font-bold text-gray-100 mb-2">¡Bienvenido de vuelta!</h2>
+                    <p class="text-gray-400">Inicia sesión en tu cuenta</p>
                 </div>
 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Email
                         </label>
                         <input 
                             type="email" 
                             id="loginEmail"
                             required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-gray-100 placeholder-gray-400"
                             placeholder="tu@email.com"
                         >
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Contraseña
                         </label>
                         <div class="relative">
@@ -85,12 +117,12 @@
                                 type="password" 
                                 id="loginPassword"
                                 required
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-12"
+                                class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12 bg-gray-700 text-gray-100 placeholder-gray-400"
                                 placeholder="Tu contraseña"
                             >
                             <button 
                                 type="button"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
                                 onclick="togglePassword('loginPassword')"
                             >
                                 <i class="fas fa-eye"></i>
@@ -100,7 +132,7 @@
 
                     <button 
                         type="submit" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+                        class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
                     >
                         <i class="fas fa-sign-in-alt mr-2"></i>
                         Iniciar Sesión
@@ -108,7 +140,7 @@
                 </div>
 
                 <div class="mt-4 text-center">
-                    <a href="#" class="text-purple-600 hover:text-purple-700 text-sm">
+                    <a href="#" class="text-blue-400 hover:text-blue-300 text-sm">
                         ¿Olvidaste tu contraseña?
                     </a>
                 </div>
@@ -117,15 +149,15 @@
             <!-- Register Form -->
             <form id="registerForm" class="auth-form hidden">
                 <div class="text-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Crear cuenta</h2>
-                    <p class="text-gray-600">Elige tu tipo de cuenta</p>
+                    <h2 class="text-2xl font-bold text-gray-100 mb-2">Crear cuenta</h2>
+                    <p class="text-gray-400">Elige tu tipo de cuenta</p>
                 </div>
 
                 <!-- Info Message -->
-                <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div class="mb-6 bg-blue-900 border border-blue-700 rounded-lg p-4">
                     <div class="flex">
-                        <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
-                        <div class="text-sm text-blue-800">
+                        <i class="fas fa-info-circle text-blue-400 mt-1 mr-3"></i>
+                        <div class="text-sm text-blue-200">
                             <p class="font-medium mb-1">Registro de usuarios</p>
                             <p>Esta página es para registro de usuarios que buscan servicios de peluquería. Si eres propietario de una peluquería, contacta con el administrador para dar de alta tu negocio.</p>
                         </div>
@@ -138,20 +170,20 @@
                 <!-- Common Fields -->
                 <div id="commonFields" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Email
                         </label>
                         <input 
                             type="email" 
                             id="registerEmail"
                             required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-gray-100 placeholder-gray-400"
                             placeholder="tu@email.com"
                         >
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Contraseña
                         </label>
                         <div class="relative">
@@ -160,12 +192,12 @@
                                 id="registerPassword"
                                 required
                                 minlength="6"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-12"
+                                class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12 bg-gray-700 text-gray-100 placeholder-gray-400"
                                 placeholder="Mínimo 6 caracteres"
                             >
                             <button 
                                 type="button"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
                                 onclick="togglePassword('registerPassword')"
                             >
                                 <i class="fas fa-eye"></i>
@@ -177,51 +209,51 @@
                 <!-- User Fields (always shown) -->
                 <div id="userFields" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Nombre completo
                         </label>
                         <input 
                             type="text" 
                             id="userName"
                             required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-gray-100 placeholder-gray-400"
                             placeholder="Tu nombre completo"
                         >
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Teléfono
                         </label>
                         <input 
                             type="tel" 
                             id="userPhone"
                             required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-gray-100 placeholder-gray-400"
                             placeholder="+34 123 456 789"
                         >
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Ciudad (opcional)
                         </label>
                         <select 
                             id="userCity"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-gray-100"
                         >
-                            <option value="">Selecciona tu ciudad</option>
-                            <option value="Madrid">Madrid</option>
-                            <option value="Barcelona">Barcelona</option>
-                            <option value="Valencia">Valencia</option>
-                            <option value="Sevilla">Sevilla</option>
-                            <option value="Bilbao">Bilbao</option>
-                            <option value="Málaga">Málaga</option>
-                            <option value="Zaragoza">Zaragoza</option>
-                            <option value="Murcia">Murcia</option>
-                            <option value="Las Palmas">Las Palmas</option>
-                            <option value="Palma">Palma</option>
-                            <option value="Otras">Otras</option>
+                            <option value="" class="bg-gray-700 text-gray-100">Selecciona tu ciudad</option>
+                            <option value="Madrid" class="bg-gray-700 text-gray-100">Madrid</option>
+                            <option value="Barcelona" class="bg-gray-700 text-gray-100">Barcelona</option>
+                            <option value="Valencia" class="bg-gray-700 text-gray-100">Valencia</option>
+                            <option value="Sevilla" class="bg-gray-700 text-gray-100">Sevilla</option>
+                            <option value="Bilbao" class="bg-gray-700 text-gray-100">Bilbao</option>
+                            <option value="Málaga" class="bg-gray-700 text-gray-100">Málaga</option>
+                            <option value="Zaragoza" class="bg-gray-700 text-gray-100">Zaragoza</option>
+                            <option value="Murcia" class="bg-gray-700 text-gray-100">Murcia</option>
+                            <option value="Las Palmas" class="bg-gray-700 text-gray-100">Las Palmas</option>
+                            <option value="Palma" class="bg-gray-700 text-gray-100">Palma</option>
+                            <option value="Otras" class="bg-gray-700 text-gray-100">Otras</option>
                         </select>
                     </div>
                 </div>
@@ -233,20 +265,20 @@
                             type="checkbox" 
                             id="acceptTerms"
                             required
-                            class="mt-1 mr-3 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                            class="mt-1 mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded bg-gray-700"
                         >
-                        <span class="text-sm text-gray-600">
+                        <span class="text-sm text-gray-400">
                             Acepto los 
-                            <a href="#" class="text-purple-600 hover:text-purple-700">términos y condiciones</a> 
+                            <a href="#" class="text-blue-400 hover:text-blue-300">términos y condiciones</a> 
                             y la 
-                            <a href="#" class="text-purple-600 hover:text-purple-700">política de privacidad</a>
+                            <a href="#" class="text-blue-400 hover:text-blue-300">política de privacidad</a>
                         </span>
                     </label>
                 </div>
 
                 <button 
                     type="submit" 
-                    class="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+                    class="w-full mt-6 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
                 >
                     <i class="fas fa-user-plus mr-2"></i>
                     Crear cuenta
@@ -256,12 +288,12 @@
 
         <!-- Loading Modal -->
         <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+            <div class="bg-gray-800 rounded-lg p-6 max-w-sm mx-4 border border-gray-700">
                 <div class="flex items-center">
                     <div class="loading mr-4"></div>
                     <div>
-                        <div class="font-medium text-gray-900" id="loadingText">Procesando...</div>
-                        <div class="text-sm text-gray-600" id="loadingSubtext">Por favor espera</div>
+                        <div class="font-medium text-gray-100" id="loadingText">Procesando...</div>
+                        <div class="text-sm text-gray-400" id="loadingSubtext">Por favor espera</div>
                     </div>
                 </div>
             </div>
@@ -269,16 +301,16 @@
 
         <!-- Success Modal -->
         <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+            <div class="bg-gray-800 rounded-lg p-6 max-w-sm mx-4 border border-gray-700">
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-check text-2xl text-green-600"></i>
+                    <div class="w-16 h-16 bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check text-2xl text-green-400"></i>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2" id="successTitle">¡Éxito!</h3>
-                    <p class="text-gray-600 mb-4" id="successMessage">Operación completada correctamente</p>
+                    <h3 class="text-lg font-medium text-gray-100 mb-2" id="successTitle">¡Éxito!</h3>
+                    <p class="text-gray-400 mb-4" id="successMessage">Operación completada correctamente</p>
                     <button 
                         onclick="closeSuccessModal()"
-                        class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+                        class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-6 py-2 rounded-lg font-medium transition-colors"
                     >
                         Continuar
                     </button>
@@ -288,13 +320,13 @@
 
         <!-- Error Modal -->
         <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+            <div class="bg-gray-800 rounded-lg p-6 max-w-sm mx-4 border border-gray-700">
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-exclamation-triangle text-2xl text-red-600"></i>
+                    <div class="w-16 h-16 bg-red-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-exclamation-triangle text-2xl text-red-400"></i>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">Error</h3>
-                    <p class="text-gray-600 mb-4" id="errorMessage">Ha ocurrido un error</p>
+                    <h3 class="text-lg font-medium text-gray-100 mb-2">Error</h3>
+                    <p class="text-gray-400 mb-4" id="errorMessage">Ha ocurrido un error</p>
                     <button 
                         onclick="closeErrorModal()"
                         class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"

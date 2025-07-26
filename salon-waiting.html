@@ -15,94 +15,96 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-gradient-to-br from-purple-50 to-pink-50 min-h-screen">
+<body class="bg-gray-900 min-h-screen">
     
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="index.html" class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                            <i class="fas fa-cut text-white text-sm"></i>
+    <!-- Main Content -->
+    <div id="waitingContent" class="hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            
+            <!-- Navigation -->
+            <nav class="bg-gray-800 shadow-lg sticky top-0 z-50 mb-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Logo -->
+                        <div class="flex items-center">
+                            <a href="index.html" class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-cut text-white text-sm"></i>
+                                </div>
+                                <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                                    PeluGo
+                                </span>
+                            </a>
+                            <span class="ml-3 bg-orange-900 text-orange-300 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                PENDIENTE APROBACIÓN
+                            </span>
                         </div>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                            PeluGo
-                        </span>
-                    </a>
-                    <span class="ml-3 bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                        PENDIENTE APROBACIÓN
-                    </span>
-                </div>
 
-                <!-- User Info -->
-                <div class="flex items-center space-x-4">
-                    <div id="salonInfo" class="text-sm text-gray-700">
-                        <span>Cargando...</span>
+                        <!-- User Info -->
+                        <div class="flex items-center space-x-4">
+                            <div id="salonInfo" class="text-sm text-gray-300">
+                                <span>Cargando...</span>
+                            </div>
+                            <button 
+                                id="logoutBtn"
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                            >
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                Cerrar sesión
+                            </button>
+                        </div>
                     </div>
-                    <button 
-                        id="logoutBtn"
-                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                    >
-                        <i class="fas fa-sign-out-alt mr-2"></i>
-                        Cerrar sesión
-                    </button>
+                </div>
+            </nav>
+
+            <!-- Loading Screen -->
+            <div id="loadingScreen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+                <div class="text-center">
+                    <div class="loading mb-4 mx-auto"></div>
+                    <p class="text-gray-400">Verificando estado...</p>
                 </div>
             </div>
-        </div>
-    </nav>
-
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 bg-white flex items-center justify-center z-50">
-        <div class="text-center">
-            <div class="loading mb-4 mx-auto"></div>
-            <p class="text-gray-600">Verificando estado...</p>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div id="waitingContent" class="hidden">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             
             <!-- Status Header -->
             <div class="text-center mb-12">
-                <div class="w-24 h-24 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-                    <i class="fas fa-clock text-white text-4xl"></i>
+                <div class="w-24 h-24 bg-gradient-to-r from-blue-700 to-blue-800 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300 animate-pulse">
+                    <i class="fas fa-clock text-white text-3xl"></i>
                 </div>
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">¡Tu perfil está siendo revisado!</h1>
-                <p class="text-xl text-gray-600 mb-6">
+                <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-4">
+                    ¡Tu perfil está siendo revisado!
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                     Nuestro equipo está verificando la información de tu peluquería
                 </p>
                 
                 <!-- Progress Steps -->
-                <div class="flex justify-center items-center space-x-4 mb-8">
+                <div class="flex justify-center items-center space-x-2 mb-8 bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg max-w-4xl mx-auto border border-gray-600">
                     <div class="flex items-center">
-                        <div class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                        <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-medium shadow-lg">
                             <i class="fas fa-check"></i>
                         </div>
-                        <span class="ml-2 text-sm font-medium text-green-600">Cuenta creada</span>
+                        <span class="ml-3 text-sm font-semibold text-green-400">Cuenta creada</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-green-500"></div>
+                    <div class="w-12 h-0.5 bg-gradient-to-r from-green-500 to-blue-500"></div>
                     <div class="flex items-center">
-                        <div class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                        <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-medium shadow-lg">
                             <i class="fas fa-check"></i>
                         </div>
-                        <span class="ml-2 text-sm font-medium text-green-600">Perfil completado</span>
+                        <span class="ml-3 text-sm font-semibold text-green-400">Perfil completado</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-yellow-400"></div>
+                    <div class="w-12 h-0.5 bg-gradient-to-r from-green-500 to-blue-500"></div>
                     <div class="flex items-center">
-                        <div class="w-8 h-8 bg-yellow-400 text-white rounded-full flex items-center justify-center text-sm font-medium animate-pulse">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-full flex items-center justify-center text-sm font-medium shadow-lg animate-pulse">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <span class="ml-2 text-sm font-medium text-yellow-600">En revisión</span>
+                        <span class="ml-3 text-sm font-semibold text-blue-400">En revisión</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-gray-300"></div>
+                    <div class="w-12 h-0.5 bg-gray-600"></div>
                     <div class="flex items-center">
-                        <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium">
+                        <div class="w-10 h-10 bg-gray-600 text-gray-400 rounded-full flex items-center justify-center text-sm font-medium">
                             4
                         </div>
-                        <span class="ml-2 text-sm font-medium text-gray-500">¡En línea!</span>
+                        <span class="ml-3 text-sm font-medium text-gray-400">¡En línea!</span>
                     </div>
                 </div>
             </div>
@@ -111,67 +113,67 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 
                 <!-- What's Happening Card -->
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-600">
                     <div class="flex items-center mb-6">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-search text-blue-600 text-xl"></i>
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-search text-white text-xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 ml-4">¿Qué está pasando?</h3>
+                        <h3 class="text-2xl font-bold text-gray-100 ml-4">¿Qué está pasando?</h3>
                     </div>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         <div class="flex items-start">
-                            <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-1 mr-3">
-                                <i class="fas fa-check text-green-600 text-xs"></i>
+                            <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mt-1 mr-4">
+                                <i class="fas fa-check text-white text-sm"></i>
                             </div>
                             <div>
-                                <p class="font-medium text-gray-900">Verificación de datos</p>
-                                <p class="text-sm text-gray-600">Confirmamos que tu información sea correcta y completa</p>
+                                <p class="font-semibold text-gray-100 text-lg">Verificación de datos</p>
+                                <p class="text-gray-300">Confirmamos que tu información sea correcta y completa</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start">
-                            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-1 mr-3 animate-pulse">
-                                <i class="fas fa-clock text-blue-600 text-xs"></i>
+                            <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center mt-1 mr-4 animate-pulse">
+                                <i class="fas fa-clock text-white text-sm"></i>
                             </div>
                             <div>
-                                <p class="font-medium text-gray-900">Revisión de calidad</p>
-                                <p class="text-sm text-gray-600">Nos aseguramos de que cumples con nuestros estándares</p>
+                                <p class="font-semibold text-gray-100 text-lg">Revisión de calidad</p>
+                                <p class="text-gray-300">Nos aseguramos de que cumples con nuestros estándares</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start">
-                            <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mt-1 mr-3">
-                                <i class="fas fa-star text-gray-400 text-xs"></i>
+                            <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mt-1 mr-4">
+                                <i class="fas fa-star text-gray-400 text-sm"></i>
                             </div>
                             <div>
-                                <p class="font-medium text-gray-900">Configuración del perfil</p>
-                                <p class="text-sm text-gray-600">Preparamos tu perfil para que luzca increíble</p>
+                                <p class="font-semibold text-gray-100 text-lg">Configuración del perfil</p>
+                                <p class="text-gray-300">Preparamos tu perfil para que luzca increíble</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Timeline Card -->
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-600">
                     <div class="flex items-center mb-6">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-calendar-alt text-purple-600 text-xl"></i>
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calendar-alt text-white text-xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 ml-4">Tiempo estimado</h3>
+                        <h3 class="text-2xl font-bold text-gray-100 ml-4">Tiempo estimado</h3>
                     </div>
                     
                     <div class="text-center">
-                        <div class="text-4xl font-bold text-purple-600 mb-2">24-48</div>
-                        <div class="text-lg text-gray-600 mb-4">horas</div>
-                        <p class="text-sm text-gray-500">Tiempo típico de revisión</p>
+                        <div class="text-5xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-2">24-48</div>
+                        <div class="text-xl text-gray-300 mb-4">horas</div>
+                        <p class="text-gray-400">Tiempo típico de revisión</p>
                     </div>
                     
-                    <div class="mt-8 p-4 bg-blue-50 rounded-lg">
+                    <div class="mt-8 p-6 bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl border border-blue-700">
                         <div class="flex items-start">
-                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                            <i class="fas fa-info-circle text-blue-300 mt-1 mr-3 text-lg"></i>
                             <div>
-                                <p class="text-sm text-blue-800">
+                                <p class="text-sm text-blue-200">
                                     <strong>Te notificaremos por email</strong> cuando tu peluquería sea aprobada y esté lista para recibir clientes.
                                 </p>
                             </div>
@@ -181,44 +183,47 @@
             </div>
 
             <!-- Profile Summary -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-                <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                    <i class="fas fa-file-alt text-gray-400 mr-3"></i>
+            <div class="bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-600 mb-8">
+                <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-file-alt text-white text-sm"></i>
+                    </div>
                     Resumen de tu perfil enviado
                 </h3>
                 
                 <div id="profileSummary" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="text-center py-8 text-gray-500 col-span-full">
+                    <div class="text-center py-8 text-gray-400 col-span-full">
                         <div class="loading mx-auto mb-4"></div>
-                        <p>Cargando información del perfil...</p>
+                        <p class="text-gray-300">Cargando información del perfil...</p>
                     </div>
                 </div>
             </div>
 
             <!-- Actions -->
             <div class="text-center">
-                <div class="space-y-4">
+                <div class="space-y-6">
                     <div class="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-4">
                         <button 
                             id="refreshStatusBtn"
-                            class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+                            class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 rounded-2xl hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 overflow-hidden"
                         >
-                            <i class="fas fa-sync-alt mr-2"></i>
-                            Actualizar Estado
+                            <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none"></div>
+                            <i class="fas fa-sync-alt mr-3"></i>
+                            <span>Actualizar Estado</span>
                         </button>
                         
                         <a 
                             href="index.html"
-                            class="px-6 py-3 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-medium transition-colors"
+                            class="px-8 py-4 border-2 border-gray-600 hover:border-blue-400 bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white rounded-2xl font-medium transition-all duration-300"
                         >
-                            <i class="fas fa-home mr-2"></i>
+                            <i class="fas fa-home mr-3"></i>
                             Ir al Inicio
                         </a>
                     </div>
                     
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-gray-400">
                         ¿Tienes alguna pregunta? 
-                        <a href="mailto:soporte@pelugo.es" class="text-purple-600 hover:text-purple-700 font-medium">
+                        <a href="mailto:soporte@pelugo.es" class="text-blue-400 hover:text-blue-300 font-medium underline decoration-2 decoration-blue-400 hover:decoration-blue-300 transition-all">
                             Contáctanos
                         </a>
                     </p>
@@ -228,17 +233,17 @@
     </div>
 
     <!-- Access Denied -->
-    <div id="accessDenied" class="hidden fixed inset-0 bg-white flex items-center justify-center z-50">
+    <div id="accessDenied" class="hidden fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
         <div class="text-center max-w-md mx-4">
-            <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-ban text-4xl text-red-600"></i>
+            <div class="w-24 h-24 bg-red-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-ban text-4xl text-red-400"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Acceso Denegado</h2>
-            <p class="text-gray-600 mb-6">No tienes permisos para acceder a esta página.</p>
+            <h2 class="text-2xl font-bold text-gray-100 mb-4">Acceso Denegado</h2>
+            <p class="text-gray-300 mb-6">No tienes permisos para acceder a esta página.</p>
             <div class="space-y-3">
                 <a 
                     href="auth.html"
-                    class="block bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-lg font-medium"
+                    class="block bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-6 py-3 rounded-lg font-medium"
                 >
                     Iniciar Sesión
                 </a>

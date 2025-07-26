@@ -25,15 +25,15 @@ Se ha implementado un **sistema de variables CSS completo** para PeluGo 2.0 que 
 
 ### Colores Principales
 ```css
-/* Púrpura (Primary) */
---color-primary-500: #8b5cf6;  /* Color base */
---color-primary-600: #7c3aed;  /* Hover */
---color-primary-700: #6d28d9;  /* Active */
+/* Azul Oscuro (Primary) */
+--color-primary-500: #1e40af;  /* Color base */
+--color-primary-600: #1d4ed8;  /* Hover */
+--color-primary-700: #1e3a8a;  /* Active */
 
-/* Rosa (Secondary) */
---color-secondary-500: #ec4899; /* Color base */
---color-secondary-600: #db2777; /* Hover */
---color-secondary-700: #be185d; /* Active */
+/* Azul Medio (Secondary) */
+--color-secondary-500: #0ea5e9; /* Color base */
+--color-secondary-600: #0284c7; /* Hover */
+--color-secondary-700: #0369a1; /* Active */
 ```
 
 ### Gradientes Inteligentes
@@ -118,12 +118,12 @@ Se ha implementado un **sistema de variables CSS completo** para PeluGo 2.0 que 
 ## 📐 Variables Disponibles
 
 ### 🌈 Colores
-- `--color-primary-[50-900]` - Escala púrpura
-- `--color-secondary-[50-900]` - Escala rosa  
+- `--color-primary-[50-900]` - Escala azul oscuro
+- `--color-secondary-[50-900]` - Escala azul medio  
 - `--color-success-[50-900]` - Verde
 - `--color-error-[50-900]` - Rojo
 - `--color-warning-[50-900]` - Amarillo
-- `--color-info-[50-900]` - Azul
+- `--color-info-[50-900]` - Azul claro
 - `--color-gray-[50-900]` - Escala de grises
 
 ### 🎨 Gradientes
@@ -146,8 +146,8 @@ Se ha implementado un **sistema de variables CSS completo** para PeluGo 2.0 que 
 
 ### 🌫️ Sombras
 - `--shadow-sm` → `--shadow-2xl`
-- `--shadow-primary` - Sombra púrpura
-- `--shadow-secondary` - Sombra rosa
+- `--shadow-primary` - Sombra azul oscuro
+- `--shadow-secondary` - Sombra azul medio
 
 ### ⚡ Transiciones
 - `--transition-fast` (150ms)
@@ -180,7 +180,7 @@ button:focus, input:focus, a:focus {
 ### Antes (hardcoded)
 ```css
 .my-button {
-    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+    background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
     color: white;
     padding: 8px 24px;
     border-radius: 8px;
@@ -240,7 +240,7 @@ button:focus, input:focus, a:focus {
 ```css
 /* Todas las variables aparecen en DevTools */
 :root {
-    --color-primary-500: #8b5cf6; /* ← Visible en inspector */
+    --color-primary-500: #1e40af; /* ← Visible en inspector */
 }
 ```
 

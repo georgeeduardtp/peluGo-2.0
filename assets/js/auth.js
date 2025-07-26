@@ -417,7 +417,7 @@ async function getUserRole(uid) {
         const adminDoc = await window.FirebaseData.getDocument('admins', uid);
         console.log('📄 Admin document result:', adminDoc);
         
-        if (adminDoc && adminDoc.role === 'admin') {
+        if (adminDoc) {
             console.log('👑 User is admin - role confirmed');
             return 'admin';
         }
@@ -427,7 +427,7 @@ async function getUserRole(uid) {
         const salonDoc = await window.FirebaseData.getDocument('salons', uid);
         console.log('📄 Salon document result:', salonDoc);
         
-        if (salonDoc && salonDoc.role === 'salon') {
+        if (salonDoc) {
             console.log('🏪 User is salon owner - role confirmed');
             return 'salon';
         }
@@ -471,65 +471,44 @@ async function handleSalonRedirect(uid) {
             return;
         }
 
+        // Check if salon is already approved first
+        if (salonDoc.approved === true) {
+            console.log('✅ Salon is already approved, redirecting to index.html');
+            hideLoading();
+            window.location.href = 'index.html';
+            return;
+        }
+
         const profileStatus = salonDoc.profileStatus || 'incomplete';
         console.log('📋 Profile status found:', profileStatus);
         console.log('📋 Full salon data:', {
             profileStatus: salonDoc.profileStatus,
             approved: salonDoc.approved,
             businessName: salonDoc.businessName,
-            email: salonDoc.email,
-            role: salonDoc.role
+            email: salonDoc.email
         });
 
         if (profileStatus === 'incomplete') {
-            console.log('➡️ IMMEDIATE REDIRECT to complete-profile.html...');
-            
-            // Hide loading modal first
+            console.log('➡️ Profile is incomplete, redirecting to complete-profile.html');
             hideLoading();
-            
-            // Direct redirect without modal for debugging
-            console.log('🔄 Executing IMMEDIATE redirect to complete-profile.html');
             window.location.href = 'complete-profile.html';
             
         } else if (profileStatus === 'pending_approval') {
-            console.log('➡️ IMMEDIATE REDIRECT to salon-waiting.html...');
-            
-            // Hide loading modal first
+            console.log('➡️ Profile is pending approval, redirecting to salon-waiting.html');
             hideLoading();
-            
-            // Direct redirect without modal for debugging
-            console.log('🔄 Executing IMMEDIATE redirect to salon-waiting.html');
             window.location.href = 'salon-waiting.html';
             
-        } else if (salonDoc.approved) {
-            console.log('➡️ IMMEDIATE REDIRECT to salon-panel.html...');
-            
-            // Hide loading modal first
-            hideLoading();
-            
-            // Direct redirect without modal for debugging
-            console.log('🔄 Executing IMMEDIATE redirect to salon-panel.html');
-            window.location.href = 'salon-panel.html';
-            
         } else {
-            // Fallback case
-            console.log('⚠️ Fallback case - IMMEDIATE REDIRECT to complete-profile.html');
-            console.log('🔍 Fallback triggered because:', {
-                profileStatus,
-                approved: salonDoc.approved,
-                conditions: {
-                    isIncomplete: profileStatus === 'incomplete',
-                    isPending: profileStatus === 'pending_approval',
-                    isApproved: salonDoc.approved
-                }
-            });
-            
-            // Hide loading modal first
-            hideLoading();
-            
-            // Direct redirect without modal for debugging
-            console.log('🔄 Executing IMMEDIATE fallback redirect to complete-profile.html');
-            window.location.href = 'complete-profile.html';
+            // Fallback case - if profileStatus is not recognized, check if approved
+            if (salonDoc.approved === true) {
+                console.log('➡️ Salon is approved (fallback), redirecting to index.html');
+                hideLoading();
+                window.location.href = 'index.html';
+            } else {
+                console.log('⚠️ Unknown profile status, redirecting to complete-profile.html');
+                hideLoading();
+                window.location.href = 'complete-profile.html';
+            }
         }
     } catch (error) {
         console.error('❌ Error handling salon redirect:', error);
@@ -539,6 +518,7 @@ async function handleSalonRedirect(uid) {
             uid: uid
         });
         showError('Error al verificar el estado de tu perfil: ' + error.message);
+        hideLoading();
     }
 }
 

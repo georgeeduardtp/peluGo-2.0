@@ -190,7 +190,7 @@
                     } else if (data.profileStatus === 'pending_approval') {
                         log(`➡️ Should redirect to: salon-waiting.html`);
                     } else if (data.approved) {
-                        log(`➡️ Should redirect to: salon-panel.html`);
+                        log(`➡️ Should redirect to: index.html`);
                     } else {
                         log(`⚠️ Unknown status - fallback to: complete-profile.html`);
                     }
@@ -236,7 +236,7 @@
                     } else if (salonData.profileStatus === 'pending_approval') {
                         log('📋 EXPECTED: Redirect to salon-waiting.html');
                     } else if (salonData.approved) {
-                        log('📋 EXPECTED: Redirect to salon-panel.html');
+                        log('📋 EXPECTED: Redirect to index.html');
                     }
                 } else {
                     log('❌ TEST FAILED - No salon data');

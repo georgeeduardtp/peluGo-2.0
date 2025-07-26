@@ -52,6 +52,13 @@ async function checkProfileAccess() {
             return;
         }
 
+        // Check if salon is already approved first
+        if (salonData.approved === true) {
+            console.log('✅ Salon is already approved, redirecting to index.html');
+            window.location.href = 'index.html';
+            return;
+        }
+
         // Check if profile is incomplete
         if (salonData.profileStatus !== 'incomplete') {
             console.log('❌ Profile is not incomplete, redirecting...');
@@ -59,9 +66,6 @@ async function checkProfileAccess() {
             if (salonData.profileStatus === 'pending_approval') {
                 // Redirect to waiting page
                 window.location.href = 'salon-waiting.html';
-            } else if (salonData.approved) {
-                // Redirect to salon panel
-                window.location.href = 'salon-panel.html';
             } else {
                 showAccessDenied();
             }

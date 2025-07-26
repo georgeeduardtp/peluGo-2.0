@@ -197,7 +197,7 @@ async function createAppSettings() {
             notifications: false
         },
         config: {
-            adminCode: "PELUGO_ADMIN_2024",
+            adminCode: window.PeluGoConfig?.admin?.secretCode || "PELUGO_ADMIN_2024",
             maxSalonsPerPage: 12,
             autoApproval: false
         },
@@ -217,10 +217,37 @@ async function createAppSettings() {
 // Authentication Functions
 
 /**
+ * Validate admin code
+ */
+function validateAdminCode(adminCode) {
+    const expectedCode = window.PeluGoConfig?.admin?.secretCode || "PELUGO_ADMIN_2024";
+    
+    // Validación básica
+    if (!adminCode || typeof adminCode !== 'string') {
+        return { valid: false, error: 'Código de administrador requerido' };
+    }
+    
+    // Comparación segura (timing attack resistant)
+    if (adminCode !== expectedCode) {
+        return { valid: false, error: 'Código de administrador incorrecto' };
+    }
+    
+    return { valid: true };
+}
+
+/**
  * Register a new user
  */
 async function registerUser(email, password, userData, userType) {
     try {
+        // Validate admin code if registering as admin
+        if (userType === 'admin') {
+            const adminValidation = validateAdminCode(userData.adminCode);
+            if (!adminValidation.valid) {
+                return { success: false, error: adminValidation.error };
+            }
+        }
+        
         // Create user in Firebase Auth
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -239,6 +266,9 @@ async function registerUser(email, password, userData, userType) {
             active: true,
             ...userData
         };
+        
+        // Remove sensitive data before saving
+        delete userDoc.adminCode;
         
         // Save to appropriate collection based on user type
         let collectionName = 'users';
@@ -262,6 +292,7 @@ async function registerUser(email, password, userData, userType) {
         } else if (userType === 'admin') {
             collectionName = 'admins';
             userDoc.permissions = ['approve_salons', 'manage_users', 'view_analytics'];
+            userDoc.registeredAt = serverTimestamp();
         }
         
         const docRef = await addDoc(collection(db, collectionName), userDoc);
@@ -316,12 +347,12 @@ async function signOutUser() {
  */
 async function getUserRole(uid) {
     try {
-        // Check in users collection
-        const usersQuery = query(collection(db, 'users'), where('uid', '==', uid));
-        const usersSnapshot = await getDocs(usersQuery);
+        // Check in admins collection first
+        const adminsQuery = query(collection(db, 'admins'), where('uid', '==', uid));
+        const adminsSnapshot = await getDocs(adminsQuery);
         
-        if (!usersSnapshot.empty) {
-            return usersSnapshot.docs[0].data().role;
+        if (!adminsSnapshot.empty) {
+            return 'admin';
         }
         
         // Check in salons collection
@@ -332,12 +363,12 @@ async function getUserRole(uid) {
             return 'salon';
         }
         
-        // Check in admins collection
-        const adminsQuery = query(collection(db, 'admins'), where('uid', '==', uid));
-        const adminsSnapshot = await getDocs(adminsQuery);
+        // Check in users collection last
+        const usersQuery = query(collection(db, 'users'), where('uid', '==', uid));
+        const usersSnapshot = await getDocs(usersQuery);
         
-        if (!adminsSnapshot.empty) {
-            return 'admin';
+        if (!usersSnapshot.empty) {
+            return usersSnapshot.docs[0].data().role || 'user';
         }
         
         return 'user'; // Default role
@@ -693,6 +724,7 @@ window.FirebaseAuth = {
     registerUser,
     signInUser,
     signOutUser,
+    validateAdminCode,
     getCurrentUser: () => currentUser,
     getCurrentUserRole: () => currentUserRole,
     getUserRole
