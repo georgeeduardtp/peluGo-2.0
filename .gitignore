@@ -9,7 +9,20 @@ test-login-*.html
 test-firebase-*.html
 test-loop-*.html
 test-nav-*.html
-test-*.html
+test-approval-*.html
+test-delete-*.html
+test-admin-charts*.html
+test-charts-*.html
+test-login-fix.html
+test-loop-fix.html
+test-approval-fix.html
+test-admin-charts-fix.html
+test-charts-updated.html
+test-delete-salon.html
+test-firebase.html
+test-nav-colors.html
+test-chartjs-simple.html
+firebase-config-test.html
 
 # Debug and Temporary Files
 debug-*.html

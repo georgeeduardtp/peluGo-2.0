@@ -612,6 +612,7 @@
                     if (userType === 'salon') {
                         userDoc.approved = false;
                         userDoc.featured = false;
+                        userDoc.profileStatus = 'incomplete'; // 🆕 CRÍTICO: Establecer estado inicial
                         userDoc.rating = 0;
                         userDoc.reviewCount = 0;
                         userDoc.services = [];
@@ -627,7 +628,9 @@
                         };
                     }
                     
-                    const docRef = await addDoc(collection(db, userType === 'salon' ? 'salons' : 'users'), userDoc);
+                    // Use UID as document ID for consistency
+                    const docRef = doc(db, userType === 'salon' ? 'salons' : 'users', user.uid);
+                    await setDoc(docRef, userDoc);
                     
                     console.log('✅ User document created in', userType === 'salon' ? 'salons' : 'users');
                     

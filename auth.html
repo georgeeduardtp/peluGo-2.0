@@ -420,6 +420,7 @@
                             ...userData,
                             approved: false,
                             featured: false,
+                            profileStatus: 'incomplete', // 🆕 CRÍTICO: Establecer estado inicial
                             active: true,
                             createdAt: serverTimestamp()
                         });
@@ -480,6 +481,24 @@
                     return docSnap.exists() ? docSnap.data() : null;
                 } catch (error) {
                     console.error('Error getting document:', error);
+                    return null;
+                }
+            },
+            getSalonByUid: async (uid) => {
+                try {
+                    console.log(`🔍 Getting salon document for UID: ${uid}`);
+                    const docRef = doc(db, 'salons', uid);
+                    const docSnap = await getDoc(docRef);
+                    
+                    if (docSnap.exists()) {
+                        console.log(`✅ Salon document found for UID: ${uid}`);
+                        return docSnap.data();
+                    } else {
+                        console.log(`❌ Salon document not found for UID: ${uid}`);
+                        return null;
+                    }
+                } catch (error) {
+                    console.error(`❌ Error getting salon document for UID ${uid}:`, error);
                     return null;
                 }
             }

@@ -11,6 +11,7 @@ import {
     getDocs, 
     getDoc,
     addDoc,
+    setDoc,
     updateDoc,
     onSnapshot,
     serverTimestamp 
@@ -276,6 +277,7 @@ async function registerUser(email, password, userData, userType) {
             collectionName = 'salons';
             userDoc.approved = false;
             userDoc.featured = false;
+            userDoc.profileStatus = 'incomplete'; // 🆕 CRÍTICO: Establecer estado inicial
             userDoc.rating = 0;
             userDoc.reviewCount = 0;
             userDoc.services = [];
@@ -295,7 +297,9 @@ async function registerUser(email, password, userData, userType) {
             userDoc.registeredAt = serverTimestamp();
         }
         
-        const docRef = await addDoc(collection(db, collectionName), userDoc);
+        // Use UID as document ID for consistency
+        const docRef = doc(db, collectionName, user.uid);
+        await setDoc(docRef, userDoc);
         
         // Update city count if it's a salon
         if (userType === 'salon' && userData.city) {
@@ -305,7 +309,7 @@ async function registerUser(email, password, userData, userType) {
         // Update app stats
         await updateAppStats(userType);
         
-        console.log(`${userType} document created with ID:`, docRef.id);
+        console.log(`${userType} document created with UID:`, user.uid);
         
         console.log('User registered successfully:', userType);
         return { success: true, user };
@@ -347,30 +351,31 @@ async function signOutUser() {
  */
 async function getUserRole(uid) {
     try {
-        // Check in admins collection first
-        const adminsQuery = query(collection(db, 'admins'), where('uid', '==', uid));
-        const adminsSnapshot = await getDocs(adminsQuery);
+        console.log(`🔍 Getting user role for UID: ${uid}`);
         
-        if (!adminsSnapshot.empty) {
+        // Check in admins collection first (using UID as document ID)
+        const adminDoc = await getDoc(doc(db, 'admins', uid));
+        if (adminDoc.exists()) {
+            console.log('👑 User is admin');
             return 'admin';
         }
         
-        // Check in salons collection
-        const salonsQuery = query(collection(db, 'salons'), where('uid', '==', uid));
-        const salonsSnapshot = await getDocs(salonsQuery);
-        
-        if (!salonsSnapshot.empty) {
+        // Check in salons collection (using UID as document ID)
+        const salonDoc = await getDoc(doc(db, 'salons', uid));
+        if (salonDoc.exists()) {
+            console.log('🏪 User is salon owner');
             return 'salon';
         }
         
-        // Check in users collection last
-        const usersQuery = query(collection(db, 'users'), where('uid', '==', uid));
-        const usersSnapshot = await getDocs(usersQuery);
-        
-        if (!usersSnapshot.empty) {
-            return usersSnapshot.docs[0].data().role || 'user';
+        // Check in users collection last (using UID as document ID)
+        const userDoc = await getDoc(doc(db, 'users', uid));
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            console.log('👤 User is regular user');
+            return userData.role || 'user';
         }
         
+        console.log('👤 User not found in any collection, defaulting to user');
         return 'user'; // Default role
         
     } catch (error) {
@@ -747,7 +752,8 @@ window.FirebaseData = {
     rejectSalon,
     getPendingSalons,
     initializeDatabase,
-    getDocument: getDocumentFromFirestore
+    getDocument: getDocumentFromFirestore,
+    getSalonByUid: getSalonByUid
 };
 
 // Global functions for UI
@@ -773,5 +779,27 @@ async function getDocumentFromFirestore(collection, documentId) {
     } catch (error) {
         console.error(`❌ Error getting document from ${collection}:`, error);
         throw error;
+    }
+} 
+
+/**
+ * Get salon document by UID
+ */
+async function getSalonByUid(uid) {
+    try {
+        console.log(`🔍 Getting salon document for UID: ${uid}`);
+        const docRef = doc(db, 'salons', uid);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+            console.log(`✅ Salon document found for UID: ${uid}`);
+            return docSnap.data();
+        } else {
+            console.log(`❌ Salon document not found for UID: ${uid}`);
+            return null;
+        }
+    } catch (error) {
+        console.error(`❌ Error getting salon document for UID ${uid}:`, error);
+        return null;
     }
 } 
