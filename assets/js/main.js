@@ -495,9 +495,16 @@ function renderSalons(salons) {
     }
     
     const salonCards = salons.map(salon => `
-        <div class="salon-card bg-gray-800 rounded-2xl shadow-lg border border-gray-700 overflow-hidden cursor-pointer" data-city="${salon.city}">
+        <div class="salon-card bg-gray-800 rounded-2xl shadow-lg border border-gray-700 overflow-hidden cursor-pointer flex flex-col h-full" data-city="${salon.city || salon.location || ''}">
             <div class="relative">
-                <img src="${salon.image}" alt="${salon.name}" class="w-full h-48 object-cover">
+                <div class="w-full h-48 ${salon.image ? '' : 'bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center'}">
+                    ${salon.image ? `<img src="${salon.image}" alt="${salon.name}" class="w-full h-48 object-cover">` : `
+                        <div class="text-center text-gray-400">
+                            <i class="fas fa-cut text-4xl mb-2"></i>
+                            <p class="text-sm">Sin imagen</p>
+                        </div>
+                    `}
+                </div>
                 <div class="absolute top-4 right-4 bg-gray-800 bg-opacity-90 px-2 py-1 rounded-full border border-gray-600">
                     <div class="star-rating">
                         ${generateStars(salon.rating)}
@@ -507,28 +514,30 @@ function renderSalons(salons) {
                 ${salon.featured ? '<div class="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white px-3 py-1 rounded-full text-xs font-bold">Destacada</div>' : ''}
             </div>
             
-            <div class="p-6">
+            <div class="p-6 flex flex-col flex-grow">
                 <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-xl font-bold text-gray-100">${salon.name}</h3>
-                    <span class="text-blue-400 font-bold">${salon.price}</span>
+                    <h3 class="text-xl font-bold text-gray-100">${salon.businessName || salon.name || 'Peluquería sin nombre'}</h3>
+                    <span class="text-blue-400 font-bold">${salon.price || 'Precio no disponible'}</span>
                 </div>
                 
                 <div class="flex items-center text-gray-400 mb-3">
                     <i class="fas fa-map-marker-alt mr-1"></i>
-                    <span>${salon.city}</span>
+                    <span>${salon.city || salon.location || 'Ciudad no especificada'}</span>
                     <span class="mx-2">•</span>
-                    <span>${salon.reviews} reseñas</span>
+                    <span>${salon.reviewCount || salon.reviews || 0} reseñas</span>
                 </div>
                 
                 <div class="flex flex-wrap gap-2 mb-4">
-                    ${salon.services.map(service => `
-                        <span class="bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-sm font-medium">
+                    ${(salon.services || []).map(service => `
+                        <span class="bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
                             ${service}
                         </span>
                     `).join('')}
                 </div>
                 
-                <button class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                <div class="flex-grow"></div>
+                
+                <button class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 mt-auto">
                     Reservar ahora
                 </button>
             </div>
@@ -823,7 +832,11 @@ function redirectToAuth() {
 function initializeFirebaseListeners() {
     if (window.FirebaseData && window.FirebaseData.listenToSalonUpdates) {
         console.log('Setting up real-time salon updates...');
-        window.FirebaseData.listenToSalonUpdates();
+        window.FirebaseData.listenToSalonUpdates((salons) => {
+            console.log('🔄 Real-time salon update received:', salons.length, 'salons');
+            renderSalons(salons);
+            updateStats(salons);
+        });
     }
 }
 

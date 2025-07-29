@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad - PeluGo 2.0</title>
+    <meta name="description" content="Política de privacidad de la plataforma PeluGo">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Configuration -->
+    <script src="assets/js/config.js"></script>
+</head>
+<body class="bg-gray-900 min-h-screen">
+    
+    <!-- Navigation -->
+    <nav class="bg-gray-800 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cut text-white text-sm"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                            PeluGo
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-search mr-2"></i>
+                        Buscar peluquerías
+                    </a>
+                    <a href="registro-peluqueria.html" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-store mr-2"></i>
+                        ¿Quieres registrar tu peluquería?
+                    </a>
+                </div>
+
+                <!-- User Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Guest Menu -->
+                    <div id="guestMenu" class="flex items-center space-x-4">
+                        <a href="auth.html" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-user-circle mr-2"></i>
+                            Iniciar sesión
+                        </a>
+                    </div>
+
+                    <!-- User Menu (hidden by default) -->
+                    <div id="userMenu" class="hidden">
+                        <div class="relative">
+                            <button onclick="toggleUserMenu()" class="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white text-sm"></i>
+                                </div>
+                                <span id="userName">Usuario</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 py-2 z-50">
+                                <div class="px-4 py-2 border-b border-gray-700">
+                                    <p class="text-sm text-gray-400">Conectado como</p>
+                                    <p id="userRole" class="text-sm font-medium text-gray-200">Usuario</p>
+                                </div>
+                                
+                                <!-- User Options -->
+                                <div id="userOptions" class="hidden">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-user mr-2"></i>
+                                        Mi Perfil
+                                    </a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-heart mr-2"></i>
+                                        Favoritos
+                                    </a>
+                                </div>
+                                
+                                <!-- Salon Options -->
+                                <div id="salonOptions" class="hidden">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                                
+                                <!-- Admin Options -->
+                                <div id="adminOptions" class="hidden">
+                                    <a href="admin.html" class="block px-4 py-2 text-sm text-purple-400 hover:bg-purple-900 font-medium">
+                                        <i class="fas fa-crown mr-2"></i>
+                                        Panel de Admin
+                                    </a>
+                                </div>
+                                
+                                <!-- Common Options -->
+                                <div id="commonOptions" class="border-t border-gray-700 pt-2">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-cog mr-2"></i>
+                                        Configuración
+                                    </a>
+                                    <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900 font-medium">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>
+                                        Cerrar sesión
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-gray-800 border-t border-gray-700">
+            <div class="px-4 py-2 space-y-2">
+                <a href="index.html" class="block text-gray-300 hover:text-white py-2">
+                    <i class="fas fa-search mr-2"></i>
+                    Buscar peluquerías
+                </a>
+                <a href="registro-peluqueria.html" class="block text-gray-300 hover:text-white py-2">
+                    <i class="fas fa-store mr-2"></i>
+                    ¿Quieres registrar tu peluquería?
+                </a>
+                
+                <!-- Mobile User Options -->
+                <div id="mobileUserOptions" class="hidden border-t border-gray-700 pt-2">
+                    <div id="mobileUserOptionsList">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-gray-800 rounded-lg shadow-xl border border-gray-700 p-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-100 mb-4">
+                    <i class="fas fa-shield-alt text-blue-400 mr-3"></i>
+                    Política de Privacidad
+                </h1>
+                <p class="text-gray-400 text-lg">
+                    Última actualización: Marzo 2025
+                </p>
+            </div>
+
+            <div class="prose prose-invert max-w-none">
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Introducción</h2>
+                    <p class="text-gray-300 mb-4">
+                        En PeluGo nos tomamos muy en serio la protección de sus datos personales. Esta Política de Privacidad le informa sobre cómo recopilamos, utilizamos, compartimos y protegemos su información personal cuando utiliza nuestra plataforma y servicios.
+                    </p>
+                    <p class="text-gray-300">
+                        PeluGo cumple con el Reglamento General de Protección de Datos (RGPD) de la Unión Europea y la Ley Orgánica de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD) de España.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Responsable del tratamiento</h2>
+                    <p class="text-gray-300 mb-4">
+                        El responsable del tratamiento de sus datos personales es:
+                    </p>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <ul class="list-none text-gray-300 space-y-2">
+                            <li><strong>Nombre:</strong> PeluGo S.L.</li>
+                            <li><strong>Dirección:</strong> Calle Ejemplo, 123, 28001 Madrid</li>
+                            <li><strong>Email:</strong> privacidad@pelugo.es</li>
+                            <li><strong>CIF:</strong> B12345678</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Datos que recopilamos</h2>
+                    <p class="text-gray-300 mb-4">
+                        Dependiendo de cómo interactúe con nuestro servicio, podemos recopilar los siguientes tipos de información:
+                    </p>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-100 mb-3">Para usuarios que reservan servicios:</h3>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                                <li>Datos identificativos: nombre, apellidos, dirección de correo electrónico, número de teléfono.</li>
+                                <li>Historial de reservas y servicios contratados.</li>
+                                <li>Preferencias y valoraciones de servicios.</li>
+                                <li>Información de pago (procesada por nuestros proveedores de pago seguros).</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-100 mb-3">Para peluquerías y profesionales registrados:</h3>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                                <li>Datos identificativos del negocio: nombre, dirección, CIF/NIF, teléfono, email.</li>
+                                <li>Datos del representante legal o persona de contacto.</li>
+                                <li>Información sobre servicios, precios y disponibilidad.</li>
+                                <li>Imágenes y descripciones del establecimiento.</li>
+                                <li>Datos bancarios para pagos (procesados según normativas de seguridad bancaria).</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-100 mb-3">Información automática:</h3>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                                <li>Datos de uso y navegación.</li>
+                                <li>Información del dispositivo y conexión.</li>
+                                <li>Ubicación (si el usuario lo permite).</li>
+                                <li>Cookies y tecnologías similares (consulte nuestra Política de Cookies).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Finalidades del tratamiento</h2>
+                    <p class="text-gray-300 mb-4">
+                        Utilizamos sus datos personales para los siguientes fines:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                        <li>Gestionar su cuenta y proporcionarle nuestros servicios.</li>
+                        <li>Procesar y gestionar sus reservas.</li>
+                        <li>Facilitar la comunicación entre usuarios y profesionales.</li>
+                        <li>Enviar notificaciones sobre sus reservas y servicios.</li>
+                        <li>Mejorar y personalizar nuestros servicios.</li>
+                        <li>Procesar pagos y prevenir fraudes.</li>
+                        <li>Cumplir con obligaciones legales.</li>
+                        <li>Enviar comunicaciones comerciales (siempre con su consentimiento previo).</li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Base legal para el tratamiento</h2>
+                    <p class="text-gray-300 mb-4">
+                        Tratamos sus datos personales en base a:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                        <li><strong>La ejecución de un contrato:</strong> cuando utiliza nuestra plataforma para realizar reservas o registrar su negocio.</li>
+                        <li><strong>El consentimiento:</strong> que nos proporciona para determinados tratamientos como el envío de comunicaciones comerciales.</li>
+                        <li><strong>Interés legítimo:</strong> para mejorar nuestros servicios, prevenir fraudes y garantizar la seguridad.</li>
+                        <li><strong>Obligaciones legales:</strong> cuando la ley nos obliga a conservar o comunicar determinados datos.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Destinatarios de los datos</h2>
+                    <p class="text-gray-300 mb-4">
+                        Podemos compartir su información con:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                        <li><strong>Profesionales y peluquerías:</strong> para gestionar sus reservas.</li>
+                        <li><strong>Proveedores de servicios:</strong> que nos ayudan a prestar nuestros servicios (alojamiento web, procesamiento de pagos, etc.).</li>
+                        <li><strong>Autoridades competentes:</strong> cuando sea requerido por ley.</li>
+                    </ul>
+                    <p class="text-gray-300 mt-4">
+                        No vendemos ni alquilamos sus datos personales a terceros.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Transferencias internacionales</h2>
+                    <p class="text-gray-300">
+                        Algunos de nuestros proveedores pueden estar ubicados fuera del Espacio Económico Europeo. En estos casos, garantizamos que existan mecanismos adecuados para proteger sus datos conforme a la normativa europea, como las Cláusulas Contractuales Tipo aprobadas por la Comisión Europea.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Período de conservación</h2>
+                    <p class="text-gray-300">
+                        Conservaremos sus datos personales durante el tiempo necesario para cumplir con los fines para los que se recopilaron, incluido el cumplimiento de obligaciones legales, la resolución de disputas y la aplicación de nuestros acuerdos.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Sus derechos</h2>
+                    <p class="text-gray-300 mb-4">
+                        Usted tiene derecho a:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                        <li>Acceder a sus datos personales.</li>
+                        <li>Rectificar datos inexactos o incompletos.</li>
+                        <li>Solicitar la supresión de sus datos.</li>
+                        <li>Oponerse al tratamiento de sus datos.</li>
+                        <li>Solicitar la limitación del tratamiento.</li>
+                        <li>Solicitar la portabilidad de sus datos.</li>
+                        <li>Retirar el consentimiento prestado.</li>
+                    </ul>
+                    <p class="text-gray-300 mt-4">
+                        Puede ejercer estos derechos enviando un email a pelugospain@gmail.com o por correo postal a nuestra dirección, incluyendo una copia de su DNI u otro documento identificativo.
+                    </p>
+                    <p class="text-gray-300 mt-2">
+                        También tiene derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es).
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Seguridad de los datos</h2>
+                    <p class="text-gray-300">
+                        Implementamos medidas técnicas y organizativas apropiadas para proteger sus datos personales contra el tratamiento no autorizado o ilícito y contra su pérdida, destrucción o daño accidental.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Cambios en la política de privacidad</h2>
+                    <p class="text-gray-300">
+                        Podemos actualizar esta política de privacidad periódicamente. La versión más reciente estará siempre disponible en nuestra plataforma. Le notificaremos cualquier cambio material en la forma en que tratamos sus datos personales.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Contacto</h2>
+                    <p class="text-gray-300 mb-4">
+                        Si tiene preguntas sobre esta política de privacidad o sobre cómo tratamos sus datos personales, puede contactarnos en:
+                    </p>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <p class="text-gray-300">
+                            <strong>Email:</strong> privacidad@pelugo.es
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 border-t border-gray-700 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-100 mb-4">PeluGo</h3>
+                    <p class="text-gray-400 text-sm">
+                        La plataforma en España para encontrar y reservar servicios de peluquería y belleza.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Enlaces</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sobre nosotros</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contacto</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="terminos.html" class="text-gray-400 hover:text-white transition-colors">Términos y condiciones</a></li>
+                        <li><a href="privacidad.html" class="text-gray-400 hover:text-white transition-colors">Política de privacidad</a></li>
+                        <li><a href="cookies.html" class="text-gray-400 hover:text-white transition-colors">Cookies</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Síguenos</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 PeluGo. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos y Condiciones - PeluGo 2.0</title>
+    <meta name="description" content="Términos y condiciones de uso de la plataforma PeluGo">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Configuration -->
+    <script src="assets/js/config.js"></script>
+</head>
+<body class="bg-gray-900 min-h-screen">
+    
+    <!-- Navigation -->
+    <nav class="bg-gray-800 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cut text-white text-sm"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                            PeluGo
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-search mr-2"></i>
+                        Buscar peluquerías
+                    </a>
+                    <a href="registro-peluqueria.html" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-store mr-2"></i>
+                        ¿Quieres registrar tu peluquería?
+                    </a>
+                </div>
+
+                <!-- User Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Guest Menu -->
+                    <div id="guestMenu" class="flex items-center space-x-4">
+                        <a href="auth.html" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-user-circle mr-2"></i>
+                            Iniciar sesión
+                        </a>
+                    </div>
+
+                    <!-- User Menu (hidden by default) -->
+                    <div id="userMenu" class="hidden">
+                        <div class="relative">
+                            <button onclick="toggleUserMenu()" class="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white text-sm"></i>
+                                </div>
+                                <span id="userName">Usuario</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 py-2 z-50">
+                                <div class="px-4 py-2 border-b border-gray-700">
+                                    <p class="text-sm text-gray-400">Conectado como</p>
+                                    <p id="userRole" class="text-sm font-medium text-gray-200">Usuario</p>
+                                </div>
+                                
+                                <!-- User Options -->
+                                <div id="userOptions" class="hidden">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-user mr-2"></i>
+                                        Mi Perfil
+                                    </a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-heart mr-2"></i>
+                                        Favoritos
+                                    </a>
+                                </div>
+                                
+                                <!-- Salon Options -->
+                                <div id="salonOptions" class="hidden">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                                
+                                <!-- Admin Options -->
+                                <div id="adminOptions" class="hidden">
+                                    <a href="admin.html" class="block px-4 py-2 text-sm text-purple-400 hover:bg-purple-900 font-medium">
+                                        <i class="fas fa-crown mr-2"></i>
+                                        Panel de Admin
+                                    </a>
+                                </div>
+                                
+                                <!-- Common Options -->
+                                <div id="commonOptions" class="border-t border-gray-700 pt-2">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-cog mr-2"></i>
+                                        Configuración
+                                    </a>
+                                    <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900 font-medium">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>
+                                        Cerrar sesión
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-gray-800 border-t border-gray-700">
+            <div class="px-4 py-2 space-y-2">
+                <a href="index.html" class="block text-gray-300 hover:text-white py-2">
+                    <i class="fas fa-search mr-2"></i>
+                    Buscar peluquerías
+                </a>
+                <a href="registro-peluqueria.html" class="block text-gray-300 hover:text-white py-2">
+                    <i class="fas fa-store mr-2"></i>
+                    ¿Quieres registrar tu peluquería?
+                </a>
+                
+                <!-- Mobile User Options -->
+                <div id="mobileUserOptions" class="hidden border-t border-gray-700 pt-2">
+                    <div id="mobileUserOptionsList">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-gray-800 rounded-lg shadow-xl border border-gray-700 p-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-100 mb-4">
+                    <i class="fas fa-file-contract text-blue-400 mr-3"></i>
+                    Términos y Condiciones
+                </h1>
+                <p class="text-gray-400 text-lg">
+                    Última actualización: Marzo 2025
+                </p>
+            </div>
+
+            <div class="prose prose-invert max-w-none">
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">1. Introducción</h2>
+                    <p class="text-gray-300 mb-4">
+                        Bienvenido a PeluGo. Estos Términos y Condiciones rigen el uso de la plataforma PeluGo, accesible a través de nuestro sitio web y nuestra aplicación móvil (en adelante, "la Plataforma").
+                    </p>
+                    <p class="text-gray-300 mb-4">
+                        La Plataforma es propiedad de PeluGo S.L., con CIF B12345678 y domicilio social en Calle Ejemplo, 123, 28001 Madrid (en adelante, "PeluGo", "nosotros" o "nuestro").
+                    </p>
+                    <p class="text-gray-300">
+                        Al acceder o utilizar la Plataforma, usted acepta cumplir y quedar vinculado por estos Términos y Condiciones. Si no está de acuerdo con alguna parte de estos términos, le rogamos que no utilice nuestra Plataforma.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">2. Definiciones</h2>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                        <li><strong>"Usuario":</strong> cualquier persona que acceda, navegue o utilice la Plataforma.</li>
+                        <li><strong>"Cliente":</strong> Usuario que utiliza la Plataforma para buscar y reservar servicios de peluquería.</li>
+                        <li><strong>"Profesional":</strong> peluquería, barbería o cualquier otro establecimiento o profesional que ofrezca servicios a través de la Plataforma.</li>
+                        <li><strong>"Servicio":</strong> cualquier prestación ofrecida por los Profesionales a través de la Plataforma.</li>
+                        <li><strong>"Contenido":</strong> toda la información, textos, gráficos, imágenes, música, software, audio, video, y otros materiales que puedan encontrarse en la Plataforma.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">3. Registro y Cuentas de Usuario</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            <strong>3.1.</strong> Para utilizar ciertas funcionalidades de la Plataforma, es necesario registrarse y crear una cuenta.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>3.2.</strong> Al registrarse, usted se compromete a proporcionar información verdadera, exacta, actual y completa. Es su responsabilidad mantener actualizada esta información.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>3.3.</strong> Usted es responsable de mantener la confidencialidad de su contraseña y de todas las actividades que ocurran bajo su cuenta.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>3.4.</strong> Nos reservamos el derecho de rechazar el registro, cancelar cuentas o eliminar o editar contenido a nuestra sola discreción.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">4. Servicios de Reserva</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            <strong>4.1.</strong> PeluGo actúa como intermediario entre Clientes y Profesionales, facilitando la reserva de servicios a través de la Plataforma.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>4.2.</strong> La relación contractual por la prestación de los servicios se establece directamente entre el Cliente y el Profesional. PeluGo no es parte de este contrato ni asume responsabilidad por los servicios prestados por los Profesionales.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>4.3.</strong> Los precios, disponibilidad y características de los servicios son establecidos exclusivamente por los Profesionales. PeluGo no garantiza la disponibilidad de los servicios mostrados en la Plataforma.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>4.4.</strong> En caso de cancelación de reservas, se aplicarán las políticas de cancelación específicas de cada Profesional, que deben estar claramente indicadas en su perfil.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">5. Condiciones para Profesionales</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            <strong>5.1.</strong> Los Profesionales son responsables de la veracidad y exactitud de toda la información proporcionada, incluyendo descripciones, precios, disponibilidad y cualquier otro detalle sobre sus servicios.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>5.2.</strong> Los Profesionales deben cumplir con todas las leyes y regulaciones aplicables a su actividad, incluyendo obligaciones fiscales, licencias, permisos y normativas sanitarias.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>5.3.</strong> PeluGo cobrará una comisión por cada reserva completada a través de la Plataforma, según las condiciones acordadas con cada Profesional.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">6. Pagos</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            <strong>6.1.</strong> La Plataforma puede ofrecer diferentes métodos de pago para los servicios reservados. Las transacciones son procesadas por proveedores de pago seguros.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>6.2.</strong> Los pagos pueden realizarse directamente al Profesional o a través de la Plataforma, dependiendo de la opción elegida por el Profesional.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>6.3.</strong> En caso de disputa sobre pagos, el Cliente deberá resolverla directamente con el Profesional, aunque PeluGo podrá mediar para facilitar una solución.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">7. Valoraciones y Comentarios</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            <strong>7.1.</strong> Los Clientes pueden publicar valoraciones y comentarios sobre los Profesionales después de utilizar sus servicios.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>7.2.</strong> Las valoraciones deben ser honestas, respetuosas y basadas en experiencias reales.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>7.3.</strong> PeluGo se reserva el derecho de eliminar valoraciones o comentarios que considere inapropiados, ofensivos, falsos o que infrinjan estos Términos y Condiciones.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">8. Propiedad Intelectual</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            <strong>8.1.</strong> Todo el Contenido presente en la Plataforma, incluyendo marcas, logotipos, textos, gráficos, fotografías, iconos, etc., es propiedad de PeluGo o de sus licenciantes y está protegido por las leyes de propiedad intelectual e industrial.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>8.2.</strong> Se prohíbe la reproducción, distribución, transformación o comunicación pública de cualquier elemento de la Plataforma sin autorización previa por escrito de PeluGo.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>8.3.</strong> Al publicar contenido en la Plataforma, usted concede a PeluGo una licencia mundial, no exclusiva, libre de regalías, sublicenciable y transferible para usar, reproducir, distribuir, preparar trabajos derivados, mostrar y ejecutar dicho contenido en relación con los servicios de la Plataforma.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">9. Limitación de Responsabilidad</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            <strong>9.1.</strong> PeluGo no garantiza la disponibilidad continua y sin interrupciones de la Plataforma, que puede verse afectada por problemas técnicos o acciones de mantenimiento.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>9.2.</strong> PeluGo no se responsabiliza de la calidad de los servicios prestados por los Profesionales, ni de cualquier daño o perjuicio que pueda derivarse de dichos servicios.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>9.3.</strong> En ningún caso PeluGo será responsable por daños indirectos, incidentales, especiales, punitivos o consecuentes, incluyendo pérdida de beneficios, derivados del uso de la Plataforma.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">10. Protección de Datos</h2>
+                    <p class="text-gray-300">
+                        El tratamiento de los datos personales se regirá por nuestra Política de Privacidad, que forma parte integrante de estos Términos y Condiciones.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">11. Modificaciones</h2>
+                    <p class="text-gray-300">
+                        PeluGo se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento. Las modificaciones entrarán en vigor desde su publicación en la Plataforma. El uso continuado de la Plataforma después de cualquier modificación constituye la aceptación de los nuevos términos.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">12. Ley Aplicable y Jurisdicción</h2>
+                    <p class="text-gray-300">
+                        Estos Términos y Condiciones se rigen por la legislación española. Cualquier controversia derivada de estos términos se someterá a los juzgados y tribunales de Madrid, salvo que la ley aplicable disponga otra cosa.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">13. Contacto</h2>
+                    <p class="text-gray-300 mb-4">
+                        Para cualquier consulta relacionada con estos Términos y Condiciones, puede contactarnos a través de:
+                    </p>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <p class="text-gray-300">
+                            <strong>Email:</strong> pelugospain@gmail.com
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>Dirección postal:</strong> Calle Ejemplo, 123, 28001 Madrid
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 border-t border-gray-700 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-100 mb-4">PeluGo</h3>
+                    <p class="text-gray-400 text-sm">
+                        La plataforma líder en España para encontrar y reservar servicios de peluquería y belleza.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Enlaces</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sobre nosotros</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contacto</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="terminos.html" class="text-gray-400 hover:text-white transition-colors">Términos y condiciones</a></li>
+                        <li><a href="privacidad.html" class="text-gray-400 hover:text-white transition-colors">Política de privacidad</a></li>
+                        <li><a href="cookies.html" class="text-gray-400 hover:text-white transition-colors">Cookies</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Síguenos</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 PeluGo. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

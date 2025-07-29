@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Cookies - PeluGo 2.0</title>
+    <meta name="description" content="Política de cookies de la plataforma PeluGo">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Configuration -->
+    <script src="assets/js/config.js"></script>
+</head>
+<body class="bg-gray-900 min-h-screen">
+    
+    <!-- Navigation -->
+    <nav class="bg-gray-800 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cut text-white text-sm"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                            PeluGo
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-search mr-2"></i>
+                        Buscar peluquerías
+                    </a>
+                    <a href="registro-peluqueria.html" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-store mr-2"></i>
+                        ¿Quieres registrar tu peluquería?
+                    </a>
+                </div>
+
+                <!-- User Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Guest Menu -->
+                    <div id="guestMenu" class="flex items-center space-x-4">
+                        <a href="auth.html" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-user-circle mr-2"></i>
+                            Iniciar sesión
+                        </a>
+                    </div>
+
+                    <!-- User Menu (hidden by default) -->
+                    <div id="userMenu" class="hidden">
+                        <div class="relative">
+                            <button onclick="toggleUserMenu()" class="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white text-sm"></i>
+                                </div>
+                                <span id="userName">Usuario</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 py-2 z-50">
+                                <div class="px-4 py-2 border-b border-gray-700">
+                                    <p class="text-sm text-gray-400">Conectado como</p>
+                                    <p id="userRole" class="text-sm font-medium text-gray-200">Usuario</p>
+                                </div>
+                                
+                                <!-- User Options -->
+                                <div id="userOptions" class="hidden">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-user mr-2"></i>
+                                        Mi Perfil
+                                    </a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-heart mr-2"></i>
+                                        Favoritos
+                                    </a>
+                                </div>
+                                
+                                <!-- Salon Options -->
+                                <div id="salonOptions" class="hidden">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                                
+                                <!-- Admin Options -->
+                                <div id="adminOptions" class="hidden">
+                                    <a href="admin.html" class="block px-4 py-2 text-sm text-purple-400 hover:bg-purple-900 font-medium">
+                                        <i class="fas fa-crown mr-2"></i>
+                                        Panel de Admin
+                                    </a>
+                                </div>
+                                
+                                <!-- Common Options -->
+                                <div id="commonOptions" class="border-t border-gray-700 pt-2">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                        <i class="fas fa-cog mr-2"></i>
+                                        Configuración
+                                    </a>
+                                    <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900 font-medium">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>
+                                        Cerrar sesión
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-gray-800 border-t border-gray-700">
+            <div class="px-4 py-2 space-y-2">
+                <a href="index.html" class="block text-gray-300 hover:text-white py-2">
+                    <i class="fas fa-search mr-2"></i>
+                    Buscar peluquerías
+                </a>
+                <a href="registro-peluqueria.html" class="block text-gray-300 hover:text-white py-2">
+                    <i class="fas fa-store mr-2"></i>
+                    ¿Quieres registrar tu peluquería?
+                </a>
+                
+                <!-- Mobile User Options -->
+                <div id="mobileUserOptions" class="hidden border-t border-gray-700 pt-2">
+                    <div id="mobileUserOptionsList">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-gray-800 rounded-lg shadow-xl border border-gray-700 p-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-100 mb-4">
+                    <i class="fas fa-cookie-bite text-blue-400 mr-3"></i>
+                    Política de Cookies
+                </h1>
+                <p class="text-gray-400 text-lg">
+                    Última actualización: Marzo 2025
+                </p>
+            </div>
+
+            <div class="prose prose-invert max-w-none">
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">¿Qué son las cookies?</h2>
+                    <p class="text-gray-300">
+                        Las cookies son pequeños archivos de texto que se almacenan en su dispositivo (ordenador, tablet o móvil) cuando visita sitios web. Las cookies son ampliamente utilizadas para hacer que los sitios web funcionen, o funcionen de manera más eficiente, así como para proporcionar información a los propietarios del sitio.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">¿Cómo utilizamos las cookies?</h2>
+                    <p class="text-gray-300 mb-4">
+                        En PeluGo utilizamos cookies para diversos fines, incluyendo:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                        <li><strong>Cookies técnicas:</strong> Son esenciales para que pueda navegar por el sitio web y utilizar sus funcionalidades.</li>
+                        <li><strong>Cookies de preferencias:</strong> Nos permiten recordar información que cambia el aspecto o comportamiento del sitio.</li>
+                        <li><strong>Cookies estadísticas:</strong> Nos ayudan a entender cómo los visitantes interactúan con el sitio, recopilando y reportando información de forma anónima.</li>
+                        <li><strong>Cookies de marketing:</strong> Se utilizan para rastrear a los visitantes en los sitios web con el fin de mostrar anuncios relevantes.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Cookies de terceros</h2>
+                    <p class="text-gray-300 mb-4">
+                        Además de nuestras propias cookies, podemos utilizar cookies de terceros para ofrecer funcionalidades adicionales y análisis. Estas cookies pueden ser establecidas por:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                        <li><strong>Google Analytics:</strong> Para analizar el uso que hace del sitio web.</li>
+                        <li><strong>Redes sociales (Facebook, Instagram, Twitter):</strong> Para permitirle compartir contenido y, en algunos casos, personalizar la publicidad.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Control de cookies</h2>
+                    <p class="text-gray-300 mb-4">
+                        Puede controlar y/o eliminar las cookies según desee. Puede eliminar todas las cookies que ya están en su dispositivo y puede configurar la mayoría de los navegadores para evitar que se coloquen. Si lo hace, es posible que tenga que ajustar manualmente algunas preferencias cada vez que visite un sitio y que algunos servicios y funcionalidades no funcionen.
+                    </p>
+                    <p class="text-gray-300 mb-4">
+                        Para gestionar las cookies en los principales navegadores:
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-100 mb-2">Navegadores de escritorio</h3>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1 ml-4">
+                                <li>Chrome</li>
+                                <li>Firefox</li>
+                                <li>Internet Explorer</li>
+                                <li>Safari</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-100 mb-2">Navegadores móviles</h3>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1 ml-4">
+                                <li>Safari (iOS)</li>
+                                <li>Chrome (Android)</li>
+                                <li>Firefox (Android)</li>
+                                <li>Samsung Internet</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Tipos de cookies que utilizamos</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-100 mb-3">
+                                <i class="fas fa-cog text-blue-400 mr-2"></i>
+                                Cookies técnicas (necesarias)
+                            </h3>
+                            <p class="text-gray-300 mb-3">
+                                Estas cookies son esenciales para el funcionamiento del sitio web y no se pueden desactivar.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1 ml-4">
+                                <li>Cookies de sesión para mantener su estado de autenticación</li>
+                                <li>Cookies de seguridad para proteger contra ataques</li>
+                                <li>Cookies de funcionalidad básica del sitio</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-100 mb-3">
+                                <i class="fas fa-chart-bar text-green-400 mr-2"></i>
+                                Cookies analíticas
+                            </h3>
+                            <p class="text-gray-300 mb-3">
+                                Nos ayudan a entender cómo interactúan los usuarios con nuestro sitio web.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1 ml-4">
+                                <li>Google Analytics para estadísticas de uso</li>
+                                <li>Análisis de páginas más visitadas</li>
+                                <li>Información sobre el comportamiento del usuario</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-100 mb-3">
+                                <i class="fas fa-heart text-pink-400 mr-2"></i>
+                                Cookies de preferencias
+                            </h3>
+                            <p class="text-gray-300 mb-3">
+                                Permiten que el sitio web recuerde información que cambia la forma en que se comporta o se ve.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1 ml-4">
+                                <li>Preferencias de idioma</li>
+                                <li>Configuración de tema (claro/oscuro)</li>
+                                <li>Ubicación preferida para búsquedas</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-100 mb-3">
+                                <i class="fas fa-ad text-yellow-400 mr-2"></i>
+                                Cookies de marketing
+                            </h3>
+                            <p class="text-gray-300 mb-3">
+                                Se utilizan para rastrear a los visitantes en los sitios web con el fin de mostrar anuncios relevantes.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1 ml-4">
+                                <li>Cookies de redes sociales para compartir contenido</li>
+                                <li>Cookies de publicidad personalizada</li>
+                                <li>Cookies de remarketing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Configuración de cookies por navegador</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-100 mb-2">Google Chrome</h3>
+                            <p class="text-gray-300 text-sm">
+                                1. Abra Chrome y vaya a Configuración → Privacidad y seguridad → Cookies y otros datos del sitio<br>
+                                2. Configure las opciones según sus preferencias
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-100 mb-2">Mozilla Firefox</h3>
+                            <p class="text-gray-300 text-sm">
+                                1. Abra Firefox y vaya a Opciones → Privacidad y seguridad<br>
+                                2. En la sección "Cookies y datos del sitio", configure sus preferencias
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-100 mb-2">Safari</h3>
+                            <p class="text-gray-300 text-sm">
+                                1. Abra Safari y vaya a Preferencias → Privacidad<br>
+                                2. Configure las opciones de cookies según sus preferencias
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-100 mb-2">Microsoft Edge</h3>
+                            <p class="text-gray-300 text-sm">
+                                1. Abra Edge y vaya a Configuración → Cookies y permisos del sitio<br>
+                                2. Configure las opciones de cookies
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Cambios en nuestra política de cookies</h2>
+                    <p class="text-gray-300">
+                        Cualquier cambio que podamos hacer en nuestra política de cookies en el futuro se publicará en esta página. Por favor, compruebe con frecuencia para ver cualquier actualización o cambio en nuestra política de cookies.
+                    </p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Contacto</h2>
+                    <p class="text-gray-300 mb-4">
+                        Si tiene alguna pregunta sobre nuestra política de cookies, por favor contacte con nosotros a través de:
+                    </p>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <p class="text-gray-300">
+                            <strong>Email:</strong> pelugospain@gmail.com
+                        </p>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <div class="bg-blue-900 border border-blue-700 rounded-lg p-6">
+                        <h3 class="text-xl font-semibold text-blue-100 mb-3">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Información importante
+                        </h3>
+                        <p class="text-blue-200 text-sm">
+                            Al continuar navegando en nuestro sitio web, usted acepta el uso de cookies según se describe en esta política. Si no está de acuerdo con el uso de cookies, puede configurar su navegador para rechazarlas, aunque esto puede afectar la funcionalidad del sitio.
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 border-t border-gray-700 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-100 mb-4">PeluGo</h3>
+                    <p class="text-gray-400 text-sm">
+                        La plataforma en España para encontrar y reservar servicios de peluquería y belleza.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Enlaces</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sobre nosotros</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contacto</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="terminos.html" class="text-gray-400 hover:text-white transition-colors">Términos y condiciones</a></li>
+                        <li><a href="privacidad.html" class="text-gray-400 hover:text-white transition-colors">Política de privacidad</a></li>
+                        <li><a href="cookies.html" class="text-gray-400 hover:text-white transition-colors">Cookies</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-md font-semibold text-gray-100 mb-4">Síguenos</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 PeluGo. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

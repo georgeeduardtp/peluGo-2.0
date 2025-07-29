@@ -92,6 +92,7 @@ async function initializeAdminPanel() {
         // Load initial data
         await loadDashboardStats();
         await loadSalons();
+        await loadWebRegistrations();
 
     } catch (error) {
         console.error('Error initializing admin panel:', error);
@@ -225,6 +226,9 @@ function switchTab(tabName) {
         } else if (tabName === 'settings') {
             console.log('🔄 Loading settings data...');
             loadSettings();
+        } else if (tabName === 'web-registrations') {
+            console.log('🔄 Loading web registrations data...');
+            loadWebRegistrations();
         } else if (tabName === 'create-salon') {
             console.log('✅ Create salon tab activated - no additional data to load');
         }
@@ -1209,11 +1213,140 @@ async function deleteSalon(salonId, salonName) {
 function refreshAllData() {
     loadDashboardStats();
     loadSalons();
+    loadWebRegistrations();
     showSuccess('Datos actualizados');
 }
 
 function exportData() {
     showNotification('Funcionalidad en desarrollo', 'info');
+}
+
+// Load web registrations
+async function loadWebRegistrations() {
+    try {
+        console.log('📋 Loading web registrations...');
+        
+        const registrations = await window.FirebaseData.getWebRegistrations();
+        
+        renderWebRegistrations(registrations);
+        
+    } catch (error) {
+        console.error('❌ Error loading web registrations:', error);
+        showError('Error al cargar los registros web');
+    }
+}
+
+// Render web registrations
+function renderWebRegistrations(registrations) {
+    const container = document.getElementById('webRegistrationsList');
+    
+    if (!registrations || registrations.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12">
+                <i class="fas fa-inbox text-4xl text-gray-500 mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-300 mb-2">No hay registros web</h3>
+                <p class="text-gray-400">Aún no se han recibido solicitudes de registro desde el formulario web.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const registrationsHTML = registrations.map(registration => {
+        const registrationDate = registration.registrationDate ? 
+            new Date(registration.registrationDate.seconds * 1000).toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }) : 'Fecha no disponible';
+        
+        return `
+            <div class="bg-gray-700 rounded-lg p-6 mb-4 border border-gray-600">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-100 mb-2">${registration.businessName || 'Sin nombre'}</h3>
+                        <p class="text-gray-400 text-sm">${registration.businessType || 'Tipo no especificado'}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded-full mb-2">Nuevo</span>
+                        <p class="text-gray-400 text-sm">${registrationDate}</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <h4 class="font-medium text-gray-300 mb-2">Información de Contacto</h4>
+                        <div class="space-y-1 text-sm text-gray-400">
+                            <p><i class="fas fa-user mr-2"></i>${registration.contactName || 'No especificado'}</p>
+                            <p><i class="fas fa-envelope mr-2"></i>${registration.contactEmail || 'No especificado'}</p>
+                            <p><i class="fas fa-phone mr-2"></i>${registration.phone || 'No especificado'}</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium text-gray-300 mb-2">Ubicación</h4>
+                        <div class="space-y-1 text-sm text-gray-400">
+                            <p><i class="fas fa-map-marker-alt mr-2"></i>${registration.address || 'No especificada'}</p>
+                            <p><i class="fas fa-city mr-2"></i>${registration.city || 'No especificada'}, ${registration.province || 'No especificada'}</p>
+                            <p><i class="fas fa-mail-bulk mr-2"></i>${registration.postalCode || 'No especificado'}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                ${registration.description ? `
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-300 mb-2">Descripción</h4>
+                        <p class="text-gray-400 text-sm">${registration.description}</p>
+                    </div>
+                ` : ''}
+                
+                ${registration.website ? `
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-300 mb-2">Sitio Web</h4>
+                        <a href="${registration.website}" target="_blank" class="text-blue-400 hover:text-blue-300 text-sm">
+                            <i class="fas fa-external-link-alt mr-1"></i>${registration.website}
+                        </a>
+                    </div>
+                ` : ''}
+                
+                <div class="flex justify-end space-x-3 pt-4 border-t border-gray-600">
+                    <button 
+                        onclick="deleteWebRegistration('${registration.id}', '${registration.businessName || 'esta peluquería'}')"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors"
+                    >
+                        <i class="fas fa-trash mr-2"></i>Eliminar
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    container.innerHTML = registrationsHTML;
+}
+
+// Delete web registration
+async function deleteWebRegistration(registrationId, businessName) {
+    if (!confirm(`¿Estás seguro de que quieres eliminar el registro de "${businessName}"? Esta acción no se puede deshacer.`)) {
+        return;
+    }
+    
+    try {
+        showLoading('Eliminando registro...');
+        
+        await window.FirebaseData.deleteWebRegistration(registrationId);
+        
+        hideLoading();
+        showSuccess('Registro eliminado correctamente');
+        
+        // Reload web registrations
+        await loadWebRegistrations();
+        
+    } catch (error) {
+        console.error('❌ Error deleting web registration:', error);
+        hideLoading();
+        showError('Error al eliminar el registro');
+    }
 }
 
 // Simplified - removed checkAdminDocument function as it's now inline 

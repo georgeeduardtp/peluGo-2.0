@@ -13,7 +13,9 @@ import {
     addDoc,
     setDoc,
     updateDoc,
+    deleteDoc,
     onSnapshot,
+    orderBy,
     serverTimestamp 
 } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
 import { 
@@ -732,7 +734,8 @@ window.FirebaseAuth = {
     validateAdminCode,
     getCurrentUser: () => currentUser,
     getCurrentUserRole: () => currentUserRole,
-    getUserRole
+    getUserRole,
+    deleteUser: deleteUserFromAuth
 };
 
 // Export Firebase functions
@@ -753,7 +756,11 @@ window.FirebaseData = {
     getPendingSalons,
     initializeDatabase,
     getDocument: getDocumentFromFirestore,
-    getSalonByUid: getSalonByUid
+    getSalonByUid: getSalonByUid,
+    saveWebRegistration: saveWebRegistration,
+    getWebRegistrations: getWebRegistrations,
+    deleteWebRegistration: deleteWebRegistration,
+    deleteDocument: deleteDocumentFromFirestore
 };
 
 // Global functions for UI
@@ -800,6 +807,119 @@ async function getSalonByUid(uid) {
         }
     } catch (error) {
         console.error(`❌ Error getting salon document for UID ${uid}:`, error);
-        return null;
+            return null;
+        }
+}
+
+/**
+ * Save web registration form data
+ */
+async function saveWebRegistration(salonData) {
+    try {
+        console.log('💾 Saving web registration data:', salonData);
+        
+        // Add metadata
+        const registrationData = {
+            ...salonData,
+            registrationDate: serverTimestamp(),
+            status: 'pending',
+            source: 'web_form',
+            reviewed: false
+        };
+        
+        // Save to web_registrations collection
+        const docRef = await addDoc(collection(db, 'web_registrations'), registrationData);
+        
+        console.log(`✅ Web registration saved with ID: ${docRef.id}`);
+        return docRef.id;
+        
+    } catch (error) {
+        console.error('❌ Error saving web registration:', error);
+        throw error;
+    }
+}
+
+/**
+ * Get all web registrations
+ */
+async function getWebRegistrations() {
+    try {
+        console.log('📋 Getting web registrations...');
+        
+        const q = query(collection(db, 'web_registrations'), orderBy('registrationDate', 'desc'));
+        const snapshot = await getDocs(q);
+        
+        const registrations = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+        
+        console.log(`✅ Found ${registrations.length} web registrations`);
+        return registrations;
+        
+    } catch (error) {
+        console.error('❌ Error getting web registrations:', error);
+        throw error;
+    }
+}
+
+/**
+ * Delete web registration
+ */
+async function deleteWebRegistration(registrationId) {
+    try {
+        console.log(`🗑️ Deleting web registration: ${registrationId}`);
+        
+        const docRef = doc(db, 'web_registrations', registrationId);
+        await deleteDoc(docRef);
+        
+        console.log(`✅ Web registration deleted: ${registrationId}`);
+        
+    } catch (error) {
+        console.error('❌ Error deleting web registration:', error);
+        throw error;
+    }
+}
+
+/**
+ * Delete document from Firestore
+ */
+async function deleteDocumentFromFirestore(collection, documentId) {
+    try {
+        console.log(`🗑️ Deleting document ${documentId} from ${collection}`);
+        const docRef = doc(db, collection, documentId);
+        await deleteDoc(docRef);
+        
+        console.log(`✅ Document deleted from ${collection}: ${documentId}`);
+        
+    } catch (error) {
+        console.error(`❌ Error deleting document from ${collection}:`, error);
+        throw error;
+    }
+}
+
+/**
+ * Delete user from Firebase Auth
+ */
+async function deleteUserFromAuth(email) {
+    try {
+        console.log(`🗑️ Deleting user from Auth: ${email}`);
+        
+        // Note: This is a placeholder. In a real implementation, you would need
+        // to sign in as the user first or use admin SDK to delete the user
+        // For now, we'll just log the attempt
+        
+        console.log(`⚠️ User deletion from Auth requires admin SDK or user sign-in`);
+        console.log(`📧 Email to delete: ${email}`);
+        
+        // In a production environment, you would implement this using:
+        // 1. Admin SDK (server-side)
+        // 2. Or sign in as the user first, then delete
+        
+        return true; // Placeholder return
+        
+    } catch (error) {
+        console.error(`❌ Error deleting user from Auth:`, error);
+        throw error;
     }
 } 
