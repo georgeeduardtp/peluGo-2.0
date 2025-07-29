@@ -423,8 +423,8 @@ async function getUserRole(uid) {
         }
 
         console.log('✅ Not admin, checking salon document...');
-        // Check if user is salon
-        const salonDoc = await window.FirebaseData.getDocument('salons', uid);
+        // Check if user is salon using query instead of direct document access
+        const salonDoc = await window.FirebaseData.getSalonByUid(uid);
         console.log('📄 Salon document result:', salonDoc);
         
         if (salonDoc) {
@@ -461,7 +461,7 @@ async function handleSalonRedirect(uid) {
         }
 
         console.log('✅ FirebaseData available, getting salon document...');
-        const salonDoc = await window.FirebaseData.getDocument('salons', uid);
+        const salonDoc = await window.FirebaseData.getSalonByUid(uid);
         
         console.log('📄 Salon document received:', salonDoc);
         

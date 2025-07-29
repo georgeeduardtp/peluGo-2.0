@@ -161,22 +161,21 @@ async function getUserRole(uid) {
     try {
         console.log('🔍 Getting user role for UID:', uid);
         
-        // Check if user is admin
         if (window.firebaseDb) {
             const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js');
             
+            // Check admin collection
             const adminDoc = await getDoc(doc(window.firebaseDb, 'admins', uid));
             if (adminDoc.exists()) {
                 console.log('👑 User is admin');
                 return { role: 'admin', data: adminDoc.data() };
             }
             
+            // Check salon collection
             const salonDoc = await getDoc(doc(window.firebaseDb, 'salons', uid));
             if (salonDoc.exists()) {
                 console.log('🏪 User is salon owner');
-                const salonData = salonDoc.data();
-                console.log('📊 Salon data:', salonData);
-                return { role: 'salon', data: salonData };
+                return { role: 'salon', data: salonDoc.data() };
             }
             
             console.log('👤 User is regular user');
@@ -309,6 +308,10 @@ function updateSalonMenuOptions(userData) {
         `;
     } else if (profileStatus === 'approved') {
         salonOptionsHTML = `
+            <a href="salon-settings.html" class="block px-4 py-2 text-sm text-blue-400 hover:bg-blue-900 font-medium">
+                <i class="fas fa-cog mr-2"></i>
+                Configuración
+            </a>
             <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
                 <i class="fas fa-store mr-2"></i>
                 Mi Peluquería
@@ -357,6 +360,9 @@ function updateMobileUserOptions(role, userData = null) {
             `;
         } else if (profileStatus === 'approved') {
             optionsHTML = `
+                <a href="salon-settings.html" class="block text-blue-400 font-medium py-2">
+                    <i class="fas fa-cog mr-2"></i>Configuración
+                </a>
                 <a href="#" class="block text-gray-300 font-medium py-2">
                     <i class="fas fa-store mr-2"></i>Mi Peluquería
                 </a>

@@ -514,7 +514,34 @@
         window.FirebaseAuth = {
             getCurrentUser: () => auth.currentUser,
             signOut: () => signOut(auth),
-            onAuthStateChanged: (callback) => onAuthStateChanged(auth, callback)
+            onAuthStateChanged: (callback) => onAuthStateChanged(auth, callback),
+            getUserRole: async (uid) => {
+                // Check in admins collection first
+                const adminsQuery = query(collection(db, 'admins'), where('uid', '==', uid));
+                const adminsSnapshot = await getDocs(adminsQuery);
+                
+                if (!adminsSnapshot.empty) {
+                    return 'admin';
+                }
+                
+                // Check in salons collection
+                const salonsQuery = query(collection(db, 'salons'), where('uid', '==', uid));
+                const salonsSnapshot = await getDocs(salonsQuery);
+                
+                if (!salonsSnapshot.empty) {
+                    return 'salon';
+                }
+                
+                // Check in users collection last
+                const usersQuery = query(collection(db, 'users'), where('uid', '==', uid));
+                const usersSnapshot = await getDocs(usersQuery);
+                
+                if (!usersSnapshot.empty) {
+                    return usersSnapshot.docs[0].data().role || 'user';
+                }
+                
+                return 'user'; // Default role
+            }
         };
         
         // Make auth available globally

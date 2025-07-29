@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración de Peluquería - PeluGo</title>
+    <meta name="description" content="Configura los datos de tu peluquería">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-900 min-h-screen">
+    
+    <!-- Main Content -->
+    <div id="settingsContent" class="hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            
+            <!-- Navigation -->
+            <nav class="bg-gray-800 shadow-lg sticky top-0 z-50 mb-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Logo -->
+                        <div class="flex items-center">
+                            <a href="index.html" class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-cut text-white text-sm"></i>
+                                </div>
+                                <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                                    PeluGo
+                                </span>
+                            </a>
+                            <span class="ml-3 bg-green-900 text-green-300 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                CONFIGURACIÓN
+                            </span>
+                        </div>
+
+                        <!-- User Info -->
+                        <div class="flex items-center space-x-4">
+                            <div id="salonInfo" class="text-sm text-gray-300">
+                                <span>Cargando...</span>
+                            </div>
+                            <button 
+                                id="logoutBtn"
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                            >
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                Cerrar sesión
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Loading Screen -->
+            <div id="loadingScreen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+                <div class="text-center">
+                    <div class="loading mb-4 mx-auto"></div>
+                    <p class="text-gray-400">Cargando configuración...</p>
+                </div>
+            </div>
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="w-24 h-24 bg-gradient-to-r from-blue-700 to-blue-800 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                    <i class="fas fa-cog text-white text-3xl"></i>
+                </div>
+                <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-4">
+                    Configuración de Peluquería
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Modifica la información de tu peluquería y mantén tu perfil actualizado
+                </p>
+            </div>
+
+            <!-- Settings Form -->
+            <div class="bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-600">
+                <form id="salonSettingsForm">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        
+                        <!-- Left Column: Business Info -->
+                        <div class="space-y-8">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-store text-white text-sm"></i>
+                                    </div>
+                                    Información del Negocio
+                                </h3>
+                            </div>
+                            
+                            <div class="group">
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-store mr-2 text-blue-400"></i>
+                                    Nombre de la peluquería *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="businessName"
+                                    required
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm"
+                                    placeholder="Ej: Bella Vista Salon"
+                                >
+                            </div>
+
+                            <div class="group">
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>
+                                    Dirección completa *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="address"
+                                    required
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm"
+                                    placeholder="Calle, número, código postal"
+                                >
+                            </div>
+
+                            <div class="group">
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-city mr-2 text-blue-400"></i>
+                                    Ciudad *
+                                </label>
+                                <div class="relative">
+                                    <select 
+                                        id="city"
+                                        required
+                                        class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 hover:border-blue-400 shadow-sm appearance-none cursor-pointer"
+                                    >
+                                        <option value="">Selecciona ciudad</option>
+                                        <option value="Madrid">Madrid</option>
+                                        <option value="Barcelona">Barcelona</option>
+                                        <option value="Valencia">Valencia</option>
+                                        <option value="Sevilla">Sevilla</option>
+                                        <option value="Bilbao">Bilbao</option>
+                                        <option value="Málaga">Málaga</option>
+                                        <option value="Zaragoza">Zaragoza</option>
+                                        <option value="Murcia">Murcia</option>
+                                        <option value="Las Palmas">Las Palmas</option>
+                                        <option value="Palma">Palma</option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                                        <i class="fas fa-chevron-down text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-phone mr-2 text-blue-400"></i>
+                                    Teléfono *
+                                </label>
+                                <input 
+                                    type="tel" 
+                                    id="phone"
+                                    required
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm"
+                                    placeholder="+34 123 456 789"
+                                >
+                            </div>
+
+                            <div class="group">
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-globe mr-2 text-blue-400"></i>
+                                    Sitio web (opcional)
+                                </label>
+                                <input 
+                                    type="url" 
+                                    id="website"
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm"
+                                    placeholder="https://www.mipeluqueria.com"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Additional Info -->
+                        <div class="space-y-8">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-info-circle text-white text-sm"></i>
+                                    </div>
+                                    Información Adicional
+                                </h3>
+                            </div>
+
+                            <div class="group">
+                                <label class="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-edit mr-2 text-blue-400"></i>
+                                    Descripción de la peluquería
+                                </label>
+                                <textarea 
+                                    id="description"
+                                    rows="5"
+                                    class="w-full px-6 py-4 border-2 border-gray-600 bg-gray-700 text-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 placeholder-gray-400 hover:border-blue-400 shadow-sm resize-none"
+                                    placeholder="Describe tu peluquería: servicios, especialidades, años de experiencia..."
+                                ></textarea>
+                                <p class="text-xs text-blue-400 mt-2 font-medium">Esta descripción aparecerá en tu perfil público</p>
+                            </div>
+
+                            <div class="group">
+                                <label class="block text-sm font-semibold text-gray-300 mb-4 group-hover:text-blue-400 transition-colors duration-200">
+                                    <i class="fas fa-cut mr-2 text-blue-400"></i>
+                                    Servicios que ofreces
+                                </label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="service-card group/service relative overflow-hidden cursor-pointer">
+                                        <input type="checkbox" name="services" value="Corte" class="sr-only peer">
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-cut text-blue-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Corte</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                        </div>
+                                    </label>
+                                    <label class="service-card group/service relative overflow-hidden cursor-pointer">
+                                        <input type="checkbox" name="services" value="Peinado" class="sr-only peer">
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-magic text-blue-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Peinado</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                        </div>
+                                    </label>
+                                    <label class="service-card group/service relative overflow-hidden cursor-pointer">
+                                        <input type="checkbox" name="services" value="Tinte" class="sr-only peer">
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-palette text-blue-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Tinte</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                        </div>
+                                    </label>
+                                    <label class="service-card group/service relative overflow-hidden cursor-pointer">
+                                        <input type="checkbox" name="services" value="Mechas" class="sr-only peer">
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-brush text-blue-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Mechas</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                        </div>
+                                    </label>
+                                    <label class="service-card group/service relative overflow-hidden cursor-pointer">
+                                        <input type="checkbox" name="services" value="Tratamientos" class="sr-only peer">
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-spa text-blue-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Tratamientos</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                        </div>
+                                    </label>
+                                    <label class="service-card group/service relative overflow-hidden cursor-pointer">
+                                        <input type="checkbox" name="services" value="Barbería" class="sr-only peer">
+                                        <div class="flex items-center p-4 border-2 border-gray-600 bg-gray-700 rounded-2xl transition-all duration-300 hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-900 hover:shadow-md">
+                                            <div class="w-8 h-8 rounded-full bg-blue-900 flex items-center justify-center mr-3 group-hover/service:bg-blue-800 transition-colors">
+                                                <i class="fas fa-user-tie text-blue-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-gray-300 group-hover/service:text-blue-400 transition-colors">Barbería</span>
+                                            <i class="fas fa-check absolute top-2 right-2 text-blue-400 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schedule Section - Collapsible -->
+                    <div class="mt-12">
+                        <div class="bg-gray-700 border-2 border-gray-600 rounded-2xl overflow-hidden">
+                            <!-- Schedule Header (Clickable) -->
+                            <button 
+                                type="button"
+                                id="scheduleToggle"
+                                class="w-full px-6 py-4 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center justify-between group"
+                            >
+                                <div class="flex items-center">
+                                    <i class="fas fa-clock text-blue-400 mr-3 text-lg"></i>
+                                    <span class="text-lg font-semibold text-gray-100 group-hover:text-blue-400 transition-colors">
+                                        Horario de atención
+                                    </span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm text-gray-400" id="scheduleSummary">
+                                        Configurar horarios
+                                    </span>
+                                    <i class="fas fa-chevron-down text-gray-400 group-hover:text-blue-400 transition-all duration-200 transform" id="scheduleIcon"></i>
+                                </div>
+                            </button>
+                            
+                            <!-- Schedule Content (Collapsible) -->
+                            <div id="scheduleContent" class="hidden px-6 py-6 bg-gray-800 border-t border-gray-600">
+                                <!-- Quick Schedule Buttons -->
+                                <div class="flex flex-wrap gap-3 mb-6">
+                                    <button type="button" onclick="setQuickSchedule('standard')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
+                                        <i class="fas fa-clock mr-2"></i>Horario Estándar
+                                    </button>
+                                    <button type="button" onclick="setQuickSchedule('extended')" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors">
+                                        <i class="fas fa-clock mr-2"></i>Horario Extendido
+                                    </button>
+                                    <button type="button" onclick="setQuickSchedule('weekend')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition-colors">
+                                        <i class="fas fa-calendar mr-2"></i>Incluir Fines
+                                    </button>
+                                    <button type="button" onclick="clearAllSchedule()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors">
+                                        <i class="fas fa-times mr-2"></i>Limpiar Todo
+                                    </button>
+                                </div>
+
+                                <!-- Schedule Grid -->
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="scheduleGrid">
+                                    <!-- Schedule rows will be generated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            <!-- Employees Section - Collapsible -->
+            <div class="mt-12">
+                <div class="bg-gray-700 border-2 border-gray-600 rounded-2xl overflow-hidden">
+                    <!-- Employees Header (Clickable) -->
+                    <button 
+                        type="button"
+                        id="employeesToggle"
+                        class="w-full px-6 py-4 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center justify-between group"
+                    >
+                        <div class="flex items-center">
+                            <i class="fas fa-users text-green-400 mr-3 text-lg"></i>
+                            <span class="text-lg font-semibold text-gray-100 group-hover:text-green-400 transition-colors">
+                                Empleados
+                            </span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-400" id="employeesSummary">
+                                Gestionar empleados
+                            </span>
+                            <i class="fas fa-chevron-down text-gray-400 group-hover:text-green-400 transition-all duration-200 transform" id="employeesIcon"></i>
+                        </div>
+                    </button>
+                    
+
+                </div>
+            </div>
+        </form>
+
+        <!-- Employees Section (Outside main form) -->
+        <div class="mt-8">
+            <div class="bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-600">
+                <!-- Employees Content (Collapsible) -->
+                <div id="employeesContent" class="hidden px-6 py-6 bg-gray-800 border-t border-gray-600">
+                    <!-- Add Employee Form -->
+                    <div class="bg-gray-700 rounded-lg p-6 mb-6">
+                        <h3 class="text-lg font-semibold text-white mb-4">
+                            <i class="fas fa-plus mr-2 text-green-400"></i>
+                            Agregar Nuevo Empleado
+                        </h3>
+                        
+                        <form id="addEmployeeForm" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                                        Nombre completo *
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="employeeName" 
+                                        name="employeeName"
+                                        class="w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 transition-colors"
+                                        placeholder="Ej: María García López"
+                                        required
+                                    >
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                                        Especialidad
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="employeeSpecialty" 
+                                        name="employeeSpecialty"
+                                        class="w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 transition-colors"
+                                        placeholder="Ej: Corte, Color, Peinado"
+                                    >
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">
+                                    Horario de trabajo
+                                </label>
+                                <div class="bg-gray-600 rounded-lg p-4">
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="employeeScheduleGrid">
+                                        <!-- Employee schedule rows will be generated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end space-x-3">
+                                <button 
+                                    type="button" 
+                                    onclick="clearEmployeeForm()"
+                                    class="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg text-sm font-medium transition-colors"
+                                >
+                                    <i class="fas fa-times mr-2"></i>
+                                    Limpiar
+                                </button>
+                                <button 
+                                    type="submit"
+                                    class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors"
+                                >
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Agregar Empleado
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Employees List -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-4">
+                            <i class="fas fa-list mr-2 text-blue-400"></i>
+                            Empleados Registrados
+                        </h3>
+                        
+                        <div id="employeesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Employee cards will be generated by JavaScript -->
+                        </div>
+
+                        <div id="noEmployeesMessage" class="text-center py-8 text-gray-400 hidden">
+                            <i class="fas fa-users text-4xl mb-4"></i>
+                            <p class="text-lg">No hay empleados registrados</p>
+                            <p class="text-sm">Agrega tu primer empleado usando el formulario de arriba</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+                type="submit"
+                id="saveButton"
+                class="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
+            >
+                <i class="fas fa-save mr-3"></i>
+                <span id="saveButtonText">Guardar Cambios</span>
+                <span id="saveButtonBadge" class="ml-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full hidden">
+                    Nuevo
+                </span>
+            </button>
+            <a 
+                href="index.html"
+                class="px-8 py-4 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
+            >
+                <i class="fas fa-arrow-left mr-3"></i>
+                Volver al Inicio
+            </a>
+        </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Access Denied Screen -->
+    <div id="accessDenied" class="hidden fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+        <div class="text-center max-w-md mx-auto px-6">
+            <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-red-400 mb-4">Acceso Denegado</h2>
+            <p class="text-gray-300 mb-8">
+                No tienes permisos para acceder a esta página o tu cuenta no está aprobada.
+            </p>
+            <a 
+                href="index.html"
+                class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            >
+                Volver al Inicio
+            </a>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="loading mb-4 mx-auto"></div>
+            <p class="text-white font-medium" id="loadingMessage">Guardando cambios...</p>
+        </div>
+    </div>
+
+    <!-- Success/Error Notifications -->
+    <div id="notificationContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Firebase Scripts Direct -->
+    <script type="module">
+        // Import Firebase modules directly - v12.0.0
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js';
+        import { 
+            getFirestore, 
+            doc,
+            getDoc,
+            updateDoc
+        } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            signOut
+        } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+            authDomain: "pelugo-2025.firebaseapp.com",
+            projectId: "pelugo-2025",
+            storageBucket: "pelugo-2025.firebasestorage.app",
+            messagingSenderId: "588352402376",
+            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+            measurementId: "G-4J0EQTQTVS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        console.log('🔥 Firebase initialized for salon settings');
+
+        // Export Firebase instances to global scope
+        window.firebaseApp = app;
+        window.firebaseDb = db;
+        window.firebaseAuth = auth;
+        
+        // Firebase API for salon settings
+        window.FirebaseAPI = {
+            getCurrentUser: () => auth.currentUser,
+            signOut: () => signOut(auth),
+            getSalonProfile: async (uid) => {
+                const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js');
+                const salonDoc = await getDoc(doc(db, 'salons', uid));
+                if (salonDoc.exists()) {
+                    return salonDoc.data();
+                }
+                return null;
+            },
+            updateSalonProfile: async (uid, profileData) => {
+                const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js');
+                const salonRef = doc(db, 'salons', uid);
+                
+                // Ensure uid is preserved in the update data
+                const updateDataWithUid = {
+                    ...profileData,
+                    uid: uid
+                };
+                
+                await updateDoc(salonRef, updateDataWithUid);
+            }
+        };
+
+        console.log('✅ Firebase API ready for salon settings');
+        
+        // Wait for auth state and then load settings script
+        onAuthStateChanged(auth, (user) => {
+            console.log('🔍 Auth state changed:', user ? 'User logged in' : 'No user');
+            
+            window.firebaseReady = true;
+            
+            // Load salon settings script
+            if (!window.settingsJsLoaded) {
+                const script = document.createElement('script');
+                script.src = 'assets/js/salon-settings.js';
+                script.onload = () => {
+                    console.log('✅ Salon settings script loaded');
+                    window.settingsJsLoaded = true;
+                    
+                    // Initialize the settings page after script is loaded
+                    if (typeof window.initializeSettingsPage === 'function') {
+                        console.log('🚀 Initializing settings page...');
+                        window.initializeSettingsPage();
+                    } else {
+                        console.error('❌ initializeSettingsPage function not found');
+                    }
+                };
+                script.onerror = () => {
+                    console.error('❌ Failed to load salon settings script');
+                };
+                document.head.appendChild(script);
+            } else {
+                // Script already loaded, initialize directly
+                if (typeof window.initializeSettingsPage === 'function') {
+                    console.log('🚀 Initializing settings page (script already loaded)...');
+                    window.initializeSettingsPage();
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

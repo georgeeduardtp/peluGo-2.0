@@ -730,9 +730,16 @@ window.FirebaseAuth = {
     getUserRole
 };
 
+// Export Firebase functions
 window.FirebaseData = {
-    getFeaturedSalons: getFeaturedSalonsFromFirebase,
+    registerUser,
+    signInUser,
+    signOutUser,
+    getUserRole,
+    getFeaturedSalonsFromFirebase,
     listenToSalonUpdates,
+    updateCityCount,
+    updateAppStats,
     getUserCount,
     getSalonCount,
     getAppStats,
@@ -767,6 +774,4 @@ async function getDocumentFromFirestore(collection, documentId) {
         console.error(`❌ Error getting document from ${collection}:`, error);
         throw error;
     }
-}
-
-console.log('Firebase integration v12.0.0 initialized successfully with Analytics'); 
+} 

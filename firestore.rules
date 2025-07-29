@@ -13,6 +13,11 @@ service cloud.firestore {
       return request.auth != null;
     }
     
+    // Helper function to check if user owns the document
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+    
     // ADMIN COLLECTION - Admins can do everything with other admins
     match /admins/{adminId} {
       // Allow admin creation (for initial setup)
@@ -23,7 +28,7 @@ service cloud.firestore {
       allow read, write: if isAdmin();
       
       // Users can read their own admin document
-      allow read: if request.auth != null && request.auth.uid == adminId;
+      allow read: if isOwner(adminId);
     }
     
     // USERS COLLECTION - General users
@@ -32,7 +37,7 @@ service cloud.firestore {
       allow read, write: if isAdmin();
       
       // Users can manage their own data
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if isOwner(userId);
       
       // Allow user creation
       allow create: if request.auth != null && 
@@ -47,9 +52,13 @@ service cloud.firestore {
       // Public can read approved salons
       allow read: if resource.data.approved == true;
       
-      // Salon owners can read/write their own data
-      allow read, write: if request.auth != null && 
-                            request.auth.uid == resource.data.uid;
+      // Salon owners can read their own data
+      allow read: if isOwner(resource.data.uid);
+      
+      // Salon owners can update their own data
+      allow update: if request.auth != null && 
+                       request.auth.uid == resource.data.uid &&
+                       request.auth.uid == request.resource.data.uid;
       
       // Allow salon creation (will be pending approval)
       allow create: if request.auth != null && 
@@ -72,6 +81,34 @@ service cloud.firestore {
       
       // Everyone can read cities
       allow read: if true;
+    }
+    
+    // SCHEDULES COLLECTION - Salon schedules
+    match /schedules/{scheduleId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Salon owners can manage their schedules
+      allow read, write: if request.auth != null && 
+                           request.auth.uid == get(/databases/$(database)/documents/salons/$(request.resource.data.salonId)).data.uid;
+      
+      // Allow schedule creation
+      allow create: if request.auth != null && 
+                       request.auth.uid == get(/databases/$(database)/documents/salons/$(request.resource.data.salonId)).data.uid;
+    }
+    
+    // SERVICES COLLECTION - Salon services
+    match /services/{serviceId} {
+      // Admins can do everything
+      allow read, write: if isAdmin();
+      
+      // Salon owners can manage their services
+      allow read, write: if request.auth != null && 
+                           request.auth.uid == get(/databases/$(database)/documents/salons/$(request.resource.data.salonId)).data.uid;
+      
+      // Allow service creation
+      allow create: if request.auth != null && 
+                       request.auth.uid == get(/databases/$(database)/documents/salons/$(request.resource.data.salonId)).data.uid;
     }
     
     // SETTINGS COLLECTION - App configuration

@@ -781,13 +781,37 @@
             getCurrentUser: () => auth.currentUser,
             signOut: () => signOut(auth),
             getSalonProfile: async (uid) => {
-                const docRef = doc(db, 'salons', uid);
-                const docSnap = await getDoc(docRef);
-                return docSnap.exists() ? docSnap.data() : null;
+                // Query by UID since document ID is auto-generated
+                const { collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js');
+                const salonsQuery = query(collection(db, 'salons'), where('uid', '==', uid));
+                const salonsSnapshot = await getDocs(salonsQuery);
+                
+                if (!salonsSnapshot.empty) {
+                    const salonDoc = salonsSnapshot.docs[0];
+                    return salonDoc.data();
+                }
+                return null;
             },
             updateSalonProfile: async (uid, profileData) => {
-                const docRef = doc(db, 'salons', uid);
-                await updateDoc(docRef, profileData);
+                // First find the document by UID, then update it
+                const { collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js');
+                const salonsQuery = query(collection(db, 'salons'), where('uid', '==', uid));
+                const salonsSnapshot = await getDocs(salonsQuery);
+                
+                if (salonsSnapshot.empty) {
+                    throw new Error(`No salon found for UID: ${uid}`);
+                }
+                
+                const salonDoc = salonsSnapshot.docs[0];
+                const salonRef = doc(db, 'salons', salonDoc.id);
+                
+                // Ensure uid is preserved in the update data
+                const updateDataWithUid = {
+                    ...profileData,
+                    uid: uid
+                };
+                
+                await updateDoc(salonRef, updateDataWithUid);
             }
         };
 
