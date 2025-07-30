@@ -8,6 +8,36 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '475px',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Hide scrollbar for carousel */
+        .scrollbar-hide {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari and Opera */
+        }
+        
+        /* Carousel snap scrolling */
+        .snap-x {
+            scroll-snap-type: x mandatory;
+        }
+        .snap-start {
+            scroll-snap-align: start;
+        }
+    </style>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -29,7 +59,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 </head>
-<body class="bg-gray-900">
+<body class="bg-gray-900 pt-16">
     <!-- Lottie Loader -->
     <div id="lottieLoader" class="fixed inset-0 flex items-center justify-center z-[9999]" style="background-color: #1f2937;">
         <div class="text-center">
@@ -39,7 +69,7 @@
     </div>
     
     <!-- Navigation -->
-    <nav class="bg-gray-800 shadow-lg sticky top-0 z-50">
+    <nav class="bg-gray-800 shadow-lg fixed top-0 left-0 right-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -53,14 +83,14 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#buscar" class="text-gray-300 hover:text-blue-400 transition-colors">
+                <div class="hidden lg:flex items-center space-x-6 xl:space-x-8">
+                    <a href="#buscar" class="text-gray-300 hover:text-blue-400 transition-colors text-sm xl:text-base">
                         Buscar peluquerías
                     </a>
-                    <a href="#categorias" class="text-gray-300 hover:text-blue-400 transition-colors">
+                    <a href="#categorias" class="text-gray-300 hover:text-blue-400 transition-colors text-sm xl:text-base">
                         Categorías
                     </a>
-                    <a href="registro-peluqueria.html" class="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                    <a href="registro-peluqueria.html" class="text-blue-400 hover:text-blue-300 font-medium transition-colors text-sm xl:text-base">
                         ¿Quieres registrar tu peluquería?
                     </a>
                 </div>
@@ -147,7 +177,7 @@
                     </div>
                     
                     <!-- Mobile menu button -->
-                    <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-blue-400">
+                    <button id="mobileMenuBtn" class="lg:hidden text-gray-300 hover:text-blue-400">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
@@ -155,15 +185,15 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobileMenu" class="md:hidden bg-gray-800 border-t border-gray-600 hidden">
-            <div class="px-4 py-3 space-y-3">
-                <a href="#buscar" class="block text-gray-300 hover:text-blue-400 transition-colors">
+        <div id="mobileMenu" class="lg:hidden bg-gray-800 border-t border-gray-600 hidden">
+            <div class="px-4 py-4 space-y-4">
+                <a href="#buscar" class="block text-gray-300 hover:text-blue-400 transition-colors text-base">
                     Buscar peluquerías
                 </a>
-                <a href="#categorias" class="block text-gray-300 hover:text-blue-400 transition-colors">
+                <a href="#categorias" class="block text-gray-300 hover:text-blue-400 transition-colors text-base">
                     Categorías
                 </a>
-                <a href="registro-peluqueria.html" class="block text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                <a href="registro-peluqueria.html" class="block text-blue-400 hover:text-blue-300 font-medium transition-colors text-base">
                     ¿Quieres registrar tu peluquería?
                 </a>
                 
@@ -199,54 +229,55 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative bg-cover bg-center bg-no-repeat text-white py-20" style="background-image: url('images/earthmenu.jpg');">
+    <section class="relative bg-cover bg-center bg-no-repeat text-white py-12 sm:py-16 md:py-20" style="background-image: url('images/earthmenu.jpg');">
         <!-- Dark overlay for better text readability -->
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight">
                     Encuentra y reserva en las 
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-400">
                         mejores peluquerías
                     </span>
                 </h1>
-                <p class="text-xl md:text-2xl mb-8 text-blue-200 max-w-3xl mx-auto">
+                <p class="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 text-blue-200 max-w-3xl mx-auto px-4">
                     La plataforma líder en España para descubrir, comparar y reservar servicios de peluquería y belleza
                 </p>
 
                 <!-- Search Bar -->
-                <div class="max-w-2xl mx-auto">
-                    <div class="bg-white rounded-full shadow-2xl p-2 flex flex-col sm:flex-row gap-2">
+                <div class="max-w-2xl mx-auto px-4">
+                    <div class="bg-white rounded-full shadow-2xl p-1 sm:p-1.5 lg:p-2 flex flex-row gap-1 sm:gap-1.5 lg:gap-2">
                         <div class="flex-1 relative">
-                            <i class="fas fa-map-marker-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <i class="fas fa-map-marker-alt absolute left-2.5 sm:left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm sm:text-base"></i>
                             <input 
                                 type="text" 
                                 placeholder="Ciudad o código postal" 
-                                class="w-full pl-12 pr-4 py-3 text-gray-800 bg-transparent border-none outline-none rounded-full"
+                                class="w-full pl-9 sm:pl-10 lg:pl-12 pr-2 sm:pr-3 lg:pr-4 py-1.5 sm:py-2 lg:py-2.5 xl:py-3 text-gray-800 bg-transparent border-none outline-none rounded-full text-sm sm:text-base placeholder-gray-500"
                                 id="citySearch"
                             >
                         </div>
-                        <button class="bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                            <i class="fas fa-search mr-2"></i>
-                            Buscar
+                        <button class="bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 text-white px-2 sm:px-3 lg:px-4 xl:px-6 py-1.5 sm:py-2 lg:py-2.5 xl:py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg text-sm sm:text-base whitespace-nowrap">
+                            <i class="fas fa-search mr-1 sm:mr-1.5 lg:mr-2"></i>
+                            <span class="hidden sm:inline">Buscar</span>
+                            <span class="sm:hidden">Buscar</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Quick Stats -->
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto px-4">
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-300" id="salonCount">0</div>
-                        <div class="text-blue-200">Peluquerías</div>
+                        <div class="text-2xl sm:text-3xl font-bold text-blue-300" id="salonCount">0</div>
+                        <div class="text-sm sm:text-base text-blue-200">Peluquerías</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-300" id="userCount">0</div>
-                        <div class="text-blue-200">Usuarios registrados</div>
+                        <div class="text-2xl sm:text-3xl font-bold text-blue-300" id="userCount">0</div>
+                        <div class="text-sm sm:text-base text-blue-200">Usuarios registrados</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-300" id="averageRating">-</div>
-                        <div class="text-blue-200">Valoración media</div>
+                        <div class="text-2xl sm:text-3xl font-bold text-blue-300" id="averageRating">-</div>
+                        <div class="text-sm sm:text-base text-blue-200">Valoración media</div>
                     </div>
                 </div>
             </div>
@@ -254,44 +285,50 @@
     </section>
 
     <!-- Peluquerías Destacadas -->
-    <section id="destacadas" class="py-16 bg-gray-900">
+    <section id="destacadas" class="py-12 md:py-16 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-100 mb-4">
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100 mb-3 md:mb-4">
                     Peluquerías Destacadas
                 </h2>
-                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto px-4">
                     Descubre las peluquerías mejor valoradas por nuestra comunidad
                 </p>
                 
-                <!-- Filter Buttons -->
-                <div class="mt-8 flex flex-wrap justify-center gap-2">
-                    <button class="filter-btn active px-6 py-2 rounded-full bg-blue-700 text-white font-medium transition-all duration-300">
-                        Todas
+
+            </div>
+
+            <!-- Peluquerías Grid -->
+            <div id="peluqueriasGrid" class="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                <!-- Las peluquerías se cargarán dinámicamente -->
+            </div>
+            
+            <!-- Mobile Carousel -->
+            <div id="mobileCarousel" class="sm:hidden">
+                <div class="relative">
+                    <!-- Carousel Container -->
+                    <div id="carouselContainer" class="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 pb-4">
+                        <!-- Las peluquerías se cargarán dinámicamente -->
+                    </div>
+                    
+                    <!-- Navigation Dots -->
+                    <div id="carouselDots" class="flex justify-center mt-4 space-x-2">
+                        <!-- Los dots se generarán dinámicamente -->
+                    </div>
+                    
+                    <!-- Navigation Arrows -->
+                    <button id="carouselPrev" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-80 hover:bg-opacity-100 text-white p-2 rounded-full shadow-lg transition-all duration-300 z-10">
+                        <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="filter-btn px-6 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-blue-700 font-medium transition-all duration-300">
-                        Madrid
-                    </button>
-                    <button class="filter-btn px-6 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-blue-700 font-medium transition-all duration-300">
-                        Barcelona
-                    </button>
-                    <button class="filter-btn px-6 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-blue-700 font-medium transition-all duration-300">
-                        Valencia
-                    </button>
-                    <button class="filter-btn px-6 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-blue-700 font-medium transition-all duration-300">
-                        Sevilla
+                    <button id="carouselNext" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-80 hover:bg-opacity-100 text-white p-2 rounded-full shadow-lg transition-all duration-300 z-10">
+                        <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Peluquerías Grid -->
-            <div id="peluqueriasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Las peluquerías se cargarán dinámicamente -->
-            </div>
-
             <!-- Ver más button -->
-            <div class="text-center mt-12">
-                <button class="bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <div class="text-center mt-8 md:mt-12">
+                <button class="bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 text-white px-6 sm:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg text-sm sm:text-base">
                     Ver más peluquerías
                     <i class="fas fa-arrow-right ml-2"></i>
                 </button>
@@ -300,70 +337,70 @@
     </section>
 
     <!-- Categorías Section -->
-    <section id="categorias" class="py-16 bg-gray-800">
+    <section id="categorias" class="py-12 md:py-16 bg-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-100 mb-4">
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100 mb-3 md:mb-4">
                     Explora por Categorías
                 </h2>
-                <p class="text-xl text-gray-400">
+                <p class="text-lg sm:text-xl text-gray-400 px-4">
                     encuentra exactamente lo que necesitas
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- Corte de Pelo -->
-                <div class="bg-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group border border-gray-600">
-                    <div class="w-16 h-16 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-cut text-white text-2xl"></i>
+                <div class="bg-gray-700 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group border border-gray-600">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-cut text-white text-lg md:text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-100 mb-2">Corte de Pelo</h3>
-                    <p class="text-gray-300">Encuentra los mejores estilistas para tu corte de pelo</p>
+                    <h3 class="text-lg md:text-xl font-bold text-gray-100 mb-2">Corte de Pelo</h3>
+                    <p class="text-sm md:text-base text-gray-300">Encuentra los mejores estilistas para tu corte de pelo</p>
                 </div>
 
                 <!-- Barbería -->
-                <div class="bg-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group border border-gray-600">
-                    <div class="w-16 h-16 bg-gradient-to-r from-blue-800 to-slate-800 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-user-tie text-white text-2xl"></i>
+                <div class="bg-gray-700 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group border border-gray-600">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-blue-800 to-slate-800 rounded-full flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-user-tie text-white text-lg md:text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-100 mb-2">Barbería</h3>
-                    <p class="text-gray-300">Servicios especializados de barbería y afeitado</p>
+                    <h3 class="text-lg md:text-xl font-bold text-gray-100 mb-2">Barbería</h3>
+                    <p class="text-sm md:text-base text-gray-300">Servicios especializados de barbería y afeitado</p>
                 </div>
 
                 <!-- Coloración -->
-                <div class="bg-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group border border-gray-600">
-                    <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-palette text-white text-2xl"></i>
+                <div class="bg-gray-700 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group border border-gray-600">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-palette text-white text-lg md:text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-100 mb-2">Coloración</h3>
-                    <p class="text-gray-300">Tintes y mechas por expertos coloristas</p>
+                    <h3 class="text-lg md:text-xl font-bold text-gray-100 mb-2">Coloración</h3>
+                    <p class="text-sm md:text-base text-gray-300">Tintes y mechas por expertos coloristas</p>
                 </div>
 
                 <!-- Tratamientos -->
-                <div class="bg-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group border border-gray-600">
-                    <div class="w-16 h-16 bg-gradient-to-r from-slate-600 to-blue-800 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-spa text-white text-2xl"></i>
+                <div class="bg-gray-700 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group border border-gray-600">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-slate-600 to-blue-800 rounded-full flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-spa text-white text-lg md:text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-100 mb-2">Tratamientos</h3>
-                    <p class="text-gray-300">Tratamientos capilares y de belleza especializados</p>
+                    <h3 class="text-lg md:text-xl font-bold text-gray-100 mb-2">Tratamientos</h3>
+                    <p class="text-sm md:text-base text-gray-300">Tratamientos capilares y de belleza especializados</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- App Download Section -->
-    <section class="py-16 bg-gradient-to-r from-blue-700 to-blue-800 text-white">
+    <section class="py-12 md:py-16 bg-gradient-to-r from-blue-700 to-blue-800 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4">
                     Descarga nuestra App
                 </h2>
-                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                <p class="text-lg sm:text-xl text-blue-100 mb-6 md:mb-8 max-w-2xl mx-auto px-4">
                     Instala PeluGo en tu dispositivo para una experiencia más rápida y cómoda. 
                     Accede con un solo clic y disfruta de todas las ventajas.
                 </p>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto mb-6 md:mb-8 px-4">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-bolt text-2xl"></i>
@@ -389,7 +426,7 @@
                     </div>
                 </div>
 
-                <button id="installApp" class="bg-white text-blue-700 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
+                <button id="installApp" class="bg-white text-blue-700 px-6 sm:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-gray-100 transition-colors shadow-lg">
                     <i class="fas fa-download mr-2"></i>
                     Instalar aplicación
                 </button>
@@ -398,11 +435,11 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12 border-t border-gray-700">
+    <footer class="bg-gray-800 text-white py-8 md:py-12 border-t border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 <!-- Brand -->
-                <div class="md:col-span-1">
+                <div>
                     <div class="flex items-center space-x-2 mb-4">
                         <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center">
                             <i class="fas fa-cut text-white text-sm"></i>
@@ -414,60 +451,60 @@
                     </p>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-facebook text-xl"></i>
+                            <i class="fab fa-facebook text-lg md:text-xl"></i>
                         </a>
                         <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-instagram text-xl"></i>
+                            <i class="fab fa-instagram text-lg md:text-xl"></i>
                         </a>
                         <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-twitter text-xl"></i>
+                            <i class="fab fa-twitter text-lg md:text-xl"></i>
                         </a>
                         <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-linkedin text-xl"></i>
+                            <i class="fab fa-linkedin text-lg md:text-xl"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Enlaces -->
                 <div>
-                    <h3 class="text-lg font-bold mb-4">Enlaces</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sobre nosotros</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contacto</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Ayuda</a></li>
+                    <h3 class="text-base md:text-lg font-bold mb-3 md:mb-4">Enlaces</h3>
+                    <ul class="space-y-1 md:space-y-2">
+                        <li><a href="#" class="text-sm md:text-base text-gray-400 hover:text-white transition-colors">Sobre nosotros</a></li>
+                        <li><a href="#" class="text-sm md:text-base text-gray-400 hover:text-white transition-colors">Contacto</a></li>
+                        <li><a href="#" class="text-sm md:text-base text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-sm md:text-base text-gray-400 hover:text-white transition-colors">Ayuda</a></li>
                     </ul>
                 </div>
 
                 <!-- Legal -->
                 <div>
-                    <h3 class="text-lg font-bold mb-4">Legal</h3>
-                    <ul class="space-y-2">
-                        <li><a href="terminos.html" class="text-gray-400 hover:text-white transition-colors">Términos y condiciones</a></li>
-                        <li><a href="privacidad.html" class="text-gray-400 hover:text-white transition-colors">Política de privacidad</a></li>
-                        <li><a href="cookies.html" class="text-gray-400 hover:text-white transition-colors">Cookies</a></li>
+                    <h3 class="text-base md:text-lg font-bold mb-3 md:mb-4">Legal</h3>
+                    <ul class="space-y-1 md:space-y-2">
+                        <li><a href="terminos.html" class="text-sm md:text-base text-gray-400 hover:text-white transition-colors">Términos y condiciones</a></li>
+                        <li><a href="privacidad.html" class="text-sm md:text-base text-gray-400 hover:text-white transition-colors">Política de privacidad</a></li>
+                        <li><a href="cookies.html" class="text-sm md:text-base text-gray-400 hover:text-white transition-colors">Cookies</a></li>
                     </ul>
                 </div>
 
                 <!-- Newsletter -->
                 <div>
-                    <h3 class="text-lg font-bold mb-4">Newsletter</h3>
-                    <p class="text-gray-400 mb-4">Recibe las mejores ofertas y novedades</p>
+                    <h3 class="text-base md:text-lg font-bold mb-3 md:mb-4">Newsletter</h3>
+                    <p class="text-sm md:text-base text-gray-400 mb-3 md:mb-4">Recibe las mejores ofertas y novedades</p>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <input 
                             type="email" 
                             placeholder="Tu email" 
-                            class="flex-1 px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none"
+                            class="flex-1 px-3 md:px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none text-sm md:text-base"
                         >
-                        <button class="bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 px-6 py-2 rounded-lg font-semibold transition-colors">
+                        <button class="bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 px-4 md:px-6 py-2 rounded-lg font-semibold transition-colors text-sm md:text-base">
                             Suscribirse
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-                <p class="text-gray-400">
+            <div class="border-t border-gray-700 mt-6 md:mt-8 pt-6 md:pt-8 text-center">
+                <p class="text-sm md:text-base text-gray-400">
                     © 2025 PeluGo. Todos los derechos reservados.
                 </p>
             </div>

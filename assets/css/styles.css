@@ -250,25 +250,34 @@
     background: var(--gradient-primary);
 }
 
-/* Filter button transitions */
-.filter-btn {
-    transition: var(--transition-bounce);
-}
 
-.filter-btn.active {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-primary);
-}
 
 /* Card hover effects */
 .salon-card {
     transition: var(--transition-bounce);
+    min-height: 384px; /* h-96 = 384px */
+    max-height: 384px;
 }
 
 .salon-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
     border-color: #3b82f6;
+}
+
+/* Ensure consistent card content */
+.salon-card h3 {
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.salon-card .services-container {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* Loading animation */
@@ -337,6 +346,22 @@ input:focus,
 a:focus {
     outline: 2px solid var(--border-focus);
     outline-offset: 2px;
+}
+
+/* Fixed navigation styles */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background-color: rgba(31, 41, 55, 0.95);
+}
+
+/* Ensure body has proper spacing for fixed nav */
+body {
+    padding-top: 4rem; /* 64px = h-16 */
 }
 
 /* Print styles */

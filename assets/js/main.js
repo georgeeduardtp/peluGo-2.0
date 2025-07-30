@@ -22,7 +22,7 @@ function initializeMain() {
     initUserAuthentication();
     
     // Filter functionality
-    initFilters();
+
     
     // Load featured salons
     loadFeaturedSalons();
@@ -541,28 +541,7 @@ function showConfirmDialog(title, message, confirmText = 'Confirmar', cancelText
     });
 }
 
-// Filter Functionality
-function initFilters() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => {
-                btn.classList.remove('active', 'bg-purple-600', 'text-white');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
-            });
-            
-            // Add active class to clicked button
-            this.classList.add('active', 'bg-purple-600', 'text-white');
-            this.classList.remove('bg-gray-200', 'text-gray-700');
-            
-            // Filter salons based on selected city
-            const filterValue = this.textContent.trim();
-            filterSalons(filterValue);
-        });
-    });
-}
+
 
 // Load Featured Salons
 async function loadFeaturedSalons() {
@@ -608,7 +587,10 @@ async function getFeaturedSalons() {
 // Render Salons
 function renderSalons(salons) {
     const grid = document.getElementById('peluqueriasGrid');
-    if (!grid) return;
+    const carouselContainer = document.getElementById('carouselContainer');
+    const carouselDots = document.getElementById('carouselDots');
+    
+    if (!grid || !carouselContainer) return;
     
     // Check if there are no salons
     if (!salons || salons.length === 0) {
@@ -616,8 +598,9 @@ function renderSalons(salons) {
         return;
     }
     
-    const salonCards = salons.map(salon => `
-        <div class="salon-card bg-gray-800 rounded-2xl shadow-lg border border-gray-700 overflow-hidden cursor-pointer flex flex-col h-full" data-city="${salon.city || salon.location || ''}">
+    // Generate salon card HTML
+    const generateSalonCard = (salon, isCarousel = false) => `
+        <div class="salon-card bg-gray-800 rounded-2xl shadow-lg border border-gray-700 overflow-hidden cursor-pointer flex flex-col h-96 ${isCarousel ? 'w-80 flex-shrink-0 snap-start' : ''}" data-city="${salon.city || salon.location || ''}">
             <div class="relative">
                 <div class="w-full h-48 ${salon.image ? '' : 'bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center'}">
                     ${salon.image ? `<img src="${salon.image}" alt="${salon.name}" class="w-full h-48 object-cover">` : `
@@ -638,23 +621,24 @@ function renderSalons(salons) {
             
             <div class="p-6 flex flex-col flex-grow">
                 <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-xl font-bold text-gray-100">${salon.businessName || salon.name || 'Peluquería sin nombre'}</h3>
-                    <span class="text-blue-400 font-bold">${salon.price || 'Precio no disponible'}</span>
+                    <h3 class="text-lg font-bold text-gray-100 truncate flex-1 mr-2">${salon.businessName || salon.name || 'Peluquería sin nombre'}</h3>
+                    <span class="text-blue-400 font-bold text-sm whitespace-nowrap">${salon.price || 'Precio no disponible'}</span>
                 </div>
                 
-                <div class="flex items-center text-gray-400 mb-3">
+                <div class="flex items-center text-gray-400 mb-3 text-sm">
                     <i class="fas fa-map-marker-alt mr-1"></i>
-                    <span>${salon.city || salon.location || 'Ciudad no especificada'}</span>
+                    <span class="truncate">${salon.city || salon.location || 'Ciudad no especificada'}</span>
                     <span class="mx-2">•</span>
                     <span>${salon.reviewCount || salon.reviews || 0} reseñas</span>
                 </div>
                 
-                <div class="flex flex-wrap gap-2 mb-4">
-                    ${(salon.services || []).map(service => `
-                        <span class="bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
+                <div class="flex flex-wrap gap-2 mb-4 max-h-16 overflow-hidden services-container">
+                    ${(salon.services || []).slice(0, 3).map(service => `
+                        <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap">
                             ${service}
                         </span>
                     `).join('')}
+                    ${(salon.services || []).length > 3 ? `<span class="bg-gray-700 text-gray-300 px-2 py-1 rounded-full text-xs font-medium">+${(salon.services || []).length - 3} más</span>` : ''}
                 </div>
                 
                 <div class="flex-grow"></div>
@@ -664,15 +648,123 @@ function renderSalons(salons) {
                 </button>
             </div>
         </div>
-    `).join('');
+    `;
     
-    grid.innerHTML = salonCards;
+    // Render grid for desktop/tablet
+    const gridCards = salons.map(salon => generateSalonCard(salon, false)).join('');
+    grid.innerHTML = gridCards;
+    
+    // Render carousel for mobile
+    const carouselCards = salons.map(salon => generateSalonCard(salon, true)).join('');
+    carouselContainer.innerHTML = carouselCards;
+    
+    // Generate carousel dots
+    const dotsHTML = salons.map((_, index) => `
+        <button class="carousel-dot w-2 h-2 rounded-full bg-gray-600 hover:bg-gray-400 transition-colors ${index === 0 ? 'bg-blue-500' : ''}" data-index="${index}"></button>
+    `).join('');
+    carouselDots.innerHTML = dotsHTML;
+    
+    // Initialize carousel functionality
+    initCarousel();
     
     // Show filter buttons and "Ver más" button when there are salons
     showUIElements();
     
     // Initialize scroll animations after rendering
     setTimeout(observeElements, 100);
+}
+
+// Initialize carousel functionality
+function initCarousel() {
+    const carouselContainer = document.getElementById('carouselContainer');
+    const carouselDots = document.getElementById('carouselDots');
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+    
+    if (!carouselContainer || !carouselDots) return;
+    
+    const cards = carouselContainer.querySelectorAll('.salon-card');
+    const dots = carouselDots.querySelectorAll('.carousel-dot');
+    let currentIndex = 0;
+    
+    // Function to update active dot
+    function updateActiveDot(index) {
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('bg-blue-500', i === index);
+            dot.classList.toggle('bg-gray-600', i !== index);
+        });
+    }
+    
+    // Function to scroll to specific card
+    function scrollToCard(index) {
+        if (cards[index]) {
+            cards[index].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'start'
+            });
+            currentIndex = index;
+            updateActiveDot(index);
+        }
+    }
+    
+    // Add click event to dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            scrollToCard(index);
+        });
+    });
+    
+    // Add click events to navigation buttons
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            const newIndex = currentIndex > 0 ? currentIndex - 1 : cards.length - 1;
+            scrollToCard(newIndex);
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const newIndex = currentIndex < cards.length - 1 ? currentIndex + 1 : 0;
+            scrollToCard(newIndex);
+        });
+    }
+    
+    // Handle scroll events to update active dot
+    carouselContainer.addEventListener('scroll', () => {
+        const scrollLeft = carouselContainer.scrollLeft;
+        const cardWidth = cards[0]?.offsetWidth || 320; // 320px = w-80
+        const gap = 16; // gap-4 = 16px
+        
+        const newIndex = Math.round(scrollLeft / (cardWidth + gap));
+        if (newIndex !== currentIndex && newIndex >= 0 && newIndex < cards.length) {
+            currentIndex = newIndex;
+            updateActiveDot(newIndex);
+        }
+    });
+    
+    // Handle touch/swipe events
+    let startX = 0;
+    let endX = 0;
+    
+    carouselContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
+    
+    carouselContainer.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+        
+        if (Math.abs(diff) > 50) { // Minimum swipe distance
+            if (diff > 0 && currentIndex < cards.length - 1) {
+                // Swipe left - next
+                scrollToCard(currentIndex + 1);
+            } else if (diff < 0 && currentIndex > 0) {
+                // Swipe right - previous
+                scrollToCard(currentIndex - 1);
+            }
+        }
+    });
 }
 
 // Generate star rating HTML
@@ -697,21 +789,7 @@ function generateStars(rating) {
     return starsHTML;
 }
 
-// Filter Salons
-function filterSalons(city) {
-    const salonCards = document.querySelectorAll('.salon-card');
-    
-    salonCards.forEach(card => {
-        const cardCity = card.dataset.city;
-        
-        if (city === 'Todas' || cardCity === city) {
-            card.style.display = 'block';
-            card.style.animation = 'fadeIn 0.5s ease-in-out';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
+
 
 // PWA Installation
 function initPWA() {
@@ -832,10 +910,11 @@ function observeElements() {
 // Show empty state when no salons are available
 function showEmptyState() {
     const grid = document.getElementById('peluqueriasGrid');
-    if (!grid) return;
+    const carouselContainer = document.getElementById('carouselContainer');
+    const carouselDots = document.getElementById('carouselDots');
     
-    grid.innerHTML = `
-        <div class="col-span-full text-center py-16">
+    const emptyStateHTML = `
+        <div class="text-center py-16">
             <div class="max-w-md mx-auto">
                 <div class="w-24 h-24 bg-gradient-to-r from-blue-900 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i class="fas fa-store text-4xl text-blue-400"></i>
@@ -860,6 +939,26 @@ function showEmptyState() {
             </div>
         </div>
     `;
+    
+    // Update grid (desktop/tablet)
+    if (grid) {
+        grid.innerHTML = `<div class="col-span-full">${emptyStateHTML}</div>`;
+    }
+    
+    // Update carousel (mobile)
+    if (carouselContainer) {
+        carouselContainer.innerHTML = emptyStateHTML;
+    }
+    
+    // Hide carousel dots and navigation
+    if (carouselDots) {
+        carouselDots.innerHTML = '';
+    }
+    
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
     
     // Hide the filter buttons when there are no salons
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -897,6 +996,12 @@ function showUIElements() {
     if (verMasBtn) {
         verMasBtn.style.display = 'inline-flex';
     }
+    
+    // Show carousel navigation
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+    if (prevBtn) prevBtn.style.display = 'block';
+    if (nextBtn) nextBtn.style.display = 'block';
 }
 
 // Utility function to refresh salon data (for admin use)
