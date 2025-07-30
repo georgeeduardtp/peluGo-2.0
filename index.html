@@ -15,6 +15,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
     
+    <!-- Lottie Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    
     <!-- Configuration (must be loaded before other scripts) -->
     <script src="assets/js/config.js"></script>
     <script src="assets/js/firebase-config.js"></script>
@@ -27,6 +30,14 @@
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 </head>
 <body class="bg-gray-900">
+    <!-- Lottie Loader -->
+    <div id="lottieLoader" class="fixed inset-0 flex items-center justify-center z-[9999]" style="background-color: #1f2937;">
+        <div class="text-center">
+            <div id="lottieContainer" class="w-4/5 h-4/5 max-w-4xl max-h-4xl mx-auto mb-4"></div>
+            <p class="text-gray-400 text-lg font-medium">Cargando PeluGo...</p>
+        </div>
+    </div>
+    
     <!-- Navigation -->
     <nav class="bg-gray-800 shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -595,6 +606,76 @@
             console.error('❌ Failed to load main.js');
         };
         document.head.appendChild(script);
+    </script>
+    
+    <!-- Lottie Loader Script -->
+    <script>
+        // Initialize Lottie loader
+        document.addEventListener('DOMContentLoaded', function() {
+            const lottieContainer = document.getElementById('lottieContainer');
+            const lottieLoader = document.getElementById('lottieLoader');
+            let animationCompleted = false;
+            let minimumTimeElapsed = false;
+            
+            if (lottieContainer && window.lottie) {
+                // Load the Lottie animation
+                const animation = lottie.loadAnimation({
+                    container: lottieContainer,
+                    renderer: 'svg',
+                    loop: false, // No loop, play once
+                    autoplay: true,
+                    path: 'images/introPelu.json'
+                });
+                
+                // Set animation speed to 1.25x
+                animation.setSpeed(1.25);
+                
+                // Function to hide loader
+                function hideLoader() {
+                    if (lottieLoader && lottieLoader.style.display !== 'none') {
+                        lottieLoader.style.opacity = '0';
+                        lottieLoader.style.transition = 'opacity 0.5s ease-out';
+                        setTimeout(() => {
+                            lottieLoader.style.display = 'none';
+                        }, 500);
+                    }
+                }
+                
+                // Hide loader when animation completes
+                animation.addEventListener('complete', () => {
+                    animationCompleted = true;
+                    // Only hide if minimum time has elapsed
+                    if (minimumTimeElapsed) {
+                        hideLoader();
+                    }
+                });
+                
+                // Minimum 3 seconds timer
+                setTimeout(() => {
+                    minimumTimeElapsed = true;
+                    // Only hide if animation has completed
+                    if (animationCompleted) {
+                        hideLoader();
+                    }
+                }, 3000); // 3 seconds minimum
+                
+                // Fallback: hide loader if animation fails or takes too long
+                setTimeout(() => {
+                    if (lottieLoader && lottieLoader.style.display !== 'none') {
+                        hideLoader();
+                    }
+                }, 10000); // 10 seconds fallback
+                
+                // Also hide loader when page is fully loaded (as backup)
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        if (lottieLoader && lottieLoader.style.display !== 'none' && minimumTimeElapsed) {
+                            hideLoader();
+                        }
+                    }, 2000);
+                });
+            }
+        });
     </script>
 </body>
 </html> 
