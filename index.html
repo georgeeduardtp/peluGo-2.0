@@ -17,6 +17,7 @@
     
     <!-- Configuration (must be loaded before other scripts) -->
     <script src="assets/js/config.js"></script>
+    <script src="assets/js/firebase-config.js"></script>
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#1e40af">
@@ -485,8 +486,9 @@
             signOut
         } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
 
-        // Firebase Configuration
-        const firebaseConfig = {
+        // Firebase Configuration - Usar configuración centralizada
+        const firebaseConfig = window.getFirebaseConfig ? window.getFirebaseConfig() : {
+            // Fallback configuration
             apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
             authDomain: "pelugo-2025.firebaseapp.com",
             projectId: "pelugo-2025",

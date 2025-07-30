@@ -4,8 +4,7 @@
 const PeluGoConfig = {
     // Admin configuration
     admin: {
-        // IMPORTANTE: Cambia este código en producción
-        // Puedes usar variables de entorno o un sistema más seguro
+        // IMPORTANTE: Cambia este código regularmente
         secretCode: getAdminCode(),
         
         // Configuración adicional de admin
@@ -18,8 +17,8 @@ const PeluGoConfig = {
     app: {
         name: "PeluGo",
         version: "2.0",
-        environment: getEnvironment(),
-        debug: isDevelopment()
+        environment: "production",
+        debug: false
     },
     
     // Security configuration
@@ -33,42 +32,18 @@ const PeluGoConfig = {
 
 // Helper functions
 function getAdminCode() {
-    // En desarrollo, usar código por defecto
-    if (isDevelopment()) {
-        return "PELUGO_ADMIN_2024";
-    }
-    
-    // En producción, intentar obtener de variable de entorno
-    // Esto funciona si usas un bundler o sistema de build
-    if (typeof process !== 'undefined' && process.env.ADMIN_CODE) {
-        return process.env.ADMIN_CODE;
-    }
-    
-    // Fallback: puedes cambiar esto manualmente
+    // Para GitHub Pages, usar código hardcodeado
+    // En producción, considera cambiar este código regularmente
     return "PELUGO_ADMIN_2024";
 }
 
-function getEnvironment() {
-    // Detectar entorno basado en la URL
-    if (window.location.hostname === 'localhost' || 
-        window.location.hostname === '127.0.0.1' ||
-        window.location.protocol === 'file:') {
-        return 'development';
-    }
-    return 'production';
-}
 
-function isDevelopment() {
-    return getEnvironment() === 'development';
-}
 
 // Export configuration
 window.PeluGoConfig = PeluGoConfig;
 
-// Log warning in development
-if (isDevelopment()) {
-    console.warn('⚠️ DESARROLLO: Usando código admin por defecto. Cambia esto en producción.');
-    console.warn('📝 Para cambiar el código admin, edita assets/js/config.js');
-}
+// Log para GitHub Pages
+console.log('✅ Configuración de PeluGo cargada para GitHub Pages');
+console.log('📝 Para cambiar el código admin, edita assets/js/config.js');
 
 console.log('✅ Configuración de PeluGo cargada'); 

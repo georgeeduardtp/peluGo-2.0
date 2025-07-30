@@ -27,44 +27,88 @@ import {
     updateProfile
 } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
 
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
-  authDomain: "pelugo-2025.firebaseapp.com",
-  projectId: "pelugo-2025",
-  storageBucket: "pelugo-2025.firebasestorage.app",
-  messagingSenderId: "588352402376",
-  appId: "1:588352402376:web:c8a0d71f296a80464346fd",
-  measurementId: "G-4J0EQTQTVS"
-};
+// Firebase Configuration - Usar configuración centralizada
+let firebaseConfig = null;
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app);
-const auth = getAuth(app);
-
-// Initialize database structure
-initializeDatabase();
+// Función para inicializar Firebase con configuración
+function initializeFirebase() {
+    try {
+        // Obtener configuración
+        if (window.getFirebaseConfig) {
+            firebaseConfig = window.getFirebaseConfig();
+        } else {
+            // Fallback configuration
+            firebaseConfig = {
+                apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+                authDomain: "pelugo-2025.firebaseapp.com",
+                projectId: "pelugo-2025",
+                storageBucket: "pelugo-2025.firebasestorage.app",
+                messagingSenderId: "588352402376",
+                appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+                measurementId: "G-4J0EQTQTVS"
+            };
+        }
+        
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        console.log('✅ Firebase inicializado correctamente');
+        
+        // Marcar Firebase como listo
+        window.firebaseReady = true;
+        
+        // Inicializar la aplicación
+        initializeDatabase();
+        
+        // Inicializar listener de autenticación
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                currentUserRole = await getUserRole(user.uid);
+                updateUIForLoggedUser(user, currentUserRole);
+                console.log('User logged in:', user.email, 'Role:', currentUserRole);
+            } else {
+                currentUser = null;
+                currentUserRole = null;
+                updateUIForLoggedUser(null, null);
+                console.log('User logged out');
+            }
+        });
+        
+    } catch (error) {
+        console.error('❌ Error inicializando Firebase:', error);
+        // Fallback a configuración hardcodeada
+        firebaseConfig = {
+            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
+            authDomain: "pelugo-2025.firebaseapp.com",
+            projectId: "pelugo-2025",
+            storageBucket: "pelugo-2025.firebasestorage.app",
+            messagingSenderId: "588352402376",
+            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
+            measurementId: "G-4J0EQTQTVS"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        console.log('✅ Firebase inicializado con fallback');
+        window.firebaseReady = true;
+        initializeDatabase();
+    }
+}
 
 // Current User State
 let currentUser = null;
 let currentUserRole = null;
 
-// Initialize Authentication State Listener
-onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        currentUser = user;
-        // Get user role from Firestore
-        currentUserRole = await getUserRole(user.uid);
-        updateUIForLoggedUser(user, currentUserRole);
-        console.log('User logged in:', user.email, 'Role:', currentUserRole);
-    } else {
-        currentUser = null;
-        currentUserRole = null;
-        updateUIForLoggedUser(null, null);
-        console.log('User logged out');
-    }
+// Inicializar Firebase cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    initializeFirebase();
 });
 
 // Database Initialization
