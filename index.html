@@ -627,8 +627,8 @@
                     path: 'images/introPelu.json'
                 });
                 
-                // Set animation speed to 1.25x
-                animation.setSpeed(1.25);
+                // Set animation speed to 1.75x
+                animation.setSpeed(1.75);
                 
                 // Function to hide loader
                 function hideLoader() {
@@ -650,14 +650,14 @@
                     }
                 });
                 
-                // Minimum 3 seconds timer
+                // Minimum 2 seconds timer
                 setTimeout(() => {
                     minimumTimeElapsed = true;
                     // Only hide if animation has completed
                     if (animationCompleted) {
                         hideLoader();
                     }
-                }, 3000); // 3 seconds minimum
+                }, 2000); // 2 seconds minimum
                 
                 // Fallback: hide loader if animation fails or takes too long
                 setTimeout(() => {
