@@ -804,7 +804,8 @@ window.FirebaseData = {
     saveWebRegistration: saveWebRegistration,
     getWebRegistrations: getWebRegistrations,
     deleteWebRegistration: deleteWebRegistration,
-    deleteDocument: deleteDocumentFromFirestore
+    deleteDocument: deleteDocumentFromFirestore,
+    updateDocument: updateDocument
 };
 
 // Global functions for UI
@@ -964,6 +965,27 @@ async function deleteUserFromAuth(email) {
         
     } catch (error) {
         console.error(`❌ Error deleting user from Auth:`, error);
+        throw error;
+    }
+}
+
+/**
+ * Update document in Firestore
+ */
+async function updateDocument(collectionName, documentId, updates) {
+    try {
+        console.log(`📝 Updating document ${documentId} in ${collectionName}:`, updates);
+        
+        const docRef = doc(db, collectionName, documentId);
+        await updateDoc(docRef, {
+            ...updates,
+            updatedAt: serverTimestamp()
+        });
+        
+        console.log(`✅ Document updated in ${collectionName}: ${documentId}`);
+        
+    } catch (error) {
+        console.error(`❌ Error updating document in ${collectionName}:`, error);
         throw error;
     }
 } 

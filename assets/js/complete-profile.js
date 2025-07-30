@@ -181,20 +181,147 @@ function prefillFormData() {
     }
 }
 
-// Handle logout
+// Handle logout with improved visual feedback
 async function handleLogout() {
-    if (!confirm('¿Estás seguro de que quieres cerrar sesión? Perderás el progreso no guardado.')) {
+    // Show custom confirmation dialog
+    const confirmed = await showConfirmDialog(
+        'Cerrar Sesión',
+        '¿Estás seguro de que quieres cerrar sesión? Perderás el progreso no guardado.',
+        'Cerrar Sesión',
+        'Cancelar'
+    );
+    
+    if (!confirmed) {
         return;
     }
     
     try {
         console.log('👋 Logging out user...');
+        
+        // Show loading state
+        showNotification('Cerrando sesión...', 'info');
+        
         await window.FirebaseAPI.signOut();
-        window.location.href = 'index.html';
+        console.log('✅ User logged out successfully');
+        
+        // Show success message before redirect
+        showNotification('Sesión cerrada correctamente', 'success');
+        
+        // Small delay to show the success message
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+        
     } catch (error) {
         console.error('❌ Error during logout:', error);
-        showError('Error al cerrar sesión');
+        showNotification('Error al cerrar sesión. Inténtalo de nuevo.', 'error');
     }
+}
+
+// Custom confirmation dialog with better visual feedback
+function showConfirmDialog(title, message, confirmText = 'Confirmar', cancelText = 'Cancelar') {
+    return new Promise((resolve) => {
+        // Store original scroll position and body styles
+        const scrollY = window.scrollY;
+        const originalBodyStyle = document.body.style.overflow;
+        const originalBodyPosition = document.body.style.position;
+        const originalBodyTop = document.body.style.top;
+        const originalBodyWidth = document.body.style.width;
+        
+        // Disable scroll by fixing body position
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+        
+        // Create modal overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        overlay.style.backdropFilter = 'blur(4px)';
+        
+        // Create modal content
+        const modal = document.createElement('div');
+        modal.className = 'bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0';
+        
+        modal.innerHTML = `
+            <div class="p-6">
+                <!-- Header -->
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-sign-out-alt text-red-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">${title}</h3>
+                        <p class="text-sm text-gray-500">Acción importante</p>
+                    </div>
+                </div>
+                
+                <!-- Message -->
+                <div class="mb-6">
+                    <p class="text-gray-700 leading-relaxed">${message}</p>
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex space-x-3">
+                    <button id="cancelBtn" class="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors duration-200">
+                        ${cancelText}
+                    </button>
+                    <button id="confirmBtn" class="flex-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200">
+                        ${confirmText}
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+        
+        // Animate in
+        setTimeout(() => {
+            modal.classList.remove('scale-95', 'opacity-0');
+            modal.classList.add('scale-100', 'opacity-100');
+        }, 10);
+        
+        // Handle button clicks
+        const confirmBtn = modal.querySelector('#confirmBtn');
+        const cancelBtn = modal.querySelector('#cancelBtn');
+        
+        function closeModal(result) {
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                document.body.removeChild(overlay);
+                // Restore original body styles and scroll position
+                document.body.style.overflow = originalBodyStyle;
+                document.body.style.position = originalBodyPosition;
+                document.body.style.top = originalBodyTop;
+                document.body.style.width = originalBodyWidth;
+                window.scrollTo(0, scrollY);
+                resolve(result);
+            }, 200);
+        }
+        
+        confirmBtn.addEventListener('click', () => closeModal(true));
+        cancelBtn.addEventListener('click', () => closeModal(false));
+        
+        // Handle escape key
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                closeModal(false);
+                document.removeEventListener('keydown', handleEscape);
+            }
+        };
+        document.addEventListener('keydown', handleEscape);
+        
+        // Handle click outside modal
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                closeModal(false);
+            }
+        });
+        
+        // Focus on cancel button for better UX
+        cancelBtn.focus();
+    });
 }
 
 // Handle complete profile form submission
