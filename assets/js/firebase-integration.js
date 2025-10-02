@@ -37,16 +37,8 @@ function initializeFirebase() {
         if (window.getFirebaseConfig) {
             firebaseConfig = window.getFirebaseConfig();
         } else {
-            // Fallback configuration
-            firebaseConfig = {
-                apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
-                authDomain: "pelugo-2025.firebaseapp.com",
-                projectId: "pelugo-2025",
-                storageBucket: "pelugo-2025.firebasestorage.app",
-                messagingSenderId: "588352402376",
-                appId: "1:588352402376:web:c8a0d71f296a80464346fd",
-                measurementId: "G-4J0EQTQTVS"
-            };
+            console.error('🚨 Firebase config no disponible - configuración faltante');
+            throw new Error('Firebase configuration missing');
         }
         
         // Inicializar Firebase
@@ -79,17 +71,9 @@ function initializeFirebase() {
         });
         
     } catch (error) {
-        console.error('❌ Error inicializando Firebase:', error);
-        // Fallback a configuración hardcodeada
-        firebaseConfig = {
-            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
-            authDomain: "pelugo-2025.firebaseapp.com",
-            projectId: "pelugo-2025",
-            storageBucket: "pelugo-2025.firebasestorage.app",
-            messagingSenderId: "588352402376",
-            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
-            measurementId: "G-4J0EQTQTVS"
-        };
+        console.error('❌ Error crítico inicializando Firebase:', error);
+        alert('Error de configuración de Firebase. La aplicación no puede continuar.');
+        throw error;
         
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);

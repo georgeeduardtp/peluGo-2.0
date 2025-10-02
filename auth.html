@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     
     <!-- Configuration (must be loaded before other scripts) -->
+    <script src="assets/js/env-config.js"></script>
     <script src="assets/js/config.js"></script>
     <script src="assets/js/firebase-config.js"></script>
     
@@ -358,17 +359,16 @@
             onAuthStateChanged
         } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
 
-        // Firebase Configuration - Usar configuración centralizada
-        const firebaseConfig = window.getFirebaseConfig ? window.getFirebaseConfig() : {
-            // Fallback configuration
-            apiKey: "AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0",
-            authDomain: "pelugo-2025.firebaseapp.com",
-            projectId: "pelugo-2025",
-            storageBucket: "pelugo-2025.firebasestorage.app",
-            messagingSenderId: "588352402376",
-            appId: "1:588352402376:web:c8a0d71f296a80464346fd",
-            measurementId: "G-4J0EQTQTVS"
-        };
+        // Firebase Configuration - Usar configuración segura centralizada
+        let firebaseConfig;
+        try {
+            firebaseConfig = window.getFirebaseConfig();
+            console.log('✅ Configuración segura de Firebase cargada para auth');
+        } catch (error) {
+            console.error('🚨 Error cargando configuración de Firebase:', error);
+            alert('Error de configuración. Contacte al administrador.');
+            throw error;
+        }
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);

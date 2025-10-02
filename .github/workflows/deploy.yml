@@ -1,0 +1,99 @@
+name: Deploy PeluGo with Secure Firebase Config
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+    
+    - name: Inject Firebase Configuration Securely
+      run: |
+        echo "🔐 Inyectando configuración segura de Firebase..."
+        
+        # Crear archivo de configuración temporal con secrets
+        cat > firebase-production-config.js << EOF
+        // Configuración de Firebase para Producción - Inyectada durante build
+        // NO EDITAR - Generado automáticamente por GitHub Actions
+        (function() {
+          'use strict';
+          
+          // Configurar variables globales de Firebase de forma segura
+          window.FIREBASE_API_KEY = '${{ secrets.FIREBASE_API_KEY }}';
+          window.FIREBASE_AUTH_DOMAIN = '${{ secrets.FIREBASE_AUTH_DOMAIN }}';
+          window.FIREBASE_PROJECT_ID = '${{ secrets.FIREBASE_PROJECT_ID }}';
+          window.FIREBASE_STORAGE_BUCKET = '${{ secrets.FIREBASE_STORAGE_BUCKET }}';
+          window.FIREBASE_MESSAGING_SENDER_ID = '${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}';
+          window.FIREBASE_APP_ID = '${{ secrets.FIREBASE_APP_ID }}';
+          window.FIREBASE_MEASUREMENT_ID = '${{ secrets.FIREBASE_MEASUREMENT_ID }}';
+          
+          console.log('🔐 Configuración de Firebase cargada de forma segura desde GitHub Secrets');
+          console.log('🌐 Entorno: Producción (GitHub Pages)');
+          
+          // Marcar como configuración de producción
+          window.FIREBASE_PRODUCTION_CONFIG = true;
+        })();
+        EOF
+        
+        echo "📝 Inyectando configuración en archivos HTML..."
+        
+        # Inyectar configuración en todos los archivos HTML
+        for file in *.html; do
+          if [ -f "$file" ]; then
+            echo "   Procesando: $file"
+            # Buscar la línea que contiene env-config.js e insertar después
+            sed -i '/env-config\.js/a\    <script src="firebase-production-config.js"></script>' "$file"
+          fi
+        done
+        
+        echo "✅ Configuración inyectada correctamente"
+        echo "📋 Archivos procesados:"
+        ls -la *.html
+        
+    - name: Verify Configuration Injection
+      run: |
+        echo "🔍 Verificando que la configuración fue inyectada..."
+        if grep -q "firebase-production-config.js" *.html; then
+          echo "✅ Configuración encontrada en archivos HTML"
+        else
+          echo "❌ Error: Configuración no encontrada"
+          exit 1
+        fi
+        
+        if [ -f "firebase-production-config.js" ]; then
+          echo "✅ Archivo de configuración creado correctamente"
+          echo "📄 Tamaño: $(wc -c < firebase-production-config.js) bytes"
+        else
+          echo "❌ Error: Archivo de configuración no encontrado"
+          exit 1
+        fi
+    
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: '.'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
