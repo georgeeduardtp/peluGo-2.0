@@ -5,17 +5,20 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# Set GITHUB_TOKEN permissions to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  # Build and deploy job
+  build-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -28,48 +31,47 @@ jobs:
     - name: Setup Pages
       uses: actions/configure-pages@v3
     
-    - name: Inject Firebase Configuration Securely
+    - name: Create Firebase Production Config
       run: |
-        echo "🔐 Inyectando configuración segura de Firebase..."
+        echo "🔐 Creating secure Firebase configuration..."
         
-        # Crear archivo de configuración temporal con secrets
-        cat > firebase-production-config.js << EOF
-        // Configuración de Firebase para Producción - Inyectada durante build
-        // NO EDITAR - Generado automáticamente por GitHub Actions
+        # Create production config file with secrets
+        cat > firebase-production-config.js << 'EOL'
+        // Firebase Production Configuration - Injected by GitHub Actions
         (function() {
           'use strict';
           
-          // Configurar variables globales de Firebase de forma segura
-          window.FIREBASE_API_KEY = '${{ secrets.FIREBASE_API_KEY }}';
-          window.FIREBASE_AUTH_DOMAIN = '${{ secrets.FIREBASE_AUTH_DOMAIN }}';
-          window.FIREBASE_PROJECT_ID = '${{ secrets.FIREBASE_PROJECT_ID }}';
-          window.FIREBASE_STORAGE_BUCKET = '${{ secrets.FIREBASE_STORAGE_BUCKET }}';
-          window.FIREBASE_MESSAGING_SENDER_ID = '${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}';
-          window.FIREBASE_APP_ID = '${{ secrets.FIREBASE_APP_ID }}';
-          window.FIREBASE_MEASUREMENT_ID = '${{ secrets.FIREBASE_MEASUREMENT_ID }}';
+          // Set Firebase configuration from GitHub Secrets
+          window.FIREBASE_API_KEY = '${{ secrets.FIREBASE_API_KEY || 'MISSING_API_KEY' }}';
+          window.FIREBASE_AUTH_DOMAIN = '${{ secrets.FIREBASE_AUTH_DOMAIN || 'pelugo-2025.firebaseapp.com' }}';
+          window.FIREBASE_PROJECT_ID = '${{ secrets.FIREBASE_PROJECT_ID || 'pelugo-2025' }}';
+          window.FIREBASE_STORAGE_BUCKET = '${{ secrets.FIREBASE_STORAGE_BUCKET || 'pelugo-2025.firebasestorage.app' }}';
+          window.FIREBASE_MESSAGING_SENDER_ID = '${{ secrets.FIREBASE_MESSAGING_SENDER_ID || '588352402376' }}';
+          window.FIREBASE_APP_ID = '${{ secrets.FIREBASE_APP_ID || '1:588352402376:web:c8a0d71f296a80464346fd' }}';
+          window.FIREBASE_MEASUREMENT_ID = '${{ secrets.FIREBASE_MEASUREMENT_ID || 'G-4J0EQTQTVS' }}';
           
-          console.log('🔐 Configuración de Firebase cargada de forma segura desde GitHub Secrets');
-          console.log('🌐 Entorno: Producción (GitHub Pages)');
-          
-          // Marcar como configuración de producción
+          console.log('🔐 Firebase production config loaded');
           window.FIREBASE_PRODUCTION_CONFIG = true;
         })();
-        EOF
+        EOL
         
-        echo "📝 Inyectando configuración en archivos HTML..."
+        echo "📝 Injecting config into HTML files..."
         
-        # Inyectar configuración en todos los archivos HTML
+        # Inject configuration script into HTML files
         for file in *.html; do
           if [ -f "$file" ]; then
-            echo "   Procesando: $file"
-            # Buscar la línea que contiene env-config.js e insertar después
-            sed -i '/env-config\.js/a\    <script src="firebase-production-config.js"></script>' "$file"
+            echo "Processing: $file"
+            # Add production config script after env-config.js
+            if grep -q "env-config.js" "$file"; then
+              sed -i '/env-config\.js/a\    <script src="firebase-production-config.js"></script>' "$file"
+            else
+              # If no env-config.js found, add in head section
+              sed -i '/<head>/a\    <script src="firebase-production-config.js"></script>' "$file"
+            fi
           fi
         done
         
-        echo "✅ Configuración inyectada correctamente"
-        echo "📋 Archivos procesados:"
-        ls -la *.html
+        echo "✅ Configuration injected successfully"
         
     - name: Verify Configuration Injection
       run: |
