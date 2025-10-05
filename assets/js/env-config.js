@@ -44,9 +44,14 @@
     // Configuración para desarrollo local
     function setupDevelopmentConfig() {
         // Estas son claves de desarrollo - NUNCA usar en producción
-        window.FIREBASE_API_KEY = 'dev-key-' + Math.random().toString(36).substr(2, 9);
-        window.FIREBASE_AUTH_DOMAIN = 'localhost';
-        window.FIREBASE_PROJECT_ID = 'pelugo-dev';
+        // API Key configurada para desarrollo local
+        window.FIREBASE_API_KEY = 'AIzaSyDZlepx5cEcskug7ZB7kh4S56xhCnunKb0';
+        window.FIREBASE_AUTH_DOMAIN = 'pelugo-2025.firebaseapp.com';
+        window.FIREBASE_PROJECT_ID = 'pelugo-2025';
+        window.FIREBASE_STORAGE_BUCKET = 'pelugo-2025.firebasestorage.app';
+        window.FIREBASE_MESSAGING_SENDER_ID = '588352402376';
+        window.FIREBASE_APP_ID = '1:588352402376:web:c8a0d71f296a80464346fd';
+        window.FIREBASE_MEASUREMENT_ID = 'G-4J0EQTQTVS';
         console.log('🚨 USANDO CONFIGURACIÓN DE DESARROLLO');
     }
     
